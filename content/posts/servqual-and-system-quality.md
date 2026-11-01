@@ -4,7 +4,6 @@ subtitle: 고객 접점이 디지털로 옮겨간 지금, 소프트웨어 품질
 category: service-quality
 author: research
 date: 2026-11-01
-featured: true
 pick: true
 summary: 호텔의 고객 접점이 키오스크·모바일 체크인·PMS로 옮겨가면서, 사람 중심으로 설계된 기존 서비스품질 척도만으로는 품질 문제의 원인을 설명하기 어려워졌다. 서비스품질 연구와 소프트웨어 품질 표준을 연결하는 관점을 제안한다.
 tags: [서비스품질, SERVQUAL, 호텔IT, 소프트웨어품질]

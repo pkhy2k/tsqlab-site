@@ -195,3 +195,17 @@ h1, h2, h3 { margin: 0; }
 .author-box { display: flex; gap: 20px; align-items: flex-start; }
 .author-photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: center 20%; flex: none; }
 .prose img[src="/images/director.jpg"] { width: 220px; }
+
+/* 출판 상세 */
+a.book:hover strong { color: var(--accent); }
+.book-cover span { padding: 12px; text-align: center; font-family: var(--serif); font-size: 14px; line-height: 1.5; color: var(--sub); }
+.book-detail { display: flex; flex-wrap: wrap; gap: 28px; padding: 28px 0; border-bottom: 1px solid var(--rule); }
+.book-detail .book-cover { flex: 0 0 180px; }
+.book-info { flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.book-info h2 { font-family: var(--serif); font-size: 24px; line-height: 1.4; }
+.book-info p { margin: 0; font-size: 15px; line-height: 1.75; color: var(--sub); }
+.book-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.btn-line, .btn-solid { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; font-size: 14px; font-weight: 500; }
+.btn-line { border: 1px solid var(--ink); }
+.btn-solid { background: var(--ink); color: #fff; }
+.btn-solid:hover { color: #fff; opacity: 0.9; }

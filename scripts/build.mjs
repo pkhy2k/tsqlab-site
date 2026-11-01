@@ -225,6 +225,21 @@ ${footer()}
 </html>`;
 }
 
+
+// ---------- 출판 ----------
+const cover = (b) => `<div class="book-cover">${b.cover ? `<img src="${esc(b.cover)}" alt="${esc(b.title)} 표지">` : `<span>${esc(b.title)}</span>`}</div>`;
+function bookCard(b) {
+  const href = b.post || (b.links && b.links[0] ? b.links[0].url : '');
+  const inner = `${cover(b)}<strong>${esc(b.title)}</strong><span class="status">${esc(b.status)}${b.date ? ` · ${fmtDate(b.date)}` : ''}</span>`;
+  return href ? `<a class="book" href="${esc(href)}">${inner}</a>` : `<div class="book">${inner}</div>`;
+}
+function bookDetail(b) {
+  const meta = [b.author && `저자 ${esc(b.author)}`, b.publisher && esc(b.publisher), b.date && `${fmtDate(b.date)} 출간`, b.pages && esc(b.pages), b.isbn && `ISBN ${esc(b.isbn)}`].filter(Boolean).join(' · ');
+  return `<article class="book-detail">${cover(b)}<div class="book-info"><span class="status">${esc(b.status)}</span><h2>${esc(b.title)}</h2>
+${meta ? `<p class="meta">${meta}</p>` : ''}${b.summary ? `<p>${esc(b.summary)}</p>` : ''}
+<div class="book-actions">${b.post ? `<a class="btn-line" href="${esc(b.post)}">소개 기사 읽기</a>` : ''}${(b.links || []).map((l) => `<a class="btn-solid" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}에서 보기</a>`).join('')}</div></div></article>`;
+}
+
 // ---------- 페이지 ----------
 function pageHome(posts) {
   const lead = posts.find((p) => p.featured === true) || posts[0];
@@ -266,7 +281,7 @@ ${col ? `<div class="column-text"><span class="eyebrow">DIRECTOR'S COLUMN</span>
 <ol class="ranked">${picks.map((p) => `<li><a href="${p.url}">${esc(p.title)}</a></li>`).join('')}</ol></div>
 </section>
 <section aria-label="출판"><div class="sec-head"><h2>출판</h2><a href="/books/">전체 보기</a></div>
-<div class="books">${cfg.books.map((b) => `<div class="book"><div class="book-cover">${b.cover ? `<img src="${esc(b.cover)}" alt="${esc(b.title)} 표지">` : '<span>표지</span>'}</div><strong>${esc(b.title)}</strong><span class="status">${esc(b.status)}</span></div>`).join('')}</div></section>
+<div class="books">${cfg.books.map(bookCard).join('')}</div></section>
 </main>`;
   return layout({ pathname: '/', body,
     jsonld: { '@context': 'https://schema.org', '@type': 'Organization', name: cfg.name, alternateName: cfg.nameEn, url: SITE_URL + '/', logo: SITE_URL + '/favicon.svg', email: cfg.business.email } });
@@ -342,7 +357,7 @@ function pageStatic(pg) {
 
 function pageBooks() {
   const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">출판</h1>
-<div class="books">${cfg.books.map((b) => `<div class="book"><div class="book-cover">${b.cover ? `<img src="${esc(b.cover)}" alt="${esc(b.title)} 표지">` : '<span>표지</span>'}</div><strong>${esc(b.title)}</strong><span class="status">${esc(b.status)}</span></div>`).join('')}</div></main>`;
+${cfg.books.map(bookDetail).join('')}</main>`;
   return layout({ title: '출판', pathname: '/books/', body });
 }
 
