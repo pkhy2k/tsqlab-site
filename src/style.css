@@ -228,4 +228,5 @@ a.book:hover strong { color: var(--accent); }
 }
 
 /* 신규 글 표시 */
-.new-badge { display: inline-block; margin-left: 6px; padding: 1px 5px 0; border-radius: 3px; background: var(--logo-orange); color: #fff; font-family: 'Noto Sans KR', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .06em; line-height: 1.5; vertical-align: 0.25em; }
+.new-badge { display: inline-block; margin-left: 6px; color: var(--logo-orange); font-family: 'Noto Sans KR', sans-serif; font-size: 8px; font-weight: 700; font-style: normal; letter-spacing: .16em; line-height: 1; position: relative; top: -0.9em; }
+.nb-keep { white-space: nowrap; }
