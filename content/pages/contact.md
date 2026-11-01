@@ -9,4 +9,8 @@ description: 강의, 자문, 기고 문의 안내
 - 호텔 IT 시스템 품질관리(QA) 자문
 - 매체 기고 및 인터뷰
 
-문의 창구는 곧 이 페이지에 안내할 예정입니다.
+문의는 이메일로 보내 주십시오.
+
+**[contact@tourservqual.xyz](mailto:contact@tourservqual.xyz)**
+
+성함, 소속, 연락처와 함께 요청 내용(주제, 희망 일정, 대상과 규모 등)을 적어 주시면 확인 후 회신드립니다.
