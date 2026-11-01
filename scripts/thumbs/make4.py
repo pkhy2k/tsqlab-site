@@ -9,7 +9,7 @@ os.makedirs(OUT, exist_ok=True)
 NAVY, ORANGE, CREAM, SAND, GRAY, LINE, WHITE = '#1E2A3A', '#C8792D', '#F7F5F0', '#ECE7DD', '#8A96A8', '#D5D9E0', '#FFFFFF'
 FONT = "'Noto Sans CJK KR','Noto Sans KR',sans-serif"
 DEFS = (f'<defs><marker id="ag" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="{GRAY}"/></marker>'
-        f'<marker id="ao" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="{ORANGE}"/></marker></defs>')
+        f'<marker id="an2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#1E2A3A"/></marker><marker id="ao" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="{ORANGE}"/></marker></defs>')
 def frame(inner, bg=CREAM, w=1600, h=900):
     return f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" font-family="{FONT}"><rect width="{w}" height="{h}" fill="{bg}"/>{DEFS}{inner}</svg>'
 def t(x, y, s, size=26, fill=NAVY, w=700, anchor='middle'):
@@ -34,15 +34,15 @@ s += t(800, 740, 'SSTQUAL 7가지 구성요인', 28, GRAY, 500)
 imgs['sstqual-seven-dimensions'] = frame(s)
 
 # 2) 4채널 플로우 모델
-ox, oy, L = 330, 780, 620
+ox, oy, L = 240, 770, 580
 s = f'<rect x="{ox}" y="{oy - L}" width="{L}" height="{L}" fill="{WHITE}" stroke="{LINE}" stroke-width="3"/>'
 s += f'<rect x="{ox + L/2}" y="{oy - L}" width="{L/2}" height="{L/2}" fill="{ORANGE}"/>'
 s += f'<rect x="{ox}" y="{oy - L}" width="{L/2}" height="{L/2}" fill="#EED7C0"/><rect x="{ox + L/2}" y="{oy - L/2}" width="{L/2}" height="{L/2}" fill="{SAND}"/><rect x="{ox}" y="{oy - L/2}" width="{L/2}" height="{L/2}" fill="#E4E7EC"/>'
 s += t(ox + 3*L/4, oy - 3*L/4 + 12, '플로우', 40, WHITE) + t(ox + L/4, oy - 3*L/4 + 12, '불안', 34) + t(ox + 3*L/4, oy - L/4 + 12, '지루함', 34) + t(ox + L/4, oy - L/4 + 12, '무관심', 34, GRAY)
 s += f'<path d="M{ox} {oy} L{ox + L + 40} {oy}" stroke="{NAVY}" stroke-width="4" marker-end="url(#ag)"/><path d="M{ox} {oy} L{ox} {oy - L - 40}" stroke="{NAVY}" stroke-width="4" marker-end="url(#ag)"/>'
 s += t(ox + L/2, oy + 60, '기술 (디지털 리터러시)', 28) + f'<text x="{ox - 50}" y="{oy - L/2}" font-size="28" font-weight="700" fill="{NAVY}" text-anchor="middle" transform="rotate(-90 {ox - 50} {oy - L/2})">도전 (과제의 난이도)</text>'
-s += f'<circle cx="{ox + 120}" cy="{oy - 420}" r="18" fill="{NAVY}"/><path d="M{ox + 140} {oy - 410} L{ox + 410} {oy - 440}" stroke="{ORANGE}" stroke-width="5" stroke-dasharray="12 8" marker-end="url(#ao)"/>'
-s += t(1080, 300, '호텔 체크인은 도전 수준이 높은 과제', 32, NAVY, 700, 'start') + t(1080, 350, '예약 조회 · 본인 확인 · 결제 · 객실 키', 26, GRAY, 500, 'start') + t(1080, 470, '직관적 화면 · 안내 영상 · 전담 직원', 28, ORANGE, 700, 'start') + t(1080, 515, '→ 고객의 기술 수준을 보완해 균형으로', 28, ORANGE, 700, 'start')
+s += f'<circle cx="{ox + L/4}" cy="{oy - L/2 - 55}" r="16" fill="{NAVY}"/><path d="M{ox + L/4 + 22} {oy - L/2 - 55} L{ox + 3*L/4 - 30} {oy - L/2 - 55}" stroke="{NAVY}" stroke-width="5" stroke-dasharray="12 8" marker-end="url(#an2)"/>'
+s += t(900, 270, '호텔 체크인은', 34, NAVY, 700, 'start') + t(900, 320, '도전 수준이 높은 과제', 34, NAVY, 700, 'start') + t(900, 375, '예약 조회 · 본인 확인 · 결제 · 객실 키', 24, GRAY, 500, 'start') + t(900, 480, '직관적 화면 · 안내 영상 · 전담 직원', 26, ORANGE, 700, 'start') + t(900, 525, '→ 고객의 기술 수준을 보완해 균형으로', 26, ORANGE, 700, 'start')
 imgs['flow-at-the-kiosk'] = frame(s)
 
 # 3) 점검표: 재이용의 조건 / 몰입의 조건

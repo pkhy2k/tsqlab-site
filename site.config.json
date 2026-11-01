@@ -6,7 +6,7 @@
   "language": "ko",
   "locale": "ko_KR",
   "accent": "#9C5419",
-  "newBadgeDays": 7,
+  "newBadgeDays": 3,
   "verification": {
     "naver": "a88e16fc86c6da90740f32f1feaca7232d35a398",
     "google": ""
