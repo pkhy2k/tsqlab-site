@@ -244,7 +244,7 @@ ${meta ? `<p class="meta">${meta}</p>` : ''}${b.summary ? `<p>${esc(b.summary)}<
 function pageHome(posts) {
   const lead = posts.find((p) => p.featured === true) || posts[0];
   const rest = posts.filter((p) => p !== lead);
-  const side = rest.slice(0, 3);
+  const side = rest.filter((p) => !['column', 'report'].includes(p.category)).slice(0, 3);
   const sections = cfg.homeSections.map((slug) => {
     const c = catBySlug[slug];
     const list = posts.filter((p) => p.category === slug).slice(0, 4);
@@ -275,7 +275,7 @@ ${col ? `<div class="column-text"><span class="eyebrow">DIRECTOR'S COLUMN</span>
 <p>${esc(dir.title)}</p><span class="meta-inv"><a href="/about/" class="inv-link">연구소 소개 보기 ›</a></span></div>`}</section>
 <section class="split" aria-label="리포트와 추천 글">
 <div class="split-main"><div class="sec-head"><h2>리포트</h2><a href="/category/report/">더보기</a></div>
-<div class="reports">${reports.length ? reports.map((p) => `<article class="report"><div class="cover">${p.thumbnail ? `<img src="${esc(p.thumbnail)}" alt="">` : '<span>REPORT</span>'}</div>
+<div class="reports">${reports.length ? reports.map((p) => `<article class="report"><a class="cover" href="${p.url}" tabindex="-1" aria-hidden="true">${p.cover || p.thumbnail ? `<img src="${esc(p.cover || p.thumbnail)}" alt="">` : '<span>REPORT</span>'}</a>
 <div><span class="cat-static">REPORT</span><a href="${p.url}" class="item-lg">${esc(p.title)}</a><span class="meta">${fmtDate(p.date)}</span></div></article>`).join('') : '<p class="muted">리포트를 준비 중이다.</p>'}</div></div>
 <div class="split-side"><div class="sec-head"><h2>추천 글</h2></div>
 <ol class="ranked">${picks.map((p) => `<li><a href="${p.url}">${esc(p.title)}</a></li>`).join('')}</ol></div>
