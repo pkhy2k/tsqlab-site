@@ -82,7 +82,7 @@ description: 관광서비스품질연구소 웹사이트 개인정보처리방�
 연구소는 개인정보 처리에 관한 업무를 총괄하여 책임지고, 개인정보 처리와 관련한 정보주체의 불만 처리 및 피해 구제 등을 위하여 다음과 같이 개인정보 보호책임자를 지정하고 있습니다.
 
 - **성명**: 박건희 (관광서비스품질연구소 소장)
-- **이메일**: [contact@tourservqual.xyz](mailto:contact@tourservqual.xyz)
+- **이메일**: [contact@tourismquality.kr](mailto:contact@tourismquality.kr)
 
 ## 12. 권익침해 구제 방법
 
