@@ -14,7 +14,12 @@ const errors = [];
 const esc = (s = '') => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const fmtDate = (d) => (d ? d.replaceAll('-', '.') : '');
+// 신규 글 표시: 글 링크에 게시일(data-d)을 달고, 브라우저에서 최근 N일 이내 글에 NEW 표시
+const DATE_BY_SLUG = {};
+const markNew = (html) => html.replace(/<a ([^>]*?)href="\/posts\/([a-z0-9-]+)\/"/g,
+  (m, pre, slug) => (DATE_BY_SLUG[slug] && !/aria-hidden|tabindex="-1"/.test(pre) ? `<a ${pre}href="/posts/${slug}/" data-d="${DATE_BY_SLUG[slug]}"` : m));
 const write = (rel, content) => {
+  if (rel.endsWith('.html')) content = markNew(content);
   const file = path.join(DIST, rel);
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, content);
@@ -220,6 +225,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(
 <a class="skip" href="#main">본문 바로가기</a>
 ${body}
 ${footer()}
+<script>(function(){var D=${Number(cfg.newBadgeDays) || 0};if(!D)return;var now=Date.now()+9*36e5,day=864e5;document.querySelectorAll('a[data-d]').forEach(function(a){var t=Date.parse(a.getAttribute('data-d')+'T00:00:00Z');if(isNaN(t))return;var age=Math.floor(now/day)-Math.floor(t/day);if(age<0||age>=D)return;var host=a.querySelector('img')?a.querySelector('span'):a;if(!host)return;var b=document.createElement('span');b.className='new-badge';b.textContent='NEW';b.setAttribute('aria-label','새 글');host.appendChild(b)})})();</script>
 <script>(function(){var n=document.querySelector('.mainnav,.compact');if(!n)return;var t=n.offsetTop;function f(){n.classList.toggle('stuck',window.scrollY>t)}addEventListener('scroll',f,{passive:true});f()})();</script>
 </body>
 </html>`;
@@ -403,6 +409,7 @@ ${urls.map((u) => `<url><loc>${SITE_URL}${u.loc}</loc>${u.mod ? `<lastmod>${u.mo
 // ---------- 실행 ----------
 fs.rmSync(DIST, { recursive: true, force: true });
 const posts = loadPosts();
+posts.forEach((p) => { DATE_BY_SLUG[p.slug || p.url.split('/')[2]] = p.date; });
 const pages = loadPages();
 if (errors.length) {
   console.error('빌드 중단 — 콘텐츠 오류:\n' + errors.map((e) => ' - ' + e).join('\n'));
