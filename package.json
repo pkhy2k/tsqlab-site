@@ -1,0 +1,12 @@
+{
+  "name": "tsqlab-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "관광서비스품질연구소(TSQLAB) 웹사이트",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/build.mjs && node scripts/serve.mjs"
+  }
+}
