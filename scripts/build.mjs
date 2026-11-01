@@ -435,7 +435,7 @@ write('404.html', page404());
 write('rss.xml', rss(posts));
 write('sitemap.xml', sitemap(posts, pages));
 write('manifest.webmanifest', JSON.stringify({
-  name: cfg.name,
+  name: cfg.app?.name || cfg.name,
   short_name: cfg.app?.shortName || cfg.name,
   description: cfg.description,
   lang: cfg.language,
@@ -447,7 +447,8 @@ write('manifest.webmanifest', JSON.stringify({
   icons: [
     { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
     { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-    { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+    { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+    { src: '/icons/maskable-1024.png', sizes: '1024x1024', type: 'image/png', purpose: 'maskable' }
   ]
 }, null, 2));
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
