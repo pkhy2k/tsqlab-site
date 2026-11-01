@@ -214,6 +214,12 @@ ${cfg.verification.google ? `<meta name="google-site-verification" content="${es
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" type="application/rss+xml" title="${esc(cfg.name)}" href="${SITE_URL}/rss.xml">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#F7F5F0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="${esc(cfg.app?.shortName || cfg.name)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap">
@@ -227,6 +233,7 @@ ${body}
 ${footer()}
 <script>(function(){var D=${Number(cfg.newBadgeDays) || 0};if(!D)return;var now=Date.now()+9*36e5,day=864e5;document.querySelectorAll('a[data-d]').forEach(function(a){var t=Date.parse(a.getAttribute('data-d')+'T00:00:00Z');if(isNaN(t))return;var age=Math.floor(now/day)-Math.floor(t/day);if(age<0||age>=D)return;var host=a.querySelector('img')?a.querySelector('span'):a;if(!host)return;var b=document.createElement('span');b.className='new-badge';b.textContent='NEW';b.setAttribute('aria-label','새 글');var tn=host.lastChild;if(tn&&tn.nodeType===3){var m=tn.nodeValue.match(/^([\s\S]*?)(\S+)(\s*)$/);if(m){tn.nodeValue=m[1];var k=document.createElement('span');k.className='nb-keep';k.textContent=m[2];k.appendChild(b);host.appendChild(k);return}}host.appendChild(b)})})();</script>
 <script>(function(){var n=document.querySelector('.mainnav,.compact');if(!n)return;var t=n.offsetTop;function f(){n.classList.toggle('stuck',window.scrollY>t)}addEventListener('scroll',f,{passive:true});f()})();</script>
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 </body>
 </html>`;
 }
@@ -427,5 +434,21 @@ write('search/index.html', pageSearch(posts));
 write('404.html', page404());
 write('rss.xml', rss(posts));
 write('sitemap.xml', sitemap(posts, pages));
+write('manifest.webmanifest', JSON.stringify({
+  name: cfg.name,
+  short_name: cfg.app?.shortName || cfg.name,
+  description: cfg.description,
+  lang: cfg.language,
+  start_url: '/',
+  scope: '/',
+  display: 'standalone',
+  background_color: '#F7F5F0',
+  theme_color: '#F7F5F0',
+  icons: [
+    { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+    { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+    { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+  ]
+}, null, 2));
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 console.log(`빌드 완료: 글 ${posts.length}편, 고정 페이지 ${pages.length}개 → dist/`);
