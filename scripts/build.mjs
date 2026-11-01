@@ -149,7 +149,8 @@ function loadPages() {
 }
 
 // ---------- 공통 조각 ----------
-const logo = (size) => `<svg width="${size}" height="${Math.round(size * 48 / 44)}" viewBox="0 0 44 48" aria-hidden="true"><path d="M6 34 V22 A16 16 0 0 1 38 22 V34" fill="none" stroke="currentColor" stroke-width="4"/><rect x="2" y="38" width="40" height="5" fill="var(--accent)"/></svg>`;
+// 로고: 아치 + 상승하는 막대 3개 (마지막 막대 주황)
+const logo = (size) => `<svg class="logo" width="${size}" height="${Math.round(size * 372 / 380)}" viewBox="130 50 380 372" aria-hidden="true"><path d="M180 397 V210 A140 140 0 0 1 460 210 V397" fill="none" stroke="currentColor" stroke-width="16"/><rect x="137" y="398" width="366" height="16" fill="currentColor"/><rect x="233" y="312" width="47" height="86" fill="currentColor"/><rect x="297" y="265" width="47" height="133" fill="currentColor"/><rect x="360" y="209" width="47" height="189" fill="var(--logo-orange)"/></svg>`;
 const searchBtn = `<a class="icon-btn" href="/search/" aria-label="글 검색"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a>`;
 const navLinks = (active) => cfg.categories.map((c) =>
   `<a href="/category/${c.slug}/"${c.slug === active ? ' class="active" aria-current="page"' : ''}>${esc(c.name)}</a>`).join('') + '<a href="/books/">출판</a>';
@@ -158,11 +159,11 @@ function headerHome() {
   const today = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'full', timeZone: 'Asia/Seoul' }).format(new Date());
   return `<header class="topbar"><div class="wrap topbar-in"><span>${today}</span>
 <nav aria-label="보조 메뉴"><a href="/about/">연구소 소개</a><a href="/contact/">문의하기</a>${cfg.social.instagram ? `<a href="${esc(cfg.social.instagram)}" target="_blank" rel="noopener">인스타그램</a>` : ''}</nav></div></header>
-<div class="wrap masthead"><a href="/" class="brand-lg" aria-label="${esc(cfg.name)} 홈">${logo(44)}<span>${esc(cfg.name)}</span></a><span class="brand-en">${esc(cfg.nameEn)}</span></div>
+<div class="wrap masthead"><a href="/" class="brand-lg" aria-label="${esc(cfg.name)} 홈">${logo(52)}<span>${esc(cfg.name)}</span></a><span class="brand-en">${esc(cfg.nameEn)}</span></div>
 <nav class="mainnav" aria-label="주 메뉴"><div class="wrap mainnav-in"><div class="navlinks">${navLinks()}</div>${searchBtn}</div></nav>`;
 }
 function headerCompact(active) {
-  return `<header class="compact"><div class="wrap compact-in"><a href="/" class="brand-sm" aria-label="${esc(cfg.name)} 홈">${logo(28)}<span>${esc(cfg.name)}</span></a>
+  return `<header class="compact"><div class="wrap compact-in"><a href="/" class="brand-sm" aria-label="${esc(cfg.name)} 홈">${logo(34)}<span>${esc(cfg.name)}</span></a>
 <nav class="navlinks" aria-label="주 메뉴">${navLinks(active)}${searchBtn}</nav></div></header>`;
 }
 function footer() {
@@ -185,7 +186,7 @@ const byline = (p) => `${esc(cfg.authors[p.author]?.name || '')} · ${fmtDate(p.
 const catLabel = (p) => `<a href="/category/${p.category}/" class="cat">${esc(catBySlug[p.category]?.name || '')}</a>`;
 
 function layout({ title, description, pathname, body, ogType = 'website', image, jsonld, noindex }) {
-  const fullTitle = title ? `${title} | ${cfg.name}` : `${cfg.name} ${cfg.shortName}`;
+  const fullTitle = title ? `${title} | ${cfg.name}` : cfg.name;
   const canonical = SITE_URL + pathname;
   const img = image ? (image.startsWith('http') ? image : SITE_URL + image) : `${SITE_URL}/images/og-default.png`;
   return `<!doctype html>
@@ -239,7 +240,7 @@ ${thumb(first, 'photo')}<a href="${first.url}" class="item-lg">${esc(first.title
 ${others.map((p) => `<a href="${p.url}" class="item">${esc(p.title)}</a>`).join('')}</div>`;
   }).join('');
   const col = posts.find((p) => p.category === 'column');
-  const colAuthor = col ? cfg.authors[col.author] : null;
+  const dir = cfg.authors.director;
   const reports = posts.filter((p) => p.category === 'report').slice(0, 2);
   const picks = (posts.filter((p) => p.pick === true).length ? posts.filter((p) => p.pick === true) : posts).slice(0, 5);
   const body = `${headerHome()}
@@ -251,10 +252,12 @@ ${lead.subtitle ? `<p class="dek">${esc(lead.subtitle)}</p>` : ''}<span class="m
 ${side.length ? `<div class="side-list">${side.map((p) => `<article>${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><span class="meta">${byline(p)}</span></article>`).join('')}</div>` : ''}
 </section>` : '<p>게시된 글이 없다.</p>'}
 <section class="cols" aria-label="분야별 글">${sections}</section>
-${col ? `<section class="column-band" aria-label="소장 칼럼">
-<div class="portrait">${col.thumbnail ? `<img src="${esc(col.thumbnail)}" alt="">` : ''}</div>
-<div class="column-text"><span class="eyebrow">DIRECTOR'S COLUMN</span><h2><a href="${col.url}">${esc(col.title)}</a></h2>
-<p>${esc(col.excerpt)}</p><span class="meta-inv">${esc(colAuthor?.name)} · ${esc(colAuthor?.title)}</span></div></section>` : ''}
+<section class="column-band" aria-label="${col ? '소장 칼럼' : '소장 소개'}">
+<div class="portrait">${dir.photo ? `<img src="${esc(dir.photo)}" alt="${esc(dir.name)} 소장">` : ''}</div>
+${col ? `<div class="column-text"><span class="eyebrow">DIRECTOR'S COLUMN</span><h2><a href="${col.url}">${esc(col.title)}</a></h2>
+<p>${esc(col.excerpt)}</p><span class="meta-inv">${esc(dir.name)} · ${esc(dir.title)}</span></div>`
+  : `<div class="column-text"><span class="eyebrow">DIRECTOR</span><h2><a href="/about/">${esc(dir.name)}</a></h2>
+<p>${esc(dir.title)}</p><span class="meta-inv"><a href="/about/" class="inv-link">연구소 소개 보기 ›</a></span></div>`}</section>
 <section class="split" aria-label="리포트와 추천 글">
 <div class="split-main"><div class="sec-head"><h2>리포트</h2><a href="/category/report/">더보기</a></div>
 <div class="reports">${reports.length ? reports.map((p) => `<article class="report"><div class="cover">${p.thumbnail ? `<img src="${esc(p.thumbnail)}" alt="">` : '<span>REPORT</span>'}</div>
@@ -266,7 +269,7 @@ ${col ? `<section class="column-band" aria-label="소장 칼럼">
 <div class="books">${cfg.books.map((b) => `<div class="book"><div class="book-cover">${b.cover ? `<img src="${esc(b.cover)}" alt="${esc(b.title)} 표지">` : '<span>표지</span>'}</div><strong>${esc(b.title)}</strong><span class="status">${esc(b.status)}</span></div>`).join('')}</div></section>
 </main>`;
   return layout({ pathname: '/', body,
-    jsonld: { '@context': 'https://schema.org', '@type': 'Organization', name: cfg.name, alternateName: [cfg.nameEn, cfg.shortName], url: SITE_URL + '/', logo: SITE_URL + '/favicon.svg', email: cfg.business.email } });
+    jsonld: { '@context': 'https://schema.org', '@type': 'Organization', name: cfg.name, alternateName: cfg.nameEn, url: SITE_URL + '/', logo: SITE_URL + '/favicon.svg', email: cfg.business.email } });
 }
 
 function pagePost(p, posts) {
@@ -291,7 +294,7 @@ ${p.thumbnail ? `<figure class="hero"><img src="${esc(p.thumbnail)}" alt="${esc(
 <div class="prose">${p.html}</div>
 ${p.references.length ? `<section class="refs" aria-label="참고문헌"><h2>참고문헌</h2><ol>${p.references.map((r) => `<li>${inline(String(r))}</li>`).join('')}</ol></section>` : ''}
 ${p.tags.length ? `<div class="tags">${p.tags.map((t) => `<span>#${esc(t)}</span>`).join('')}</div>` : ''}
-<section class="author-box" aria-label="필자 소개"><div><strong>${esc(author.name)}</strong><span class="accent-text">${esc(author.title)}</span><p>${esc(author.bio)}</p></div></section>
+<section class="author-box" aria-label="필자 소개">${author.photo ? `<img class="author-photo" src="${esc(author.photo)}" alt="${esc(author.name)}">` : ''}<div><strong>${esc(author.name)}</strong><span class="accent-text">${esc(author.title)}</span><p>${esc(author.bio)}</p></div></section>
 ${p.source ? `<p class="muted small">이 글은 ${inline(String(p.source))}에 처음 게재되었다.</p>` : ''}
 <p class="muted small">© ${esc(cfg.name)}. 이 글의 무단 전재 및 재배포를 금지한다.</p>
 <nav class="prevnext" aria-label="이전 다음 글">
@@ -316,7 +319,7 @@ document.querySelector('[data-share]').addEventListener('click',function(){if(na
     jsonld: {
       '@context': 'https://schema.org', '@type': 'Article', headline: p.title, description: p.summary || p.subtitle || p.excerpt,
       datePublished: `${p.date}T09:00:00+09:00`, dateModified: `${p.updated || p.date}T09:00:00+09:00`,
-      author: p.author === 'director' ? { '@type': 'Person', name: author.name, jobTitle: author.title } : { '@type': 'Organization', name: author.name },
+      author: p.author === 'director' ? { '@type': 'Person', name: author.name, jobTitle: author.title, image: author.photo ? SITE_URL + author.photo : undefined } : { '@type': 'Organization', name: author.name },
       publisher: { '@type': 'Organization', name: cfg.name, logo: { '@type': 'ImageObject', url: SITE_URL + '/favicon.svg' } },
       mainEntityOfPage: SITE_URL + p.url, image: image ? [image.startsWith('http') ? image : SITE_URL + image] : undefined,
       inLanguage: 'ko', articleSection: catBySlug[p.category]?.name, keywords: p.tags.join(', ') || undefined,

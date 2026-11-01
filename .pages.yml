@@ -34,7 +34,7 @@ content:
         options:
           values:
             - { value: director, label: 소장 }
-            - { value: research, label: TSQLAB 리서치 }
+            - { value: research, label: 편집부 }
       - { name: date, label: 게시일, type: date, required: true, options: { format: "yyyy-MM-dd" } }
       - { name: updated, label: 수정일, type: date, options: { format: "yyyy-MM-dd" } }
       - { name: summary, label: "요약(80~150자)", type: string }

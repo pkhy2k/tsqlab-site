@@ -1,18 +1,17 @@
 {
   "name": "관광서비스품질연구소",
   "nameEn": "TOURISM SERVICE QUALITY LAB",
-  "shortName": "TSQLAB",
   "url": "https://tsqlab-site.pages.dev",
-  "description": "관광서비스품질연구소(TSQLAB)는 관광·호텔 서비스품질과 호텔 IT 시스템 품질관리를 연구하고, 그 시사점을 칼럼과 리포트로 전한다.",
+  "description": "관광서비스품질연구소는 관광·호텔 서비스품질과 호텔 IT 시스템 품질관리를 연구하고, 그 시사점을 칼럼과 리포트로 전한다.",
   "language": "ko",
   "locale": "ko_KR",
-  "accent": "#A8481F",
+  "accent": "#9C5419",
   "verification": {
     "naver": "",
     "google": ""
   },
   "business": {
-    "director": "[소장 이름]",
+    "director": "박건희",
     "registrationNumber": "[000-00-00000]",
     "address": "[사업장 주소]",
     "email": "[contact@도메인]"
@@ -21,27 +20,60 @@
     "instagram": ""
   },
   "categories": [
-    { "slug": "service-quality", "name": "서비스품질", "description": "관광·호텔 서비스품질의 이론과 측정, 개선 사례를 다룬다." },
-    { "slug": "hotel-it-qa", "name": "호텔 IT·QA", "description": "호텔 정보시스템과 소프트웨어 품질관리가 고객 경험에 미치는 영향을 다룬다." },
-    { "slug": "tourism-policy", "name": "관광정책·트렌드", "description": "관광정책과 산업 동향을 서비스품질 관점에서 해석한다." },
-    { "slug": "column", "name": "칼럼", "description": "소장 칼럼과 외부 매체 기고문을 모은다." },
-    { "slug": "report", "name": "리포트", "description": "주제별 장문 분석과 연구 보고서를 싣는다." }
+    {
+      "slug": "service-quality",
+      "name": "서비스품질",
+      "description": "관광·호텔 서비스품질의 이론과 측정, 개선 사례를 다룬다."
+    },
+    {
+      "slug": "hotel-it-qa",
+      "name": "호텔 IT·QA",
+      "description": "호텔 정보시스템과 소프트웨어 품질관리가 고객 경험에 미치는 영향을 다룬다."
+    },
+    {
+      "slug": "tourism-policy",
+      "name": "관광정책·트렌드",
+      "description": "관광정책과 산업 동향을 서비스품질 관점에서 해석한다."
+    },
+    {
+      "slug": "column",
+      "name": "칼럼",
+      "description": "소장 칼럼과 외부 매체 기고문을 모은다."
+    },
+    {
+      "slug": "report",
+      "name": "리포트",
+      "description": "주제별 장문 분석과 연구 보고서를 싣는다."
+    }
   ],
-  "homeSections": ["service-quality", "hotel-it-qa", "tourism-policy"],
+  "homeSections": [
+    "service-quality",
+    "hotel-it-qa",
+    "tourism-policy"
+  ],
   "authors": {
     "director": {
-      "name": "[소장 이름]",
+      "name": "박건희",
       "title": "관광서비스품질연구소 소장 · 관광학 박사",
-      "bio": "[필자 소개 2줄: 관광서비스품질 연구와 호텔 IT 품질관리 실무를 함께 다룬다.]"
+      "bio": "[필자 소개 2줄: 관광서비스품질 연구와 호텔 IT 품질관리 실무를 함께 다룬다.]",
+      "photo": "/images/director.jpg"
     },
     "research": {
-      "name": "TSQLAB 리서치",
-      "title": "관광서비스품질연구소 편집부",
+      "name": "편집부",
+      "title": "관광서비스품질연구소",
       "bio": "연구소 편집부가 작성하고 소장이 검토한 글이다. 작성 과정에서 AI 도구를 활용하며, 모든 사실과 인용은 게재 전 검증한다."
     }
   },
   "books": [
-    { "title": "[호텔 IT·QA 서적 제목]", "status": "집필 중", "cover": "" },
-    { "title": "[관광 교재 제목]", "status": "출간 예정", "cover": "" }
+    {
+      "title": "[호텔 IT·QA 서적 제목]",
+      "status": "집필 중",
+      "cover": ""
+    },
+    {
+      "title": "[관광 교재 제목]",
+      "status": "출간 예정",
+      "cover": ""
+    }
   ]
 }

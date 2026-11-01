@@ -1,13 +1,14 @@
 /* 관광서비스품질연구소 사이트 스타일 */
 :root {
-  --ink: #14233A;
+  --ink: #1E2A3A;
   --text: #222B38;
   --sub: #3D4654;
   --muted: #5A6473;
   --rule: #DADDE2;
   --soft: #F3F4F6;
   --bg: #FFFFFF;
-  --accent: #A8481F;
+  --accent: #9C5419;
+  --logo-orange: #C8792D;
   --serif: 'Noto Serif KR', 'Nanum Myeongjo', serif;
   --sans: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
 }
@@ -32,7 +33,7 @@ h1, h2, h3 { margin: 0; }
 .topbar nav { display: flex; flex-wrap: wrap; gap: 18px; }
 .topbar a { color: var(--muted); }
 .masthead { display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 36px; padding-bottom: 28px; text-align: center; }
-.brand-lg { display: flex; align-items: center; gap: 14px; font-family: var(--serif); font-weight: 700; font-size: clamp(24px, 5vw, 34px); letter-spacing: -0.5px; }
+.brand-lg { display: flex; align-items: flex-end; gap: 14px; font-family: var(--serif); font-weight: 700; font-size: clamp(24px, 5vw, 34px); letter-spacing: -0.5px; }
 .brand-en { font-size: 12px; letter-spacing: 3px; color: var(--muted); }
 .mainnav { border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink); }
 .mainnav-in { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
@@ -43,7 +44,7 @@ h1, h2, h3 { margin: 0; }
 .compact { border-bottom: 1px solid var(--ink); }
 .compact-in { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0 24px; }
 .compact .navlinks { gap: 0 24px; font-size: 15px; }
-.brand-sm { display: flex; align-items: center; gap: 10px; padding: 12px 0; font-family: var(--serif); font-weight: 700; font-size: 20px; }
+.brand-sm { display: flex; align-items: flex-end; gap: 10px; padding: 12px 0; font-family: var(--serif); font-weight: 700; font-size: 20px; }
 
 /* 공통 요소 */
 .cat { font-size: 13px; font-weight: 700; color: var(--accent); }
@@ -185,3 +186,12 @@ h1, h2, h3 { margin: 0; }
   .topbar, .mainnav, .compact, .aside, .share, .prevnext, .site-footer, .tags { display: none !important; }
   .prose { font-size: 12pt; }
 }
+
+/* 로고·인물 사진 */
+.logo { flex: none; color: var(--ink); }
+.portrait img { object-position: center 20%; }
+.inv-link { color: #fff; }
+.inv-link:hover { color: #fff; text-decoration: underline; }
+.author-box { display: flex; gap: 20px; align-items: flex-start; }
+.author-photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: center 20%; flex: none; }
+.prose img[src="/images/director.jpg"] { width: 220px; }
