@@ -12,9 +12,7 @@
   },
   "business": {
     "director": "박건희",
-    "registrationNumber": "[000-00-00000]",
-    "address": "[사업장 주소]",
-    "email": "[contact@도메인]"
+    "email": ""
   },
   "social": {
     "instagram": ""
@@ -82,11 +80,6 @@
           "url": "https://product.kyobobook.co.kr/detail/S000221812690"
         }
       ]
-    },
-    {
-      "title": "[관광 교재 제목]",
-      "status": "출간 예정",
-      "cover": ""
     }
   ]
 }

@@ -160,7 +160,7 @@ function headerHome() {
   return `<header class="topbar"><div class="wrap topbar-in"><span>${today}</span>
 <nav aria-label="보조 메뉴"><a href="/about/">연구소 소개</a><a href="/contact/">문의하기</a>${cfg.social.instagram ? `<a href="${esc(cfg.social.instagram)}" target="_blank" rel="noopener">인스타그램</a>` : ''}</nav></div></header>
 <div class="wrap masthead"><a href="/" class="brand-lg" aria-label="${esc(cfg.name)} 홈">${logo(52)}<span>${esc(cfg.name)}</span></a><span class="brand-en">${esc(cfg.nameEn)}</span></div>
-<nav class="mainnav" aria-label="주 메뉴"><div class="wrap mainnav-in"><div class="navlinks">${navLinks()}</div>${searchBtn}</div></nav>`;
+<nav class="mainnav" aria-label="주 메뉴"><div class="wrap mainnav-in"><div class="nav-left"><a href="/" class="nav-brand" aria-label="${esc(cfg.name)} 홈">${logo(24)}<span>${esc(cfg.name)}</span></a><div class="navlinks">${navLinks()}</div></div>${searchBtn}</div></nav>`;
 }
 function headerCompact(active) {
   return `<header class="compact"><div class="wrap compact-in"><a href="/" class="brand-sm" aria-label="${esc(cfg.name)} 홈">${logo(34)}<span>${esc(cfg.name)}</span></a>
@@ -170,10 +170,9 @@ function footer() {
   const b = cfg.business;
   return `<footer class="site-footer"><div class="wrap footer-in"><div class="footer-info">
 <strong>${esc(cfg.name)}</strong>
-<span>소장 ${esc(b.director)} · 사업자등록번호 ${esc(b.registrationNumber)}</span>
-<span>주소 ${esc(b.address)} · 이메일 ${esc(b.email)}</span>
+<span>소장 ${esc(b.director)}${b.email ? ` · 이메일 <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ''}</span>
 <span>© ${esc(cfg.name)}. 무단 전재 및 재배포 금지.</span></div>
-<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a><a href="/rss.xml">RSS</a></nav></div></footer>`;
+<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
 }
 function thumb(p, ratio = 'wide', linked = true) {
   const inner = p.thumbnail
@@ -221,6 +220,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(
 <a class="skip" href="#main">본문 바로가기</a>
 ${body}
 ${footer()}
+<script>(function(){var n=document.querySelector('.mainnav,.compact');if(!n)return;var t=n.offsetTop;function f(){n.classList.toggle('stuck',window.scrollY>t)}addEventListener('scroll',f,{passive:true});f()})();</script>
 </body>
 </html>`;
 }
@@ -284,7 +284,7 @@ ${col ? `<div class="column-text"><span class="eyebrow">DIRECTOR'S COLUMN</span>
 <div class="books">${cfg.books.map(bookCard).join('')}</div></section>
 </main>`;
   return layout({ pathname: '/', body,
-    jsonld: { '@context': 'https://schema.org', '@type': 'Organization', name: cfg.name, alternateName: cfg.nameEn, url: SITE_URL + '/', logo: SITE_URL + '/favicon.svg', email: cfg.business.email } });
+    jsonld: { '@context': 'https://schema.org', '@type': 'Organization', name: cfg.name, alternateName: cfg.nameEn, url: SITE_URL + '/', logo: SITE_URL + '/favicon.svg', email: cfg.business.email || undefined } });
 }
 
 function pagePost(p, posts) {
