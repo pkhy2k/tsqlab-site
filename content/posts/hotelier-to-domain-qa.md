@@ -3,6 +3,8 @@ title: 호텔리어에서 도메인 QA로, 서비스 인력에게 열리는 새�
 subtitle: 키오스크가 프런트를 대신하는 시대, 현장 경험은 사라지는 역량이 아니라 시스템 품질을 지키는 역량이 될 수 있다
 category: tourism-policy
 author: research
+thumbnail: /images/posts/hotelier-to-domain-qa.jpg
+thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 summary: 호텔 업무의 디지털 전환은 서비스 인력에게 위기이자 새로운 진로의 출발점이다. 특정 업무 시스템을 전문으로 하는 도메인 QA 직무와, 서비스 경험을 품질관리의 언어로 번역하는 방법, 교육과 인력 정책에 주는 시사점을 살펴본다.
 tags: [관광인력, 디지털전환, 도메인QA, 경력전환, ISTQB, 호텔IT]

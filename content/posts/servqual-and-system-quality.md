@@ -3,6 +3,8 @@ title: SERVQUAL 이후, 호텔 서비스품질 측정은 시스템을 보고 있
 subtitle: 고객 접점이 디지털로 옮겨간 지금, 소프트웨어 품질은 서비스품질의 일부로 다뤄져야 한다
 category: service-quality
 author: research
+thumbnail: /images/posts/servqual-and-system-quality.jpg
+thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 pick: true
 summary: 호텔의 고객 접점이 키오스크·모바일 체크인·PMS로 옮겨가면서, 사람 중심으로 설계된 기존 서비스품질 척도만으로는 품질 문제의 원인을 설명하기 어려워졌다. 서비스품질 연구와 소프트웨어 품질 표준을 연결하는 관점을 제안한다.

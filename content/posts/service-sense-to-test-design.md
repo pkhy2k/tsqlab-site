@@ -3,6 +3,8 @@ title: 프런트의 "혹시"가 테스트 케이스가 되는 순간
 subtitle: 호텔 서비스 현장의 감각을 소프트웨어 테스트 기법으로 옮기는 법, 그리고 AI 시대에 더 중요해진 검증의 역할
 category: hotel-it-qa
 author: research
+thumbnail: /images/posts/service-sense-to-test-design.jpg
+thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 pick: true
 summary: 노련한 프런트 직원이 습관처럼 던지는 "혹시 이런 경우는?"이라는 질문은 소프트웨어 테스트 기법과 구조가 같다. 숙박일·연박 할인 규칙과 예약 상태 사례로 동등 분할, 경곗값 분석, 상태 전이 테스트를 설명하고, AI 에이전트가 만든 테스트를 검증하는 관점을 제시한다.
