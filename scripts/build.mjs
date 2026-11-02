@@ -177,7 +177,7 @@ function footer() {
   const b = cfg.business;
   return `<footer class="site-footer"><div class="wrap footer-in"><div class="footer-info">
 <strong>${esc(cfg.name)}</strong>
-<span>소장 ${esc(b.director)}${b.email ? ` · 이메일 <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ''}</span>
+<span>비영리 학술연구 단체 · 소장 ${esc(b.director)}${b.email ? ` · 이메일 <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ''}</span>
 <span>© ${esc(cfg.name)}. 무단 전재 및 재배포 금지.</span></div>
 <nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
 }
