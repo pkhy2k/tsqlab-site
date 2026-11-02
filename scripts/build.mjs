@@ -388,12 +388,14 @@ function orgBlock() {
   if (!o) return '';
   const en = (r) => r.split(' · ').map((x) => (o.english || {})[x] || '').filter(Boolean).join(' · ');
   const unit = (n) => `<div class="org-node">${esc(n)}${en(n) ? `<small>${esc(en(n))}</small>` : ''}</div>`;
-  const chart = `<div class="org-chart" role="img" aria-label="조직도: ${esc(o.head)} 아래 ${esc(o.units.join(', '))}${o.board?.length ? `, 별도로 ${esc(o.board.join(', '))}` : ''}">
+  const uname = (u) => (typeof u === 'string' ? u : u.name);
+  const label = o.units.map((u) => (typeof u === 'string' ? u : `${u.name}(하위: ${u.sub.join(', ')})`)).join(', ');
+  const chart = `<div class="org-chart" role="img" aria-label="조직도: ${esc(o.head)} 아래 ${esc(label)}${o.board?.length ? `, 별도로 ${esc(o.board.join(', '))}` : ''}">
 <div class="org-main"><div class="org-node org-head">${esc(o.head)}${en(o.head) ? `<small>${esc(en(o.head))}</small>` : ''}</div><div class="org-down"></div>
-<div class="org-units" style="--n:${o.units.length}">${o.units.map((u) => `<div class="org-unit">${unit(u)}</div>`).join('')}</div></div>
-${o.board?.length ? `<div class="org-board">${o.board.map(unit).join('')}</div>` : ''}</div>`;
+<div class="org-units" style="--n:${o.units.length}">${o.units.map((u) => `<div class="org-unit">${unit(uname(u))}${typeof u !== 'string' && u.sub?.length ? u.sub.map((x) => `<div class="org-subline"></div><div class="org-sub">${unit(x)}</div>`).join('') : ''}</div>`).join('')}</div></div>
+${o.board?.length ? `<div class="org-board">${o.board.map((b) => unit(b).replace('class="org-node"', 'class="org-node org-audit"')).join('')}</div>` : ''}</div>`;
   const groups = [...new Set(o.members.map((m) => m.group))];
-  const card = (m) => `<div class="org-card">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<span class="org-ph" aria-hidden="true">${esc(m.name.slice(0, 1))}</span>`}<div><em>${esc(m.role)}</em>${en(m.role) ? `<i>${esc(en(m.role))}</i>` : ''}<b>${esc(m.name)}</b></div></div>`;
+  const card = (m) => `<div class="org-card${(o.board || []).includes(m.role) ? ' is-audit' : ''}">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<span class="org-ph" aria-hidden="true">${esc(m.name.slice(0, 1))}</span>`}<div><em>${esc(m.role)}</em>${en(m.role) ? `<i>${esc(en(m.role))}</i>` : ''}<b>${esc(m.name)}</b></div></div>`;
   const people = groups.map((g) => `<div class="org-group"><h3>${esc(g)}</h3><div class="org-cards">${o.members.filter((m) => m.group === g).map(card).join('')}</div></div>`).join('');
   return `<div class="org">${chart}<div class="org-people">${people}</div></div>`;
 }

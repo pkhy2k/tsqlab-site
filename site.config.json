@@ -70,11 +70,16 @@
   "organization": {
     "head": "연구소장",
     "units": [
-      "편집위원",
-      "선임연구원"
+      {
+        "name": "선임연구원",
+        "sub": [
+          "편집위원"
+        ]
+      },
+      "자문위원"
     ],
     "board": [
-      "선임이사"
+      "고문"
     ],
     "members": [
       {
@@ -89,26 +94,42 @@
         "group": "연구진"
       },
       {
+        "name": "김주상",
+        "role": "편집위원",
+        "group": "연구진"
+      },
+      {
         "name": "박건서",
         "role": "편집위원",
         "group": "연구진"
       },
       {
+        "name": "김광수",
+        "role": "고문",
+        "group": "고문·자문위원"
+      },
+      {
         "name": "박광석",
-        "role": "선임이사",
-        "group": "이사"
+        "role": "자문위원",
+        "group": "고문·자문위원"
       },
       {
         "name": "김정희",
-        "role": "선임이사",
-        "group": "이사"
+        "role": "자문위원",
+        "group": "고문·자문위원"
+      },
+      {
+        "name": "이민영",
+        "role": "자문위원",
+        "group": "고문·자문위원"
       }
     ],
     "english": {
       "연구소장": "Founding Director",
       "선임연구원": "Senior Researcher",
       "편집위원": "Editorial Board Member",
-      "선임이사": "Senior Director"
+      "자문위원": "Advisory Board Member",
+      "고문": "Senior Advisor"
     }
   },
   "books": [
