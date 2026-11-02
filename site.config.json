@@ -7,7 +7,10 @@
   "locale": "ko_KR",
   "accent": "#9C5419",
   "newBadgeDays": 3,
-  "app": { "name": "서비스품질연구소", "shortName": "서비스품질연구소" },
+  "app": {
+    "name": "서비스품질연구소",
+    "shortName": "서비스품질연구소"
+  },
   "verification": {
     "naver": "a88e16fc86c6da90740f32f1feaca7232d35a398",
     "google": ""
@@ -63,6 +66,44 @@
       "title": "관광서비스품질연구소",
       "bio": "연구소 편집부가 작성하고 소장이 검토한 글이다. 작성 과정에서 AI 도구를 활용하며, 모든 사실과 인용은 게재 전 검증한다."
     }
+  },
+  "organization": {
+    "head": "연구소장",
+    "units": [
+      "편집위원",
+      "선임연구원"
+    ],
+    "board": [
+      "선임이사"
+    ],
+    "members": [
+      {
+        "name": "박건희",
+        "role": "연구소장",
+        "group": "연구진",
+        "photo": "/images/director.jpg"
+      },
+      {
+        "name": "김지수",
+        "role": "선임연구원",
+        "group": "연구진"
+      },
+      {
+        "name": "박건서",
+        "role": "편집위원",
+        "group": "연구진"
+      },
+      {
+        "name": "박광석",
+        "role": "선임이사",
+        "group": "이사"
+      },
+      {
+        "name": "김정희",
+        "role": "선임이사",
+        "group": "이사"
+      }
+    ]
   },
   "books": [
     {

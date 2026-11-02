@@ -382,8 +382,24 @@ ${list.length ? list.map((p) => `<article class="row">${thumb(p, 'photo')}<div c
   return layout({ title: c.name, description: c.description, pathname: `/category/${c.slug}/`, body });
 }
 
+// 연구소 조직도·구성원 (site.config.json의 organization)
+function orgBlock() {
+  const o = cfg.organization;
+  if (!o) return '';
+  const unit = (n) => `<div class="org-node">${esc(n)}</div>`;
+  const chart = `<div class="org-chart" role="img" aria-label="조직도: ${esc(o.head)} 아래 ${esc(o.units.join(', '))}${o.board?.length ? `, 별도로 ${esc(o.board.join(', '))}` : ''}">
+<div class="org-main"><div class="org-node org-head">${esc(o.head)}</div><div class="org-down"></div>
+<div class="org-units" style="--n:${o.units.length}">${o.units.map((u) => `<div class="org-unit">${unit(u)}</div>`).join('')}</div></div>
+${o.board?.length ? `<div class="org-board">${o.board.map(unit).join('')}</div>` : ''}</div>`;
+  const groups = [...new Set(o.members.map((m) => m.group))];
+  const card = (m) => `<div class="org-card">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<span class="org-ph" aria-hidden="true">${esc(m.name.slice(0, 1))}</span>`}<div><em>${esc(m.role)}</em><b>${esc(m.name)}</b></div></div>`;
+  const people = groups.map((g) => `<div class="org-group"><h3>${esc(g)}</h3><div class="org-cards">${o.members.filter((m) => m.group === g).map(card).join('')}</div></div>`).join('');
+  return `<div class="org">${chart}<div class="org-people">${people}</div></div>`;
+}
+
 function pageStatic(pg) {
-  const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">${esc(pg.title)}</h1><div class="prose">${pg.html}</div></main>`;
+  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock());
+  const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">${esc(pg.title)}</h1><div class="prose">${html}</div></main>`;
   return layout({ title: pg.title, description: pg.description, pathname: `/${pg.slug}/`, body });
 }
 
