@@ -14,3 +14,5 @@ description: 강의, 자문, 기고 문의 안내
 **[contact@tourismquality.kr](mailto:contact@tourismquality.kr)**
 
 성함, 소속, 연락처와 함께 요청 내용(주제, 희망 일정, 대상과 규모 등)을 적어 주시면 확인 후 회신드립니다.
+
+연구소 회원가입은 [회원가입](/join/) 페이지의 안내와 신청서를 참고해 주십시오.

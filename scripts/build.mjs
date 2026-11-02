@@ -165,7 +165,7 @@ const navLinks = (active) => cfg.categories.map((c) =>
 function headerHome() {
   const today = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'full', timeZone: 'Asia/Seoul' }).format(new Date());
   return `<header class="topbar"><div class="wrap topbar-in"><span>${today}</span>
-<nav aria-label="보조 메뉴"><a href="/about/">연구소 소개</a><a href="/contact/">문의하기</a>${cfg.social.instagram ? `<a href="${esc(cfg.social.instagram)}" target="_blank" rel="noopener">인스타그램</a>` : ''}</nav></div></header>
+<nav aria-label="보조 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a><a href="/contact/">문의하기</a>${cfg.social.instagram ? `<a href="${esc(cfg.social.instagram)}" target="_blank" rel="noopener">인스타그램</a>` : ''}</nav></div></header>
 <div class="wrap masthead"><a href="/" class="brand-lg" aria-label="${esc(cfg.name)} 홈">${logo(52)}<span>${esc(cfg.name)}</span></a><span class="brand-en">${esc(cfg.nameEn)}</span></div>
 <nav class="mainnav" aria-label="주 메뉴"><div class="wrap mainnav-in"><div class="nav-left"><a href="/" class="nav-brand" aria-label="${esc(cfg.name)} 홈">${logo(24)}<span>${esc(cfg.name)}</span></a><div class="navlinks">${navLinks()}</div></div>${searchBtn}</div></nav>`;
 }
@@ -179,7 +179,7 @@ function footer() {
 <strong>${esc(cfg.name)}</strong>
 <span>소장 ${esc(b.director)}${b.email ? ` · 이메일 <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ''}</span>
 <span>© ${esc(cfg.name)}. 무단 전재 및 재배포 금지.</span></div>
-<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
+<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
 }
 function thumb(p, ratio = 'wide', linked = true) {
   const inner = p.thumbnail
@@ -400,8 +400,42 @@ ${o.board?.length ? `<div class="org-board">${o.board.map((b) => unit(b).replace
   return `<div class="org">${chart}<div class="org-people">${people}</div></div>`;
 }
 
+const JOIN_TEMPLATE = `[관광서비스품질연구소 회원가입 신청서]
+
+1. 성명(국문):
+2. 성명(영문, 명함 표기):
+3. 휴대전화:
+4. 연락용 이메일:
+5. 소속 및 직위:
+6. 최종학위(전공, 학교, 취득 연도):
+7. 희망 활동 분야(연구 / 편집 / 자문 중 선택):
+8. 주요 연구 분야(키워드 3개 내외):
+9. 대표 연구실적(3건 이내, 링크 포함):
+  -
+  -
+10. 증빙자료(첨부파일명 또는 링크):
+11. 명함 제작 희망(예 / 아니오):
+12. 명함에 휴대전화 번호 표기(예 / 아니오, 명함 제작 시):
+
+[개인정보 수집·이용 동의]
+- 필수 항목 수집·이용에 동의합니다(예 / 아니오):
+- 선택 항목: 프로필 사진 제출 및 웹사이트 조직 소개 게재에 동의합니다(예 / 아니오):
+  (동의하시면 프로필 사진을 첨부해 주십시오.)
+
+신청일:`;
+function joinForm() {
+  const mail = cfg.business.email;
+  const href = `mailto:${mail}?subject=${encodeURIComponent('[회원가입] 성명')}&body=${encodeURIComponent(JOIN_TEMPLATE)}`;
+  return `<div class="join-form"><pre id="join-tpl">${esc(JOIN_TEMPLATE)}</pre>
+<div class="join-actions"><a class="btn-solid" href="${esc(href)}">메일로 신청하기</a><button type="button" class="btn-line" id="join-copy">양식 복사</button><span id="join-msg" class="muted small" role="status" aria-live="polite"></span></div>
+<p class="muted small">받는 주소: ${esc(mail)} · 증빙자료와 사진은 메일에 첨부해 주십시오.</p></div>
+<script>(function(){var b=document.getElementById('join-copy'),m=document.getElementById('join-msg'),t=document.getElementById('join-tpl').textContent;
+b.addEventListener('click',function(){var done=function(){m.textContent='양식을 복사했습니다.'};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){sel()})}else sel();
+function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('join-tpl'));var s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent='양식을 선택했습니다. 복사해 주십시오.'}})})();</script>`;
+}
 function pageStatic(pg) {
-  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock());
+  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm());
   const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">${esc(pg.title)}</h1><div class="prose">${html}</div></main>`;
   return layout({ title: pg.title, description: pg.description, pathname: `/${pg.slug}/`, body });
 }
