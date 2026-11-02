@@ -295,3 +295,6 @@ a.book:hover strong { color: var(--accent); }
 .org-people { display: block; columns: 2; column-gap: 28px; }
 .org-group { break-inside: avoid; margin-bottom: 24px; }
 @media (max-width: 640px) { .org-people { columns: 1; } }
+
+.org-ph { color: #9AA3AF; overflow: hidden; align-items: flex-end; }
+.org-ph svg { width: 90%; height: 90%; }
