@@ -251,7 +251,8 @@ a.book:hover strong { color: var(--accent); }
 .org-node { min-width: 132px; padding: 14px 18px; border-radius: 10px; background: #fff; border: 1px solid var(--rule); text-align: center; font-weight: 700; color: var(--ink); }
 .org-head { background: var(--ink); border-color: var(--ink); color: #fff; min-width: 170px; }
 .org-down { width: 0; height: 24px; border-left: 1.5px solid var(--muted); }
-.org-units { --gap: 20px; position: relative; display: flex; gap: var(--gap); padding-top: 24px; }
+.org-units { --gap: 20px; position: relative; display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: var(--gap); padding-top: 24px; }
+.org-unit .org-node { height: 100%; box-sizing: border-box; }
 .org-units::before { content: ''; position: absolute; top: 0; left: calc((100% - (var(--n) - 1) * var(--gap)) / var(--n) / 2); right: calc((100% - (var(--n) - 1) * var(--gap)) / var(--n) / 2); border-top: 1.5px solid var(--muted); }
 .org-unit { position: relative; }
 .org-unit::before { content: ''; position: absolute; top: -24px; left: 50%; height: 24px; border-left: 1.5px solid var(--muted); }
@@ -273,3 +274,8 @@ a.book:hover strong { color: var(--accent); }
   .org-node { min-width: 112px; padding: 12px 10px; }
   .org-board { margin-top: 0; padding-left: 0; padding-top: 18px; border-left: 0; border-top: 1px dashed var(--rule); flex-direction: row; }
 }
+
+.org-node small { display: block; margin-top: 2px; font-size: 11.5px; font-weight: 500; color: var(--muted); }
+.org-head small { color: #C9D1DC; }
+.org-card i { display: block; font-style: normal; font-size: 11.5px; color: var(--muted); margin-top: 1px; }
+.org-card b { margin-top: 2px; }
