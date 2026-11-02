@@ -90,7 +90,7 @@
       },
       {
         "name": "김지수",
-        "role": "선임연구원 · 편집위원",
+        "role": "선임연구원 · 편집위원장",
         "group": "연구진"
       },
       {
@@ -129,7 +129,8 @@
       "선임연구원": "Senior Researcher",
       "편집위원": "Editorial Board Member",
       "자문위원": "Advisory Board Member",
-      "고문": "Senior Advisor"
+      "고문": "Senior Advisor",
+      "편집위원장": "Editor-in-Chief"
     }
   },
   "books": [
