@@ -321,7 +321,7 @@ ${p.subtitle ? `<p class="dek">${esc(p.subtitle)}</p>` : ''}
 ${p.thumbnail ? `<figure class="hero"><img src="${esc(p.thumbnail)}" alt="${esc(p.thumbnail_alt || p.title)}">${p.thumbnail_caption ? `<figcaption>${esc(p.thumbnail_caption)}</figcaption>` : ''}</figure>` : ''}
 <div class="prose">${p.html}</div>
 ${p.references.length ? `<section class="refs" aria-label="참고문헌"><h2>참고문헌</h2><ol>${p.references.map((r) => `<li>${inline(String(r))}</li>`).join('')}</ol></section>` : ''}
-<section class="reactions" aria-label="기사 반응" data-slug="${p.slug}"><p class="reactions-q">이 글이 어떠셨나요?</p><div class="reactions-row">
+<section class="reactions" aria-label="기사 반응" data-slug="${p.slug}"><p class="reactions-q">이 글이 도움이 되셨나요?</p><div class="reactions-row">
 <button type="button" class="react" data-r="useful" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1.1 2V16h5v-.2c.1-.8.5-1.5 1.1-2A6 6 0 0 0 12 3z"/></svg><span class="react-label">유익해요</span><span class="react-count" data-c="useful">0</span></button>
 <button type="button" class="react" data-r="agree" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="react-label">공감해요</span><span class="react-count" data-c="agree">0</span></button>
 <button type="button" class="react" data-r="more" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg><span class="react-label">더 알고 싶어요</span><span class="react-count" data-c="more">0</span></button>
@@ -346,6 +346,18 @@ ${picks.length ? `<div><div class="sec-head"><h2>최신 글</h2></div><ol class=
 function copy(){navigator.clipboard&&navigator.clipboard.writeText(location.href).then(function(){say('링크를 복사했습니다')},function(){say('복사하지 못했습니다')})}
 document.querySelector('[data-copy]').addEventListener('click',copy);
 document.querySelector('[data-share]').addEventListener('click',function(){if(navigator.share){navigator.share({title:document.title,url:location.href}).catch(function(){})}else{copy()}});})();
+(function(){var box=document.querySelector('.reactions');if(!box||!window.fetch)return;var slug=box.getAttribute('data-slug'),api='/api/stats/'+slug,key='rx:'+slug,mine={};
+try{mine=JSON.parse(localStorage.getItem(key)||'{}')||{}}catch(e){}
+function save(){try{localStorage.setItem(key,JSON.stringify(mine))}catch(e){}}
+function show(d){if(!d)return;var v=document.querySelector('[data-views]');if(v&&typeof d.views==='number'){v.textContent=d.views.toLocaleString('ko-KR');v.closest('.views').hidden=false}
+box.querySelectorAll('[data-c]').forEach(function(e){var n=d[e.getAttribute('data-c')];if(typeof n==='number')e.textContent=n.toLocaleString('ko-KR')})}
+box.querySelectorAll('.react').forEach(function(b){b.setAttribute('aria-pressed',mine[b.getAttribute('data-r')]?'true':'false')});
+function send(o){return fetch(api,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(o)}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})}
+send({action:'view'}).then(show);
+box.addEventListener('click',function(ev){var b=ev.target.closest('.react');if(!b||b.disabled)return;var r=b.getAttribute('data-r'),on=!mine[r];
+var c=b.querySelector('[data-c]'),n=parseInt((c.textContent||'0').replace(/[^0-9]/g,''),10)||0;c.textContent=Math.max(n+(on?1:-1),0).toLocaleString('ko-KR');
+b.setAttribute('aria-pressed',on?'true':'false');if(on)mine[r]=1;else delete mine[r];save();b.disabled=true;
+send({action:'react',r:r,delta:on?1:-1}).then(function(d){b.disabled=false;show(d)})});})();
 </script>`;
   const image = p.thumbnail || undefined;
   return layout({ title: p.title, description: p.summary || p.subtitle || p.excerpt, pathname: p.url, body, ogType: 'article', image,
