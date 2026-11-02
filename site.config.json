@@ -112,12 +112,14 @@
       {
         "name": "박광석",
         "role": "자문위원",
-        "group": "자문위원회"
+        "group": "자문위원회",
+        "photo": "/images/members/park-gwangseok.jpg"
       },
       {
         "name": "김정희",
         "role": "자문위원",
-        "group": "자문위원회"
+        "group": "자문위원회",
+        "photo": "/images/members/kim-jeonghee.jpg"
       }
     ],
     "english": {
