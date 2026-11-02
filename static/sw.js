@@ -1,5 +1,5 @@
 // 앱 설치(PWA)용 서비스워커 — 항상 최신 글을 먼저 불러오고, 오프라인일 때만 저장본을 보여준다.
-const CACHE = 'tsq-v2';
+const CACHE = 'tsq-v3';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['/', '/assets/style.css', '/favicon.svg'])));
