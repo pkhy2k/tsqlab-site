@@ -279,3 +279,12 @@ a.book:hover strong { color: var(--accent); }
 .org-head small { color: #C9D1DC; }
 .org-card i { display: block; font-style: normal; font-size: 11.5px; color: var(--muted); margin-top: 1px; }
 .org-card b { margin-top: 2px; }
+
+.org-unit { display: flex; flex-direction: column; align-items: stretch; }
+.org-subline { width: 0; height: 18px; margin: 0 auto; border-left: 1.5px solid var(--muted); }
+.org-sub .org-node { border-top: 1px solid var(--rule); }
+.org-unit .org-node { height: auto; }
+
+.org-audit { background: #EEF4F3 !important; border: 1px solid #3F6F73 !important; border-top: 3px solid #3F6F73 !important; color: #234548; }
+.org-audit small { color: #3F6F73; }
+.org-card.is-audit em { color: #3F6F73; }
