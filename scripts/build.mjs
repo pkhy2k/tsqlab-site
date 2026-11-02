@@ -340,7 +340,7 @@ ${newer ? `<a href="${newer.url}" class="next"><span class="muted small">다음 
 <aside class="aside" aria-label="관련 글">
 ${related.length ? `<div><div class="sec-head"><h2>같은 분야 글</h2></div>${related.map((x) => `<a class="mini" href="${x.url}">${thumb(x, 'mini', false)}<span>${esc(x.title)}</span></a>`).join('')}</div>` : ''}
 ${picks.length ? `<div><div class="sec-head"><h2>최신 글</h2></div><ol class="ranked small">${picks.map((x) => `<li><a href="${x.url}">${esc(x.title)}</a></li>`).join('')}</ol></div>` : ''}
-<a class="contact-card" href="/contact/"><span class="eyebrow">CONTACT</span><strong>강의·자문·기고 문의</strong><span>문의하기 ›</span></a>
+<a class="contact-card" href="/contact/"><span class="eyebrow">CONTACT</span><strong>기고·연구 협력 문의</strong><span>문의하기 ›</span></a>
 </aside>
 </main>
 <script>
