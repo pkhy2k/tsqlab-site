@@ -313,7 +313,7 @@ function pagePost(p, posts) {
 <h1>${esc(p.title)}</h1>
 ${p.subtitle ? `<p class="dek">${esc(p.subtitle)}</p>` : ''}
 <div class="byline"><div><strong>${esc(author.name)}</strong> <span class="muted">${esc(author.title)}</span><br>
-<span class="meta">입력 ${fmtDate(p.date)}${p.updated ? ` · 수정 ${fmtDate(p.updated)}` : ''}</span></div>
+<span class="meta">입력 ${fmtDate(p.date)}${p.updated ? ` · 수정 ${fmtDate(p.updated)}` : ''}<span class="views" hidden> · 조회 <span data-views>0</span></span></span></div>
 <div class="share"><button type="button" class="circle" data-copy aria-label="링크 복사"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></button>
 <button type="button" class="circle" data-share aria-label="공유하기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
 <button type="button" class="circle" onclick="window.print()" aria-label="인쇄하기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="1"/><path d="M6 14h12v7H6z"/></svg></button>
@@ -321,6 +321,11 @@ ${p.subtitle ? `<p class="dek">${esc(p.subtitle)}</p>` : ''}
 ${p.thumbnail ? `<figure class="hero"><img src="${esc(p.thumbnail)}" alt="${esc(p.thumbnail_alt || p.title)}">${p.thumbnail_caption ? `<figcaption>${esc(p.thumbnail_caption)}</figcaption>` : ''}</figure>` : ''}
 <div class="prose">${p.html}</div>
 ${p.references.length ? `<section class="refs" aria-label="참고문헌"><h2>참고문헌</h2><ol>${p.references.map((r) => `<li>${inline(String(r))}</li>`).join('')}</ol></section>` : ''}
+<section class="reactions" aria-label="기사 반응" data-slug="${p.slug}"><p class="reactions-q">이 글이 어떠셨나요?</p><div class="reactions-row">
+<button type="button" class="react" data-r="useful" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1.1 2V16h5v-.2c.1-.8.5-1.5 1.1-2A6 6 0 0 0 12 3z"/></svg><span class="react-label">유익해요</span><span class="react-count" data-c="useful">0</span></button>
+<button type="button" class="react" data-r="agree" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="react-label">공감해요</span><span class="react-count" data-c="agree">0</span></button>
+<button type="button" class="react" data-r="more" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg><span class="react-label">더 알고 싶어요</span><span class="react-count" data-c="more">0</span></button>
+</div></section>
 ${p.tags.length ? `<div class="tags">${p.tags.map((t) => `<span>#${esc(t)}</span>`).join('')}</div>` : ''}
 <section class="author-box" aria-label="필자 소개">${author.photo ? `<img class="author-photo" src="${esc(author.photo)}" alt="${esc(author.name)}">` : ''}<div><strong>${esc(author.name)}</strong><span class="accent-text">${esc(author.title)}</span><p>${esc(author.bio)}</p></div></section>
 ${p.source ? `<p class="muted small">이 글은 ${inline(String(p.source))}에 처음 게재되었다.</p>` : ''}
