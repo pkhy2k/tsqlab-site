@@ -243,3 +243,33 @@ a.book:hover strong { color: var(--accent); }
 .react[aria-pressed="true"] { border-color: var(--logo-orange); background: #FBF3EA; }
 .react[aria-pressed="true"] svg { color: var(--logo-orange); transform: scale(1.08); }
 @media (max-width: 640px) { .react { min-width: 0; flex: 1 1 0; padding: 12px 6px 10px; } .react-label { font-size: 12px; } }
+
+/* 연구소 조직도·구성원 */
+.org { font-size: 15px; line-height: 1.5; }
+.org-chart { display: flex; align-items: flex-start; justify-content: center; gap: 56px; padding: 28px 16px; background: var(--soft); border-radius: 12px; }
+.org-main { display: flex; flex-direction: column; align-items: center; }
+.org-node { min-width: 132px; padding: 14px 18px; border-radius: 10px; background: #fff; border: 1px solid var(--rule); text-align: center; font-weight: 700; color: var(--ink); }
+.org-head { background: var(--ink); border-color: var(--ink); color: #fff; min-width: 170px; }
+.org-down { width: 0; height: 24px; border-left: 1.5px solid var(--muted); }
+.org-units { --gap: 20px; position: relative; display: flex; gap: var(--gap); padding-top: 24px; }
+.org-units::before { content: ''; position: absolute; top: 0; left: calc((100% - (var(--n) - 1) * var(--gap)) / var(--n) / 2); right: calc((100% - (var(--n) - 1) * var(--gap)) / var(--n) / 2); border-top: 1.5px solid var(--muted); }
+.org-unit { position: relative; }
+.org-unit::before { content: ''; position: absolute; top: -24px; left: 50%; height: 24px; border-left: 1.5px solid var(--muted); }
+.org-unit .org-node { border-top: 3px solid var(--logo-orange); }
+.org-board { display: flex; flex-direction: column; gap: 12px; margin-top: 72px; padding-left: 40px; border-left: 1px dashed var(--rule); }
+.org-board .org-node { background: #fff; }
+.org-people { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 28px; }
+.org-group { flex: 1 1 260px; }
+.org-group h3 { margin: 0 0 12px; padding-left: 10px; border-left: 3px solid var(--logo-orange); font-size: 16px; }
+.org-cards { display: grid; gap: 10px; }
+.org-card { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border: 1px solid var(--rule); border-radius: 12px; background: #fff; }
+.org-card img, .org-ph { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex: 0 0 52px; margin: 0; }
+.org-ph { display: flex; align-items: center; justify-content: center; background: var(--soft); color: var(--muted); font-weight: 700; font-size: 18px; }
+.org-card em { display: block; font-style: normal; font-size: 12.5px; font-weight: 600; color: var(--logo-orange); }
+.org-card b { display: block; font-size: 16px; color: var(--ink); }
+@media (max-width: 640px) {
+  .org-chart { flex-direction: column; align-items: center; gap: 20px; }
+  .org-units { --gap: 10px; }
+  .org-node { min-width: 112px; padding: 12px 10px; }
+  .org-board { margin-top: 0; padding-left: 0; padding-top: 18px; border-left: 0; border-top: 1px dashed var(--rule); flex-direction: row; }
+}

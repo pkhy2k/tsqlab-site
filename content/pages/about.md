@@ -31,6 +31,10 @@ description: 관광서비스품질연구소의 연구 분야와 소장을 소개
 
 - [호텔 키오스크의 셀프 서비스 기술 품질(SSTQUAL)이 플로우(Flow)와 지속이용의도에 미치는 영향: 디지털 리터러시의 조절효과를 중심으로](https://www.riss.kr/link?id=T17289997)(경기대학교 대학원 박사학위논문, 2025) · [리뷰 읽기](/posts/report-hotel-kiosk-sstqual-flow/)
 
+## 조직
+
+{{organization}}
+
 ## 함께하는 일
 
 강의, 자문, 기고 요청은 [문의하기](/contact/) 페이지를 이용한다.
