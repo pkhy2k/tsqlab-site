@@ -103,7 +103,13 @@
         "role": "선임이사",
         "group": "이사"
       }
-    ]
+    ],
+    "english": {
+      "연구소장": "Director",
+      "선임연구원": "Senior Researcher",
+      "편집위원": "Editorial Board Member",
+      "선임이사": "Senior Board Member"
+    }
   },
   "books": [
     {
