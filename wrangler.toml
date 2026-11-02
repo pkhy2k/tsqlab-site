@@ -1,0 +1,9 @@
+# Cloudflare Pages 설정 (조회수·반응 집계용 D1 연결)
+name = "tsqlab-site"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tsqlab-stats"
+database_id = "a6c42275-40db-49e0-9534-76bfe15836f9"
