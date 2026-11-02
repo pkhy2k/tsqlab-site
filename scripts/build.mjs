@@ -395,8 +395,8 @@ function orgBlock() {
 <div class="org-units" style="--n:${o.units.length}">${o.units.map((u) => `<div class="org-unit">${unit(uname(u))}${typeof u !== 'string' && u.sub?.length ? u.sub.map((x) => `<div class="org-subline"></div><div class="org-sub">${unit(x)}</div>`).join('') : ''}</div>`).join('')}</div></div>
 ${o.board?.length ? `<div class="org-board">${o.board.map((b) => unit(b).replace('class="org-node"', 'class="org-node org-audit"')).join('')}</div>` : ''}</div>`;
   const groups = [...new Set(o.members.map((m) => m.group))];
-  const card = (m) => `<div class="org-card${(o.board || []).includes(m.role) ? ' is-audit' : ''}">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<span class="org-ph" aria-hidden="true">${esc(m.name.slice(0, 1))}</span>`}<div><em>${esc(m.role)}</em>${en(m.role) ? `<i>${esc(en(m.role))}</i>` : ''}<b>${esc(m.name)}</b></div></div>`;
-  const people = groups.map((g) => `<div class="org-group"><h3>${esc(g)}</h3><div class="org-cards">${o.members.filter((m) => m.group === g).map(card).join('')}</div></div>`).join('');
+  const card = (m) => `<div class="org-card${(o.board || []).includes(m.group) ? ' is-audit' : ''}">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<span class="org-ph" aria-hidden="true">${esc(m.name.slice(0, 1))}</span>`}<div><em>${esc(m.role)}</em>${en(m.role) ? `<i>${esc(en(m.role))}</i>` : ''}<b>${esc(m.name)}</b></div></div>`;
+  const people = groups.map((g) => `<div class="org-group"><h3>${esc(g)}${en(g) && g !== o.head ? `<small>${esc(en(g))}</small>` : ''}</h3><div class="org-cards">${o.members.filter((m) => m.group === g).map(card).join('')}</div></div>`).join('');
   return `<div class="org">${chart}<div class="org-people">${people}</div></div>`;
 }
 

@@ -70,13 +70,9 @@
   "organization": {
     "head": "연구소장",
     "units": [
-      {
-        "name": "선임연구원",
-        "sub": [
-          "편집위원"
-        ]
-      },
-      "자문위원"
+      "연구위",
+      "편집위",
+      "자문위"
     ],
     "board": [
       "고문"
@@ -85,52 +81,55 @@
       {
         "name": "박건희",
         "role": "연구소장",
-        "group": "연구진",
+        "group": "연구소장",
         "photo": "/images/director.jpg"
-      },
-      {
-        "name": "김지수",
-        "role": "선임연구원 · 편집위원장",
-        "group": "연구진"
-      },
-      {
-        "name": "김주상",
-        "role": "편집위원",
-        "group": "연구진"
-      },
-      {
-        "name": "박건서",
-        "role": "편집위원",
-        "group": "연구진"
       },
       {
         "name": "김광수",
         "role": "고문",
-        "group": "고문·자문위원"
+        "group": "고문"
+      },
+      {
+        "name": "김지수",
+        "role": "선임연구원",
+        "group": "연구위"
+      },
+      {
+        "name": "이민영",
+        "role": "편집위원장",
+        "group": "편집위"
+      },
+      {
+        "name": "김주상",
+        "role": "편집위원",
+        "group": "편집위"
+      },
+      {
+        "name": "박건서",
+        "role": "편집위원",
+        "group": "편집위"
       },
       {
         "name": "박광석",
         "role": "자문위원",
-        "group": "고문·자문위원"
+        "group": "자문위"
       },
       {
         "name": "김정희",
         "role": "자문위원",
-        "group": "고문·자문위원"
-      },
-      {
-        "name": "이민영",
-        "role": "자문위원",
-        "group": "고문·자문위원"
+        "group": "자문위"
       }
     ],
     "english": {
       "연구소장": "Founding Director",
+      "연구위": "Research Committee",
+      "편집위": "Editorial Committee",
+      "자문위": "Advisory Committee",
       "선임연구원": "Senior Researcher",
+      "편집위원장": "Editor-in-Chief",
       "편집위원": "Editorial Board Member",
-      "자문위원": "Advisory Board Member",
       "고문": "Senior Advisor",
-      "편집위원장": "Editor-in-Chief"
+      "자문위원": "Advisory Board Member"
     }
   },
   "books": [

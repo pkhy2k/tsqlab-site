@@ -288,3 +288,10 @@ a.book:hover strong { color: var(--accent); }
 .org-audit { background: #EEF4F3 !important; border: 1px solid #3F6F73 !important; border-top: 3px solid #3F6F73 !important; color: #234548; }
 .org-audit small { color: #3F6F73; }
 .org-card.is-audit em { color: #3F6F73; }
+
+.org-people { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 28px; }
+.org-group h3 small { margin-left: 8px; font-size: 12px; font-weight: 500; color: var(--muted); }
+@media (max-width: 640px) { .org-people { grid-template-columns: 1fr; } }
+.org-people { display: block; columns: 2; column-gap: 28px; }
+.org-group { break-inside: avoid; margin-bottom: 24px; }
+@media (max-width: 640px) { .org-people { columns: 1; } }
