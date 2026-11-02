@@ -70,9 +70,9 @@
   "organization": {
     "head": "연구소장",
     "units": [
-      "연구위",
-      "편집위",
-      "자문위"
+      "연구위원회",
+      "편집위원회",
+      "자문위원회"
     ],
     "board": [
       "고문"
@@ -92,39 +92,39 @@
       {
         "name": "김지수",
         "role": "선임연구원",
-        "group": "연구위"
+        "group": "연구위원회"
       },
       {
         "name": "이민영",
         "role": "편집위원장",
-        "group": "편집위"
+        "group": "편집위원회"
       },
       {
         "name": "김주상",
         "role": "편집위원",
-        "group": "편집위"
+        "group": "편집위원회"
       },
       {
         "name": "박건서",
         "role": "편집위원",
-        "group": "편집위"
+        "group": "편집위원회"
       },
       {
         "name": "박광석",
         "role": "자문위원",
-        "group": "자문위"
+        "group": "자문위원회"
       },
       {
         "name": "김정희",
         "role": "자문위원",
-        "group": "자문위"
+        "group": "자문위원회"
       }
     ],
     "english": {
       "연구소장": "Founding Director",
-      "연구위": "Research Committee",
-      "편집위": "Editorial Committee",
-      "자문위": "Advisory Committee",
+      "연구위원회": "Research Committee",
+      "편집위원회": "Editorial Committee",
+      "자문위원회": "Advisory Committee",
       "선임연구원": "Senior Researcher",
       "편집위원장": "Editor-in-Chief",
       "편집위원": "Editorial Board Member",
