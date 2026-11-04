@@ -236,7 +236,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(
 ${body}
 ${footer()}
 <script>(function(){var D=${Number(cfg.newBadgeDays) || 0};if(!D)return;var now=Date.now()+9*36e5,day=864e5;document.querySelectorAll('a[data-d]').forEach(function(a){var t=Date.parse(a.getAttribute('data-d')+'T00:00:00Z');if(isNaN(t))return;var age=Math.floor(now/day)-Math.floor(t/day);if(age<0||age>=D)return;var host=a.querySelector('img')?a.querySelector('span'):a;if(!host)return;var b=document.createElement('span');b.className='new-badge';b.textContent='NEW';b.setAttribute('aria-label','새 글');var tn=host.lastChild;if(tn&&tn.nodeType===3){var m=tn.nodeValue.match(/^([\s\S]*?)(\S+)(\s*)$/);if(m){tn.nodeValue=m[1];var k=document.createElement('span');k.className='nb-keep';k.textContent=m[2];k.appendChild(b);host.appendChild(k);return}}host.appendChild(b)})})();</script>
-<script>(function(){var n=document.querySelector('.mainnav,.compact');if(!n)return;var t=n.offsetTop;function f(){n.classList.toggle('stuck',window.scrollY>t)}addEventListener('scroll',f,{passive:true});f()})();</script>
+<script>(function(){var n=document.querySelector('.mainnav,.compact');if(!n)return;function f(){n.classList.toggle('stuck',window.scrollY>0&&n.getBoundingClientRect().top<=0)}addEventListener('scroll',f,{passive:true});addEventListener('pageshow',f);addEventListener('resize',f);f()})();</script>
 <script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 </body>
 </html>`;
