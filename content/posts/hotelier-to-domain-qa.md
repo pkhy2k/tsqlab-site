@@ -4,7 +4,6 @@ subtitle: 키오스크가 프런트를 대신하는 시대, 현장 경험은 사
 category: tourism-policy
 author: research
 thumbnail: /images/posts/hotelier-to-domain-qa.jpg
-card: /images/cards/hotelier-to-domain-qa.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 summary: 호텔 업무의 디지털 전환은 서비스 인력에게 위기이자 새로운 진로의 출발점이다. 특정 업무 시스템을 전문으로 하는 도메인 QA 직무와, 서비스 경험을 품질관리의 언어로 번역하는 방법, 교육과 인력 정책에 주는 시사점을 살펴본다.

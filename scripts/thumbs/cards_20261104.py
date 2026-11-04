@@ -1,5 +1,6 @@
-"""기존 글 28편의 미리보기 카드 이미지(목록·홈·SNS 공유용) 생성
+"""기존 글의 미리보기 카드 이미지(목록·홈·SNS 공유용) 생성
 본문 상단 이미지(thumbnail)는 그대로 두고, 미리보기용 card 이미지만 새 템플릿으로 만든다.
+관광정책·트렌드 글은 전문성을 보여 주기 위해 card를 만들지 않고 기존 차트 이미지를 미리보기에도 쓴다(소장 결정).
 사용법: python3 scripts/thumbs/cards_20261104.py <출력 폴더(png)>
 """
 import sys
@@ -15,12 +16,8 @@ C = {
  'hotel-brand-portfolio-2026': compare('hotel-resort', '호텔 브랜드 재편의 두 방향', ('위로', '하이엔드로 재개관', 'star'), ('옆으로', '인수·전환으로 지방 확장', 'pin')),
  'hotel-data-ai-agent': keyword('hotel-it-qa', ['AI에 넣기 전', '확인할 것'], '호텔 고객 데이터와 개인정보', 'shield'),
  'hotel-dates-test-design': steps('hotel-it-qa', '호텔 날짜가 어긋나는 세 지점', [('calendar', '영업일자', '나이트 오디트 전후'), ('bed', '숙박일', '밤 단위 계산'), ('globe', '시간대', '해외 채널 연동')]),
- 'hotel-grading-reform-2026': keyword('tourism-policy', ['호텔 등급평가,', '무엇이 바뀌었나'], '개인정보 보호가 평가 항목이 되다', 'shield'),
  'hotel-kiosk-quality-checklist': stat('hotel-it-qa', '461명', '호텔 키오스크 이용객 분석', '오류 없는 기능만으로는 충분하지 않다', 'kiosk'),
- 'hotelier-to-domain-qa': compare('tourism-policy', '서비스 인력에게 열리는 경로', ('호텔리어', '현장 서비스 경험', 'hotel'), ('도메인 QA', '업무 시스템 품질관리', 'check')),
- 'inbound-tourists-stay-quality-2026': stat('tourism-policy', '+21.5%', '1~9월 방한 외래관광객', '늘어난 방문, 줄어든 체류', 'plane'),
  'kiosk-failure-service-recovery': steps('service-quality', '셀프서비스가 실패할 때', [('kiosk', '기기 오류', '예약을 찾지 못함'), ('users', '직원 연결', '사람에게 넘김'), ('check', '회복', '설명·사과·보상')]),
- 'kiosk-service-gap-barrier-free': keyword('tourism-policy', ['키오스크가 만드는', '서비스 격차'], '디지털 역량에 따라 달라지는 경험', 'users'),
  'lodging-q3-2026-price-led-growth': stat('hotel-resort', '+10.1%', '호텔·리조트 객실당 매출', '대부분 객실 단가 인상에서 · 2026년 3분기', 'chartup'),
  'new-book-qa-with-ai-agent': keyword('hotel-it-qa', ['비전공자를 위한', 'QA 입문서 출간'], '『이제 QA, AI Agent랑 같이 합시다』', 'doc'),
  'report-ai-agent-qa-workflow': compare('report', 'AI 에이전트와 함께하는 QA', ('맡길 일', '문서 정리·빠진 것 찾기', 'doc'), ('판단할 일', '실행과 판정은 사람이', 'check')),
