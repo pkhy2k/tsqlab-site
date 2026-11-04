@@ -308,12 +308,12 @@ ${others.map((p) => `<a href="${p.url}" class="item">${esc(p.title)}</a>`).join(
   const picks = (posts.filter((p) => p.pick === true).length ? posts.filter((p) => p.pick === true) : posts).slice(0, 5);
   const body = `${headerHome()}
 <main id="main" class="wrap main">
-${lead ? `<section class="lead-row" aria-label="주요 기사">
-<article class="lead">${thumb(lead, 'wide')}${catLabel(lead)}
+${lead ? `<section class="lead-wrap" aria-label="주요 기사"><div class="sec-head lead-head"><h2>주요 정책 이슈</h2><a href="/category/${esc(lead.category)}/">${esc(catBySlug[lead.category]?.name || '')} 전체 보기</a></div>
+<div class="lead-row"><article class="lead">${thumb(lead, 'wide')}${catLabel(lead)}
 <h1><a href="${lead.url}">${esc(lead.title)}</a></h1>
-${lead.subtitle ? `<p class="dek">${esc(lead.subtitle)}</p>` : ''}<span class="meta">${byline(lead)}</span></article>
-${side.length ? `<div class="side-list">${side.map((p) => `<article>${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><span class="meta">${byline(p)}</span></article>`).join('')}</div>` : ''}
-</section>` : '<p>게시된 글이 없다.</p>'}
+${lead.subtitle ? `<p class="dek">${esc(lead.subtitle)}</p>` : ''}${lead.excerpt ? `<p class="lead-sum">${esc(lead.excerpt)}</p>` : ''}<div class="lead-foot"><span class="meta">${byline(lead)}</span><a class="lead-more" data-nonew href="${lead.url}">기사 읽기 →</a></div></article>
+${side.length ? `<div class="side-list">${side.map((p, i) => `<article><span class="side-no">${String(i + 1).padStart(2, '0')}</span><div>${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><span class="meta">${byline(p)}</span></div></article>`).join('')}</div>` : ''}
+</div></section>` : '<p>게시된 글이 없다.</p>'}
 <section class="cols" aria-label="분야별 글">${sections}</section>
 ${cfg.home?.showDirectorBand === false ? '' : `<section class="column-band" aria-label="${col ? '소장 칼럼' : '소장 소개'}">
 <div class="portrait">${dir.photo ? `<img src="${esc(dir.photo)}" alt="${esc(dir.name)} 소장">` : ''}</div>
