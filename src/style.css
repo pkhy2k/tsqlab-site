@@ -71,8 +71,10 @@ h1, h2, h3 { margin: 0; }
 .side-list { flex: 1 1 300px; min-width: 0; border-top: 1px solid var(--rule); }
 .side-list article { padding: 18px 0; border-bottom: 1px solid var(--rule); display: flex; flex-direction: column; gap: 8px; }
 .side-list h2 { font-family: var(--serif); font-size: 20px; line-height: 1.45; }
-.cols { display: flex; flex-wrap: wrap; gap: 36px; }
-.col { flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+@media (max-width: 1000px) { .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+.col { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
 .col .sec-head { margin-bottom: 0; }
 .item-lg { display: block; font-weight: 700; font-size: 17px; line-height: 1.5; }
 .item { font-size: 15px; line-height: 1.5; color: var(--sub); padding-top: 10px; border-top: 1px solid var(--rule); }

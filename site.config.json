@@ -164,6 +164,10 @@
   "home": {
     "showDirectorBand": false,
     "showBooks": false,
-    "navBooks": false
+    "navBooks": false,
+    "focusCategories": [
+      "tourism-policy",
+      "hotel-resort"
+    ]
   }
 }

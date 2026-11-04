@@ -262,8 +262,9 @@ function pageHome(posts) {
     || (cfg.leadCategory && posts.find((p) => p.category === cfg.leadCategory))
     || posts[0];
   const rest = posts.filter((p) => p !== lead);
-  // 곁 기사: 메인 분류(관광정책·트렌드) 외 분야의 최신 글. 관광정책 글은 아래 분야 묶음 첫 칸에 이어서 보인다
-  const side = rest.filter((p) => !['column', 'report', cfg.leadCategory].includes(p.category)).slice(0, 3);
+  // 곁 기사: 중점 분류(관광정책·트렌드, 호텔 & 리조트) 외 분야의 최신 글. 중점 분류 글은 아래 분야 묶음 앞쪽 칸에 보인다
+  const focus = cfg.home?.focusCategories || [cfg.leadCategory];
+  const side = rest.filter((p) => !['column', 'report', ...focus].includes(p.category)).slice(0, 3);
   const shown = new Set([lead, ...side]);
   const sections = cfg.homeSections.map((slug) => {
     const c = catBySlug[slug];
