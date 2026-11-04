@@ -165,6 +165,6 @@
     "showBooks": false,
     "navBooks": false,
     "columnStrip": false,
-    "columnFilter": false
+    "columnFilter": true
   }
 }
