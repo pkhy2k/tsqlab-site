@@ -18,6 +18,7 @@ const esc = (s = '') => String(s)
 const fmtDate = (d) => (d ? d.replaceAll('-', '.') : '');
 // 신규 글 표시: 글 링크에 게시일(data-d)을 달고, 브라우저에서 최근 N일 이내 글에 NEW 표시
 const DATE_BY_SLUG = {};
+const CAT_USED = new Set(); // 글이 하나라도 있는 분류만 메뉴에 표시
 const markNew = (html) => html.replace(/<a ([^>]*?)href="\/posts\/([a-z0-9-]+)\/"/g,
   (m, pre, slug) => (DATE_BY_SLUG[slug] && !/aria-hidden|tabindex="-1"|data-nonew/.test(pre) ? `<a ${pre}href="/posts/${slug}/" data-d="${DATE_BY_SLUG[slug]}"` : m));
 const write = (rel, content) => {
@@ -183,7 +184,7 @@ const contactEmail = () => {
 const logoMeaning = () => `<figure class="logo-meaning">${logo(76)}<figcaption>연구소의 로고는 손님을 맞이하는 아치형 문과 그 안에서 점차 높아지는 세 개의 막대로 이루어져 있다. 문은 환대의 관문인 서비스 현장을, 세 막대는 정책·산업·품질이라는 연구의 세 축을 뜻하며, 오른쪽으로 갈수록 높아지는 모양은 서비스의 지속적인 개선을 상징한다. 주황색으로 강조한 마지막 막대는 연구가 지향하는 유의미한 시사점을, 남색과 주황색은 각각 학술 연구의 신뢰와 현장의 환대를 나타낸다.</figcaption></figure>`;
 const logo = (size) => `<svg class="logo" width="${size}" height="${Math.round(size * 372 / 380)}" viewBox="130 50 380 372" aria-hidden="true"><path d="M180 397 V210 A140 140 0 0 1 460 210 V397" fill="none" stroke="currentColor" stroke-width="16"/><rect x="137" y="398" width="366" height="16" fill="currentColor"/><rect x="233" y="312" width="47" height="86" fill="currentColor"/><rect x="297" y="265" width="47" height="133" fill="currentColor"/><rect x="360" y="209" width="47" height="189" fill="var(--logo-orange)"/></svg>`;
 const searchBtn = `<a class="icon-btn" href="/search/" aria-label="글 검색"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a>`;
-const navLinks = (active) => cfg.categories.map((c) =>
+const navLinks = (active) => cfg.categories.filter((c) => !CAT_USED.size || CAT_USED.has(c.slug)).map((c) =>
   `<a href="/category/${c.slug}/"${c.slug === active ? ' class="active" aria-current="page"' : ''}>${esc(c.name)}</a>`).join('') + (cfg.home?.navBooks === false ? '' : '<a href="/books/">출판</a>');
 
 function headerHome() {
@@ -260,7 +261,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(
 ${body}
 ${footer()}
 <script>(function(){var D=${Number(cfg.newBadgeDays) || 0};if(!D)return;var now=Date.now()+9*36e5,day=864e5;document.querySelectorAll('a[data-d]').forEach(function(a){var t=Date.parse(a.getAttribute('data-d')+'T00:00:00Z');if(isNaN(t))return;var age=Math.floor(now/day)-Math.floor(t/day);if(age<0||age>=D)return;var host=a.querySelector('img')?a.querySelector('span'):a;if(!host)return;var b=document.createElement('span');b.className='new-badge';b.textContent='NEW';b.setAttribute('aria-label','새 글');var tn=host.lastChild;if(tn&&tn.nodeType===3){var m=tn.nodeValue.match(/^([\s\S]*?)(\S+)(\s*)$/);if(m){tn.nodeValue=m[1];var k=document.createElement('span');k.className='nb-keep';k.textContent=m[2];k.appendChild(b);host.appendChild(k);return}}host.appendChild(b)})})();</script>
-<script>(function(){var n=document.querySelector('.mainnav,.compact');if(!n)return;function f(){n.classList.toggle('stuck',window.scrollY>0&&n.getBoundingClientRect().top<=0)}addEventListener('scroll',f,{passive:true});addEventListener('pageshow',f);addEventListener('resize',f);f()})();</script><script>(function(){var a=document.querySelector('.aside');if(!a)return;function g(){var h=document.querySelector('.compact,.mainnav');var t=(h?h.offsetHeight:0)+24;a.style.setProperty('--aside-top',Math.min(t,window.innerHeight-a.offsetHeight-24)+'px')}addEventListener('resize',g);addEventListener('load',g);g()})();</script>
+<script>(function(){var n=document.querySelector('.mainnav,.compact');if(!n)return;function f(){n.classList.toggle('stuck',window.scrollY>0&&n.getBoundingClientRect().top<=0)}addEventListener('scroll',f,{passive:true});addEventListener('pageshow',f);addEventListener('resize',f);f()})();</script><script>(function(){document.querySelectorAll('.drag-row').forEach(function(r){var down=false,moved=false,sx=0,sl=0;r.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;moved=false;sx=e.clientX;sl=r.scrollLeft;r.classList.add('dragging')});addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>4)moved=true;r.scrollLeft=sl-dx});addEventListener('pointerup',function(){if(!down)return;down=false;r.classList.remove('dragging');var w=r.querySelector('.report');if(w){var step=w.offsetWidth+24;r.scrollTo({left:Math.round(r.scrollLeft/step)*step,behavior:'smooth'})}});r.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);r.addEventListener('keydown',function(e){var w=r.querySelector('.report');if(!w)return;var step=w.offsetWidth+24;if(e.key==='ArrowRight'){r.scrollBy({left:step,behavior:'smooth'})}if(e.key==='ArrowLeft'){r.scrollBy({left:-step,behavior:'smooth'})}})})})();</script><script>(function(){var a=document.querySelector('.aside');if(!a)return;function g(){var h=document.querySelector('.compact,.mainnav');var t=(h?h.offsetHeight:0)+24;a.style.setProperty('--aside-top',Math.min(t,window.innerHeight-a.offsetHeight-24)+'px')}addEventListener('resize',g);addEventListener('load',g);g()})();</script>
 <script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 </body>
 </html>`;
@@ -303,7 +304,7 @@ ${others.map((p) => `<a href="${p.url}" class="item">${esc(p.title)}</a>`).join(
   }).join('');
   const col = posts.find((p) => p.category === 'column');
   const dir = cfg.authors.director;
-  const reports = posts.filter((p) => p.category === 'report').slice(0, 2);
+  const homeCols = posts.filter((p) => p.category === 'column' && p !== col);
   const picks = (posts.filter((p) => p.pick === true).length ? posts.filter((p) => p.pick === true) : posts).slice(0, 5);
   const body = `${headerHome()}
 <main id="main" class="wrap main">
@@ -321,10 +322,10 @@ ${col ? `<div class="column-text"><span class="eyebrow">DIRECTOR'S COLUMN</span>
   : `<div class="column-text"><span class="eyebrow">DIRECTOR</span><h2><a href="/about/">${esc(dir.name)}</a></h2>
 <p>${esc(dir.title)}</p><span class="meta-inv"><a href="/about/" class="inv-link">연구소 소개 보기 ›</a></span></div>`}</section>`}
 ${cfg.home?.columnStrip ? columnStrip(posts, 'link') : ''}
-<section class="split" aria-label="리포트와 추천 글">
-<div class="split-main"><div class="sec-head"><h2>리포트</h2><a href="/category/report/">더보기</a></div>
-<div class="reports">${reports.length ? reports.map((p) => `<article class="report"><a class="cover" href="${p.url}" tabindex="-1" aria-hidden="true">${p.cover || p.thumbnail ? `<img src="${esc(p.cover || p.thumbnail)}" alt="">` : '<span>REPORT</span>'}</a>
-<div><span class="cat-static">REPORT</span><a href="${p.url}" class="item-lg">${esc(p.title)}</a><span class="meta">${fmtDate(p.date)}</span></div></article>`).join('') : '<p class="muted">리포트를 준비 중이다.</p>'}</div></div>
+<section class="split" aria-label="칼럼과 추천 글">
+<div class="split-main"><div class="sec-head"><h2>칼럼</h2><span class="cs-head-r"><span class="drag-hint" aria-hidden="true">좌우로 넘겨 보기</span><a href="/category/column/">더보기</a></span></div>
+<div class="reports drag-row" tabindex="0" aria-label="칼럼 목록, 좌우로 넘겨 볼 수 있음">${homeCols.length ? homeCols.map((p) => `<article class="report"><a class="cover" href="${p.url}" tabindex="-1" aria-hidden="true" draggable="false">${p.cover || p.thumbnail ? `<img src="${esc(p.cover || p.thumbnail)}" alt="" draggable="false">` : '<span>COLUMN</span>'}</a>
+<div><span class="cat-static">COLUMN</span><a href="${p.url}" class="item-lg" draggable="false">${esc(p.title)}</a><span class="meta">${esc((cfg.authors[p.author] || {}).name || '')} · ${fmtDate(p.date)}</span></div></article>`).join('') : '<p class="muted">칼럼을 준비 중이다.</p>'}</div></div>
 <div class="split-side"><div class="sec-head"><h2>추천 글</h2></div>
 <ol class="ranked">${picks.map((p) => `<li><a href="${p.url}">${esc(p.title)}</a></li>`).join('')}</ol></div>
 </section>
@@ -575,7 +576,7 @@ ${urls.map((u) => `<url><loc>${SITE_URL}${u.loc}</loc>${u.mod ? `<lastmod>${u.mo
 // ---------- 실행 ----------
 fs.rmSync(DIST, { recursive: true, force: true });
 const posts = loadPosts();
-posts.forEach((p) => { DATE_BY_SLUG[p.slug || p.url.split('/')[2]] = p.date; });
+posts.forEach((p) => { DATE_BY_SLUG[p.slug || p.url.split('/')[2]] = p.date; CAT_USED.add(p.category); });
 const pages = loadPages();
 if (errors.length) {
   console.error('빌드 중단 — 콘텐츠 오류:\n' + errors.map((e) => ' - ' + e).join('\n'));
