@@ -257,7 +257,10 @@ ${meta ? `<p class="meta">${meta}</p>` : ''}${b.summary ? `<p>${esc(b.summary)}<
 
 // ---------- 페이지 ----------
 function pageHome(posts) {
-  const lead = posts.find((p) => p.featured === true) || posts[0];
+  // 메인 기사: featured 지정 글 → 최신 관광정책·트렌드 글(cfg.leadCategory) → 최신 글 순
+  const lead = posts.find((p) => p.featured === true)
+    || (cfg.leadCategory && posts.find((p) => p.category === cfg.leadCategory))
+    || posts[0];
   const rest = posts.filter((p) => p !== lead);
   const side = rest.filter((p) => !['column', 'report'].includes(p.category)).slice(0, 3);
   const sections = cfg.homeSections.map((slug) => {
