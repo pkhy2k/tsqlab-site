@@ -158,6 +158,11 @@ function loadPages() {
 
 // ---------- 공통 조각 ----------
 // 로고: 아치 + 상승하는 막대 3개 (마지막 막대 주황)
+const publications = () => `<div class="pubs">${cfg.books.map((b) => {
+  const meta = [b.author && `${esc(b.author)} 지음`, b.publisher && esc(b.publisher), b.date && `${fmtDate(b.date)} ${esc(b.status || '출간')}`, b.pages && esc(b.pages)].filter(Boolean).join(' · ');
+  const links = [b.post && `<a data-nonew href="${esc(b.post)}">신간 소개 기사 ›</a>`, `<a href="/books/">출판 페이지 ›</a>`, ...(b.links || []).map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}에서 보기 ›</a>`)].filter(Boolean).join('');
+  return `<article class="pub">${b.cover ? `<img src="${esc(b.cover)}" alt="${esc(b.title)} 표지">` : ''}<div><span class="pub-tag">저서</span><h3>『${esc(b.title)}』</h3><span class="pub-meta">${meta}</span>${b.summary ? `<p>${esc(b.summary)}</p>` : ''}<span class="pub-links">${links}</span></div></article>`;
+}).join('')}</div>`;
 const aboutCta = () => `<div class="about-cta"><div class="about-cta-text"><strong>학계와 현장을 잇는 연구에 함께해 주세요</strong><p>관광·호텔 분야 연구자와 실무자의 회원가입과 원고 투고, 기고·인터뷰 및 공동 연구 제안을 기다립니다.</p></div><div class="book-actions"><a class="btn-solid" href="/join/">회원가입</a><a class="btn-line" href="/contact/">문의하기</a></div></div>`;
 const joinCta = () => `<div class="about-cta"><div class="about-cta-text"><strong>연구소 회원으로 함께해 주세요</strong><p>관광·호텔 분야 연구자와 실무자는 회원으로 가입하여 원고를 투고하고 연구에 참여할 수 있습니다.</p></div><div class="book-actions"><a class="btn-solid" href="/join/">회원가입 안내</a></div></div>`;
 const CONTACT_TYPES = [
@@ -204,7 +209,7 @@ function footer() {
 <strong>${esc(cfg.name)}</strong>
 <span>비영리 학술연구 단체 · 소장 ${esc(b.director)}${b.email ? ` · 이메일 <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ''}</span>
 <span>© ${esc(cfg.name)}. 무단 전재 및 재배포 금지.</span></div>
-<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a>${cfg.home?.navBooks === false ? '<a href="/books/">출판</a>' : ''}<a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
+<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
 }
 function thumb(p, ratio = 'wide', linked = true) {
   // 목록·홈 미리보기는 card(미리보기 전용 이미지)를 먼저 쓰고, 없으면 본문 이미지(thumbnail)를 쓴다
@@ -540,7 +545,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('join-tpl'));var s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent='양식을 선택했습니다. 복사해 주십시오.'}})})();</script>`;
 }
 function pageStatic(pg) {
-  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning()).replace('<p>{{aboutCta}}</p>', aboutCta()).replace('<p>{{contactCards}}</p>', contactCards()).replace('<p>{{contactEmail}}</p>', contactEmail()).replace('<p>{{joinCta}}</p>', joinCta());
+  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning()).replace('<p>{{aboutCta}}</p>', aboutCta()).replace('<p>{{publications}}</p>', publications()).replace('<p>{{contactCards}}</p>', contactCards()).replace('<p>{{contactEmail}}</p>', contactEmail()).replace('<p>{{joinCta}}</p>', joinCta());
   const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">${esc(pg.title)}</h1><div class="prose">${html}</div></main>`;
   return layout({ title: pg.title, description: pg.description, pathname: `/${pg.slug}/`, body });
 }
