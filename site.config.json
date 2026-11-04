@@ -161,9 +161,10 @@
     }
   ],
   "home": {
-    "showDirectorBand": false,
+    "showDirectorBand": true,
     "showBooks": false,
     "navBooks": false,
-    "columnStrip": true
+    "columnStrip": false,
+    "columnFilter": false
   }
 }

@@ -417,7 +417,7 @@ if(p){p.addEventListener('click',function(){go(i-1)});q.addEventListener('click'
 
 function pageCategory(c, posts) {
   const list = posts.filter((p) => p.category === c.slug);
-  const isCol = c.slug === 'column';
+  const isCol = c.slug === 'column' && cfg.home?.columnFilter !== false;   // 연구자별 칼럼 필터(필자가 여러 명이 되면 켠다)
   const filterUi = isCol ? `${columnStrip(posts, 'filter')}<p class="cs-status muted small" role="status" aria-live="polite" hidden><span></span> <button type="button" class="cs-all">전체 칼럼 보기</button></p>` : '';
   const filterJs = isCol ? `<script>(function(){var rows=[].slice.call(document.querySelectorAll('.row[data-author]')),cards=[].slice.call(document.querySelectorAll('.cs-card[data-author]')),st=document.querySelector('.cs-status'),names=${JSON.stringify(Object.fromEntries(Object.entries(cfg.authors).map(([k, v]) => [k, v.name]))).replace(/</g, '\\u003c')};
 function apply(a){var c=0;rows.forEach(function(r){var on=!a||r.getAttribute('data-author')===a;r.hidden=!on;if(on)c++});cards.forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-author')===a))});
