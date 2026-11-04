@@ -5,6 +5,7 @@ category: column
 author: director
 thumbnail: /images/posts/column-housekeeping-seven-principles.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
+cover: /images/posts/column-housekeeping-seven-principles-cover.jpg
 date: 2026-11-01
 summary: ISTQB가 정리한 소프트웨어 테스트 7원칙을 객실 점검, 민원 객실, 5성급과 비즈니스 호텔의 기준 차이 같은 호텔 현장의 언어로 다시 읽는다. 품질을 다루는 원리는 산업을 넘어 통한다.
 tags: [칼럼, 소장칼럼, 테스트원칙, ISTQB, 서비스품질, 하우스키핑]
