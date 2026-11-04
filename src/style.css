@@ -402,7 +402,7 @@ button.cs-card[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--accent); p
 
 /* 홈 메인 기사 강조 */
 .lead-wrap { display: flex; flex-direction: column; }
-.lead-head { margin-bottom: 20px; }
+.lead-head { margin-bottom: 6px; }
 .lead .thumb.wide { border: 1px solid var(--rule); }
 .lead h1 { font-size: clamp(28px, 3.8vw, 40px); line-height: 1.32; }
 .lead .dek { font-size: 18px; line-height: 1.6; color: var(--ink); margin: 0; }
@@ -412,5 +412,6 @@ button.cs-card[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--accent); p
 .lead-row .side-list { border-top: 0; }
 .lead-row .side-list article { flex-direction: row; gap: 16px; align-items: flex-start; }
 .lead-row .side-list article > div { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.lead-row .side-list article:first-child { padding-top: 0; }
+.lead-row .side-list .sec-head + article { padding-top: 10px; }
+.lead-row .side-list article[hidden] { display: none; }
 .side-no { flex: none; font-family: var(--serif); font-size: 26px; font-weight: 700; line-height: 1; color: var(--logo-orange); min-width: 34px; }

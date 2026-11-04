@@ -261,7 +261,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(
 ${body}
 ${footer()}
 <script>(function(){var D=${Number(cfg.newBadgeDays) || 0};if(!D)return;var now=Date.now()+9*36e5,day=864e5;document.querySelectorAll('a[data-d]').forEach(function(a){var t=Date.parse(a.getAttribute('data-d')+'T00:00:00Z');if(isNaN(t))return;var age=Math.floor(now/day)-Math.floor(t/day);if(age<0||age>=D)return;var host=a.querySelector('img')?a.querySelector('span'):a;if(!host)return;var b=document.createElement('span');b.className='new-badge';b.textContent='NEW';b.setAttribute('aria-label','새 글');var tn=host.lastChild;if(tn&&tn.nodeType===3){var m=tn.nodeValue.match(/^([\s\S]*?)(\S+)(\s*)$/);if(m){tn.nodeValue=m[1];var k=document.createElement('span');k.className='nb-keep';k.textContent=m[2];k.appendChild(b);host.appendChild(k);return}}host.appendChild(b)})})();</script>
-<script>(function(){var n=document.querySelector('.mainnav,.compact');if(!n)return;function f(){n.classList.toggle('stuck',window.scrollY>0&&n.getBoundingClientRect().top<=0)}addEventListener('scroll',f,{passive:true});addEventListener('pageshow',f);addEventListener('resize',f);f()})();</script><script>(function(){document.querySelectorAll('.drag-row').forEach(function(r){var down=false,moved=false,sx=0,sl=0;r.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;moved=false;sx=e.clientX;sl=r.scrollLeft;r.classList.add('dragging')});addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>4)moved=true;r.scrollLeft=sl-dx});addEventListener('pointerup',function(){if(!down)return;down=false;r.classList.remove('dragging');var w=r.querySelector('.report');if(w){var step=w.offsetWidth+24;r.scrollTo({left:Math.round(r.scrollLeft/step)*step,behavior:'smooth'})}});r.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);r.addEventListener('keydown',function(e){var w=r.querySelector('.report');if(!w)return;var step=w.offsetWidth+24;if(e.key==='ArrowRight'){r.scrollBy({left:step,behavior:'smooth'})}if(e.key==='ArrowLeft'){r.scrollBy({left:-step,behavior:'smooth'})}})})})();</script><script>(function(){var a=document.querySelector('.aside');if(!a)return;function g(){var h=document.querySelector('.compact,.mainnav');var t=(h?h.offsetHeight:0)+24;a.style.setProperty('--aside-top',Math.min(t,window.innerHeight-a.offsetHeight-24)+'px')}addEventListener('resize',g);addEventListener('load',g);g()})();</script>
+<script>(function(){var n=document.querySelector('.mainnav,.compact');if(!n)return;function f(){n.classList.toggle('stuck',window.scrollY>0&&n.getBoundingClientRect().top<=0)}addEventListener('scroll',f,{passive:true});addEventListener('pageshow',f);addEventListener('resize',f);f()})();</script><script>(function(){var L=document.querySelector('.lead'),S=document.querySelector('.lead-row .side-list');if(!L||!S)return;var items=[].slice.call(S.querySelectorAll('article'));function fit(){items.forEach(function(a){a.hidden=false});var side=S.offsetTop===L.offsetTop;if(!side){items.forEach(function(a,i){a.hidden=i>=3});return}var max=L.lastElementChild.getBoundingClientRect().bottom-L.getBoundingClientRect().top+40,h=S.querySelector('.sec-head').offsetHeight+6;items.forEach(function(a,i){if(i<3){h+=a.offsetHeight;return}h+=a.offsetHeight;if(h>max)a.hidden=true})}addEventListener('load',fit);addEventListener('resize',fit);fit()})();</script><script>(function(){document.querySelectorAll('.drag-row').forEach(function(r){var down=false,moved=false,sx=0,sl=0;r.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;moved=false;sx=e.clientX;sl=r.scrollLeft;r.classList.add('dragging')});addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>4)moved=true;r.scrollLeft=sl-dx});addEventListener('pointerup',function(){if(!down)return;down=false;r.classList.remove('dragging');var w=r.querySelector('.report');if(w){var step=w.offsetWidth+24;r.scrollTo({left:Math.round(r.scrollLeft/step)*step,behavior:'smooth'})}});r.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);r.addEventListener('keydown',function(e){var w=r.querySelector('.report');if(!w)return;var step=w.offsetWidth+24;if(e.key==='ArrowRight'){r.scrollBy({left:step,behavior:'smooth'})}if(e.key==='ArrowLeft'){r.scrollBy({left:-step,behavior:'smooth'})}})})})();</script><script>(function(){var a=document.querySelector('.aside');if(!a)return;function g(){var h=document.querySelector('.compact,.mainnav');var t=(h?h.offsetHeight:0)+24;a.style.setProperty('--aside-top',Math.min(t,window.innerHeight-a.offsetHeight-24)+'px')}addEventListener('resize',g);addEventListener('load',g);g()})();</script>
 <script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 </body>
 </html>`;
@@ -291,8 +291,10 @@ function pageHome(posts) {
   const rest = posts.filter((p) => p !== lead);
   // 곁 기사: 메인 기사에 이어지는 관광정책·트렌드 최신 글(부족하면 다른 분야로 채움)
   const sidePool = rest.filter((p) => !['column', 'report'].includes(p.category));
-  const side = [...sidePool.filter((p) => p.category === cfg.leadCategory), ...sidePool.filter((p) => p.category !== cfg.leadCategory)].slice(0, 3);
-  const shown = new Set([lead, ...side]);
+  // 분야 묶음은 메인 기사만 빼고 채우고, 오른쪽 추천 글은 홈의 다른 곳에 나오지 않는 글을 최신순으로(화면에서 메인 기사 높이에 맞춰 개수 조정)
+  const shown = new Set([lead]);
+  const sectionShown = new Set(cfg.homeSections.flatMap((slug) => posts.filter((p) => p.category === slug && p !== lead).slice(0, 4)));
+  const side = sidePool.filter((p) => !sectionShown.has(p) && !p.tags.includes('신간')).slice(0, 10); // 출간 기사는 추천에서 제외(소장 결정)
   const sections = cfg.homeSections.map((slug) => {
     const c = catBySlug[slug];
     const list = posts.filter((p) => p.category === slug && !shown.has(p)).slice(0, 4);
@@ -305,14 +307,14 @@ ${others.map((p) => `<a href="${p.url}" class="item">${esc(p.title)}</a>`).join(
   const col = posts.find((p) => p.category === 'column');
   const dir = cfg.authors.director;
   const homeCols = posts.filter((p) => p.category === 'column' && p !== col);
-  const picks = (posts.filter((p) => p.pick === true).length ? posts.filter((p) => p.pick === true) : posts).slice(0, 5);
+  const picks = posts.filter((p) => p.category === 'column').slice(0, 5); // 추천 칼럼: 별도 요청 전까지 최신순
   const body = `${headerHome()}
 <main id="main" class="wrap main">
-${lead ? `<section class="lead-wrap" aria-label="주요 기사"><div class="sec-head lead-head"><h2>주요 정책 이슈</h2><a href="/category/${esc(lead.category)}/">${esc(catBySlug[lead.category]?.name || '')} 전체 보기</a></div>
-<div class="lead-row"><article class="lead">${thumb(lead, 'wide')}${catLabel(lead)}
+${lead ? `<section class="lead-wrap" aria-label="주요 기사">
+<div class="lead-row"><article class="lead"><div class="sec-head lead-head"><h2>주요 정책 이슈</h2><a href="/category/${esc(lead.category)}/">${esc(catBySlug[lead.category]?.name || '')} 전체 보기</a></div>${thumb(lead, 'wide')}${catLabel(lead)}
 <h1><a href="${lead.url}">${esc(lead.title)}</a></h1>
 ${lead.subtitle ? `<p class="dek">${esc(lead.subtitle)}</p>` : ''}${lead.excerpt ? `<p class="lead-sum">${esc(lead.excerpt)}</p>` : ''}<div class="lead-foot"><span class="meta">${byline(lead)}</span><a class="lead-more" data-nonew href="${lead.url}">기사 읽기 →</a></div></article>
-${side.length ? `<div class="side-list">${side.map((p, i) => `<article><span class="side-no">${String(i + 1).padStart(2, '0')}</span><div>${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><span class="meta">${byline(p)}</span></div></article>`).join('')}</div>` : ''}
+${side.length ? `<div class="side-list"><div class="sec-head lead-head"><h2>추천 글</h2></div>${side.map((p, i) => `<article><span class="side-no">${String(i + 1).padStart(2, '0')}</span><div>${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><span class="meta">${byline(p)}</span></div></article>`).join('')}</div>` : ''}
 </div></section>` : '<p>게시된 글이 없다.</p>'}
 <section class="cols" aria-label="분야별 글">${sections}</section>
 ${cfg.home?.showDirectorBand === false ? '' : `<section class="column-band" aria-label="${col ? '소장 칼럼' : '소장 소개'}">
@@ -322,11 +324,11 @@ ${col ? `<div class="column-text"><span class="eyebrow">DIRECTOR'S COLUMN</span>
   : `<div class="column-text"><span class="eyebrow">DIRECTOR</span><h2><a href="/about/">${esc(dir.name)}</a></h2>
 <p>${esc(dir.title)}</p><span class="meta-inv"><a href="/about/" class="inv-link">연구소 소개 보기 ›</a></span></div>`}</section>`}
 ${cfg.home?.columnStrip ? columnStrip(posts, 'link') : ''}
-<section class="split" aria-label="칼럼과 추천 글">
+<section class="split" aria-label="칼럼과 추천 칼럼">
 <div class="split-main"><div class="sec-head"><h2>칼럼</h2><span class="cs-head-r"><span class="drag-hint" aria-hidden="true">좌우로 넘겨 보기</span><a href="/category/column/">더보기</a></span></div>
 <div class="reports drag-row" tabindex="0" aria-label="칼럼 목록, 좌우로 넘겨 볼 수 있음">${homeCols.length ? homeCols.map((p) => `<article class="report"><a class="cover" href="${p.url}" tabindex="-1" aria-hidden="true" draggable="false">${p.cover || p.thumbnail ? `<img src="${esc(p.cover || p.thumbnail)}" alt="" draggable="false">` : '<span>COLUMN</span>'}</a>
 <div><span class="cat-static">COLUMN</span><a href="${p.url}" class="item-lg" draggable="false">${esc(p.title)}</a><span class="meta">${esc((cfg.authors[p.author] || {}).name || '')} · ${fmtDate(p.date)}</span></div></article>`).join('') : '<p class="muted">칼럼을 준비 중이다.</p>'}</div></div>
-<div class="split-side"><div class="sec-head"><h2>추천 글</h2></div>
+<div class="split-side"><div class="sec-head"><h2>추천 칼럼</h2></div>
 <ol class="ranked">${picks.map((p) => `<li><a href="${p.url}">${esc(p.title)}</a></li>`).join('')}</ol></div>
 </section>
 ${cfg.home?.showBooks === false ? '' : `<section aria-label="출판"><div class="sec-head"><h2>출판</h2><a href="/books/">전체 보기</a></div>
