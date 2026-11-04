@@ -157,7 +157,7 @@ function loadPages() {
 
 // ---------- 공통 조각 ----------
 // 로고: 아치 + 상승하는 막대 3개 (마지막 막대 주황)
-const logoMeaning = () => `<figure class="logo-meaning">${logo(76)}<figcaption>연구소의 로고는 손님을 맞이하는 아치형 문과 그 안에서 점차 높아지는 세 개의 막대로 이루어져 있다. 문은 환대의 관문인 서비스 현장을, 세 막대는 관광정책·서비스품질·호텔 IT라는 연구 영역과 품질의 지속적인 개선을 뜻한다. 주황색으로 강조한 마지막 막대는 연구가 지향하는 유의미한 시사점을, 남색과 주황색은 각각 학술 연구의 신뢰와 현장의 환대를 나타낸다.</figcaption></figure>`;
+const logoMeaning = () => `<figure class="logo-meaning">${logo(76)}<figcaption>연구소의 로고는 손님을 맞이하는 아치형 문과 그 안에서 점차 높아지는 세 개의 막대로 이루어져 있다. 문은 환대의 관문인 서비스 현장을, 세 막대는 정책·산업·품질이라는 연구의 세 축을 뜻하며, 오른쪽으로 갈수록 높아지는 모양은 서비스의 지속적인 개선을 나타낸다. 주황색으로 강조한 마지막 막대는 연구가 지향하는 유의미한 시사점을, 남색과 주황색은 각각 학술 연구의 신뢰와 현장의 환대를 나타낸다.</figcaption></figure>`;
 const logo = (size) => `<svg class="logo" width="${size}" height="${Math.round(size * 372 / 380)}" viewBox="130 50 380 372" aria-hidden="true"><path d="M180 397 V210 A140 140 0 0 1 460 210 V397" fill="none" stroke="currentColor" stroke-width="16"/><rect x="137" y="398" width="366" height="16" fill="currentColor"/><rect x="233" y="312" width="47" height="86" fill="currentColor"/><rect x="297" y="265" width="47" height="133" fill="currentColor"/><rect x="360" y="209" width="47" height="189" fill="var(--logo-orange)"/></svg>`;
 const searchBtn = `<a class="icon-btn" href="/search/" aria-label="글 검색"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a>`;
 const navLinks = (active) => cfg.categories.map((c) =>
