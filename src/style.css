@@ -467,3 +467,5 @@ button.cs-card[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--accent); p
 .ro-type { align-self: start; padding: 3px 0; border: 1px solid var(--logo-orange); border-radius: 4px; color: var(--logo-orange); font-size: 12.5px; font-weight: 700; text-align: center; }
 .prose .ro-cite { margin: 0; font-size: 15px; line-height: 1.75; }
 @media (max-width: 640px) { .prose .ro-list li { grid-template-columns: 1fr; gap: 8px; } .ro-type { justify-self: start; padding: 3px 10px; } }
+.ro-body.has-cover { display: flex; gap: 18px; align-items: flex-start; }
+.prose .ro-cover { flex: 0 0 76px; width: 76px; height: auto; margin: 0; box-shadow: 0 4px 12px rgba(30, 42, 58, .15); }
