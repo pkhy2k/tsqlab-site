@@ -2,6 +2,7 @@
 title: 키오스크가 만드는 서비스 격차, 호텔은 어떻게 메울 것인가
 subtitle: 디지털 리터러시 연구와 2026년 무인정보단말기 접근성 의무화로 본 호텔 셀프서비스의 과제
 category: tourism-policy
+pick: true
 author: research
 thumbnail: /images/posts/kiosk-service-gap-barrier-free.jpg
 thumbnail_alt: 키오스크 주변에 음성 안내, 화면 높이, 보조 인력과 호출벨, 안내 영상이 표시된 접근성 도식

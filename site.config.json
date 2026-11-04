@@ -24,16 +24,6 @@
   },
   "categories": [
     {
-      "slug": "service-quality",
-      "name": "서비스품질",
-      "description": "관광·호텔 서비스품질의 이론과 측정, 개선 사례를 다룬다."
-    },
-    {
-      "slug": "hotel-it-qa",
-      "name": "호텔 IT·QA",
-      "description": "호텔 정보시스템과 소프트웨어 품질관리가 고객 경험에 미치는 영향을 다룬다."
-    },
-    {
       "slug": "tourism-policy",
       "name": "관광정책·트렌드",
       "description": "관광정책과 산업 동향을 서비스품질 관점에서 해석한다."
@@ -42,6 +32,16 @@
       "slug": "hotel-resort",
       "name": "호텔 & 리조트",
       "description": "국내외 호텔·리조트 산업의 최신 동향과 트렌드를 다룬다."
+    },
+    {
+      "slug": "service-quality",
+      "name": "서비스품질",
+      "description": "관광·호텔 서비스품질의 이론과 측정, 개선 사례를 다룬다."
+    },
+    {
+      "slug": "hotel-it-qa",
+      "name": "호텔 IT·QA",
+      "description": "호텔 정보시스템과 소프트웨어 품질관리가 고객 경험에 미치는 영향을 다룬다."
     },
     {
       "slug": "column",
@@ -55,9 +55,10 @@
     }
   ],
   "homeSections": [
+    "tourism-policy",
+    "hotel-resort",
     "service-quality",
-    "hotel-it-qa",
-    "tourism-policy"
+    "hotel-it-qa"
   ],
   "leadCategory": "tourism-policy",
   "authors": {
@@ -159,5 +160,10 @@
         }
       ]
     }
-  ]
+  ],
+  "home": {
+    "showDirectorBand": false,
+    "showBooks": false,
+    "navBooks": false
+  }
 }

@@ -160,7 +160,7 @@ function loadPages() {
 const logo = (size) => `<svg class="logo" width="${size}" height="${Math.round(size * 372 / 380)}" viewBox="130 50 380 372" aria-hidden="true"><path d="M180 397 V210 A140 140 0 0 1 460 210 V397" fill="none" stroke="currentColor" stroke-width="16"/><rect x="137" y="398" width="366" height="16" fill="currentColor"/><rect x="233" y="312" width="47" height="86" fill="currentColor"/><rect x="297" y="265" width="47" height="133" fill="currentColor"/><rect x="360" y="209" width="47" height="189" fill="var(--logo-orange)"/></svg>`;
 const searchBtn = `<a class="icon-btn" href="/search/" aria-label="글 검색"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a>`;
 const navLinks = (active) => cfg.categories.map((c) =>
-  `<a href="/category/${c.slug}/"${c.slug === active ? ' class="active" aria-current="page"' : ''}>${esc(c.name)}</a>`).join('') + '<a href="/books/">출판</a>';
+  `<a href="/category/${c.slug}/"${c.slug === active ? ' class="active" aria-current="page"' : ''}>${esc(c.name)}</a>`).join('') + (cfg.home?.navBooks === false ? '' : '<a href="/books/">출판</a>');
 
 function headerHome() {
   const today = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'full', timeZone: 'Asia/Seoul' }).format(new Date());
@@ -179,7 +179,7 @@ function footer() {
 <strong>${esc(cfg.name)}</strong>
 <span>비영리 학술연구 단체 · 소장 ${esc(b.director)}${b.email ? ` · 이메일 <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ''}</span>
 <span>© ${esc(cfg.name)}. 무단 전재 및 재배포 금지.</span></div>
-<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
+<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a>${cfg.home?.navBooks === false ? '<a href="/books/">출판</a>' : ''}<a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
 }
 function thumb(p, ratio = 'wide', linked = true) {
   const inner = p.thumbnail
@@ -262,10 +262,12 @@ function pageHome(posts) {
     || (cfg.leadCategory && posts.find((p) => p.category === cfg.leadCategory))
     || posts[0];
   const rest = posts.filter((p) => p !== lead);
-  const side = rest.filter((p) => !['column', 'report'].includes(p.category)).slice(0, 3);
+  // 곁 기사: 메인 분류(관광정책·트렌드) 외 분야의 최신 글. 관광정책 글은 아래 분야 묶음 첫 칸에 이어서 보인다
+  const side = rest.filter((p) => !['column', 'report', cfg.leadCategory].includes(p.category)).slice(0, 3);
+  const shown = new Set([lead, ...side]);
   const sections = cfg.homeSections.map((slug) => {
     const c = catBySlug[slug];
-    const list = posts.filter((p) => p.category === slug).slice(0, 4);
+    const list = posts.filter((p) => p.category === slug && !shown.has(p)).slice(0, 4);
     if (!list.length) return `<div class="col"><div class="sec-head"><h2>${esc(c.name)}</h2></div><p class="muted">아직 게시된 글이 없다.</p></div>`;
     const [first, ...others] = list;
     return `<div class="col"><div class="sec-head"><h2>${esc(c.name)}</h2><a href="/category/${slug}/">더보기</a></div>
@@ -285,12 +287,12 @@ ${lead.subtitle ? `<p class="dek">${esc(lead.subtitle)}</p>` : ''}<span class="m
 ${side.length ? `<div class="side-list">${side.map((p) => `<article>${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><span class="meta">${byline(p)}</span></article>`).join('')}</div>` : ''}
 </section>` : '<p>게시된 글이 없다.</p>'}
 <section class="cols" aria-label="분야별 글">${sections}</section>
-<section class="column-band" aria-label="${col ? '소장 칼럼' : '소장 소개'}">
+${cfg.home?.showDirectorBand === false ? '' : `<section class="column-band" aria-label="${col ? '소장 칼럼' : '소장 소개'}">
 <div class="portrait">${dir.photo ? `<img src="${esc(dir.photo)}" alt="${esc(dir.name)} 소장">` : ''}</div>
 ${col ? `<div class="column-text"><span class="eyebrow">DIRECTOR'S COLUMN</span><h2><a href="${col.url}">${esc(col.title)}</a></h2>
 <p>${esc(col.excerpt)}</p><span class="meta-inv">${esc(dir.name)} · ${esc(dir.title)}</span></div>`
   : `<div class="column-text"><span class="eyebrow">DIRECTOR</span><h2><a href="/about/">${esc(dir.name)}</a></h2>
-<p>${esc(dir.title)}</p><span class="meta-inv"><a href="/about/" class="inv-link">연구소 소개 보기 ›</a></span></div>`}</section>
+<p>${esc(dir.title)}</p><span class="meta-inv"><a href="/about/" class="inv-link">연구소 소개 보기 ›</a></span></div>`}</section>`}
 <section class="split" aria-label="리포트와 추천 글">
 <div class="split-main"><div class="sec-head"><h2>리포트</h2><a href="/category/report/">더보기</a></div>
 <div class="reports">${reports.length ? reports.map((p) => `<article class="report"><a class="cover" href="${p.url}" tabindex="-1" aria-hidden="true">${p.cover || p.thumbnail ? `<img src="${esc(p.cover || p.thumbnail)}" alt="">` : '<span>REPORT</span>'}</a>
@@ -298,8 +300,8 @@ ${col ? `<div class="column-text"><span class="eyebrow">DIRECTOR'S COLUMN</span>
 <div class="split-side"><div class="sec-head"><h2>추천 글</h2></div>
 <ol class="ranked">${picks.map((p) => `<li><a href="${p.url}">${esc(p.title)}</a></li>`).join('')}</ol></div>
 </section>
-<section aria-label="출판"><div class="sec-head"><h2>출판</h2><a href="/books/">전체 보기</a></div>
-<div class="books">${cfg.books.map(bookCard).join('')}</div></section>
+${cfg.home?.showBooks === false ? '' : `<section aria-label="출판"><div class="sec-head"><h2>출판</h2><a href="/books/">전체 보기</a></div>
+<div class="books">${cfg.books.map(bookCard).join('')}</div></section>`}
 </main>`;
   return layout({ pathname: '/', body,
     jsonld: { '@context': 'https://schema.org', '@type': 'Organization', name: cfg.name, alternateName: cfg.nameEn, url: SITE_URL + '/', logo: SITE_URL + '/favicon.svg', email: cfg.business.email || undefined } });
