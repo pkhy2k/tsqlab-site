@@ -284,7 +284,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(
 ${body}
 ${footer()}
 <script>(function(){var D=${Number(cfg.newBadgeDays) || 0};if(!D)return;var now=Date.now()+9*36e5,day=864e5;document.querySelectorAll('a[data-d]').forEach(function(a){var t=Date.parse(a.getAttribute('data-d')+'T00:00:00Z');if(isNaN(t))return;var age=Math.floor(now/day)-Math.floor(t/day);if(age<0||age>=D)return;var host=a.querySelector('img')?a.querySelector('span'):a;if(!host)return;var b=document.createElement('span');b.className='new-badge';b.textContent='NEW';b.setAttribute('aria-label','새 글');var tn=host.lastChild;if(tn&&tn.nodeType===3){var m=tn.nodeValue.match(/^([\s\S]*?)(\S+)(\s*)$/);if(m){tn.nodeValue=m[1];var k=document.createElement('span');k.className='nb-keep';k.textContent=m[2];k.appendChild(b);host.appendChild(k);return}}host.appendChild(b)})})();</script>
-<script>(function(){var n=document.querySelector('.mainnav,.compact');if(!n)return;function f(){n.classList.toggle('stuck',window.scrollY>0&&n.getBoundingClientRect().top<=0)}addEventListener('scroll',f,{passive:true});addEventListener('pageshow',f);addEventListener('resize',f);f()})();</script><script>(function(){var L=document.querySelector('.lead'),S=document.querySelector('.lead-row .side-list');if(!L||!S)return;var items=[].slice.call(S.querySelectorAll('.side-cols li'));function fit(){items.forEach(function(a){a.hidden=false});if(S.offsetTop!==L.offsetTop){items.forEach(function(a,i){a.hidden=i>=5});return}var max=L.lastElementChild.getBoundingClientRect().bottom+24;for(var i=items.length-1;i>=3;i--){if(items[i].getBoundingClientRect().bottom>max)items[i].hidden=true}}addEventListener('load',fit);addEventListener('resize',fit);fit()})();</script>
+<script>(function(){var n=document.querySelector('.mainnav,.compact');if(!n)return;function f(){n.classList.toggle('stuck',window.scrollY>0&&n.getBoundingClientRect().top<=0)}addEventListener('scroll',f,{passive:true});addEventListener('pageshow',f);addEventListener('resize',f);f()})();</script>
 <script>(function(){var r=document.querySelector('.col-center');if(!r)return;var cards=[].slice.call(r.querySelectorAll('.report'));if(!cards.length)return;var n=r.querySelectorAll('.report:not(.is-clone)').length,loop=cards.length>n;
 function step(){return cards[1]?cards[1].offsetLeft-cards[0].offsetLeft:cards[0].offsetWidth}
 function centerIdx(){var c=r.scrollLeft+r.clientWidth/2,best=0,d=1e9;cards.forEach(function(a,i){var m=a.offsetLeft-r.offsetLeft+a.offsetWidth/2,x=Math.abs(m-c);if(x<d){d=x;best=i}});return best}
@@ -347,7 +347,7 @@ ${others.map((p) => `<a href="${p.url}" class="item">${esc(p.title)}</a>`).join(
   const col = posts.find((p) => p.category === 'column');
   const dir = cfg.authors.director;
   const homeCols = posts.filter((p) => p.category === 'column' && p !== col);
-  const picks = posts.filter((p) => p.category === 'column').slice(0, 8); // 추천 칼럼: 별도 요청 전까지 최신순(화면에서 메인 기사 높이에 맞춰 개수 조정)
+  const picks = posts.filter((p) => p.category === 'column').slice(0, 5); // 추천 칼럼: 최신순 5편(소장 지정)
   const body = `${headerHome()}
 <main id="main" class="wrap main">
 ${lead ? `<section class="lead-wrap" aria-label="주요 기사">
