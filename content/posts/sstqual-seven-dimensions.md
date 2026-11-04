@@ -4,6 +4,7 @@ subtitle: 셀프서비스 기술 품질 척도의 등장 배경과 구성요인,
 category: service-quality
 author: research
 thumbnail: /images/posts/sstqual-seven-dimensions.jpg
+card: /images/cards/sstqual-seven-dimensions.jpg
 thumbnail_alt: SERVQUAL에서 SERVPERF, E-S-QUAL을 거쳐 SSTQUAL로 이어지는 서비스품질 측정 도구의 흐름
 date: 2026-11-02
 summary: SERVQUAL은 고객과 직원의 상호작용을 재기 위해 만들어졌다. 고객이 기계와 마주하는 셀프서비스 환경에서는 무엇을 재야 하는가. 셀프서비스 기술 품질 척도 SSTQUAL의 7개 구성요인을 정리하고, 호텔 키오스크 이용객 461명을 대상으로 한 실증 연구에서 이 척도가 어떻게 작동했는지 살펴본다.

@@ -182,10 +182,12 @@ function footer() {
 <nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a>${cfg.home?.navBooks === false ? '<a href="/books/">출판</a>' : ''}<a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
 }
 function thumb(p, ratio = 'wide', linked = true) {
-  const inner = p.thumbnail
-    ? `<img src="${esc(p.thumbnail)}" alt="${esc(p.thumbnail_alt || p.title)}" loading="lazy">`
+  // 목록·홈 미리보기는 card(미리보기 전용 이미지)를 먼저 쓰고, 없으면 본문 이미지(thumbnail)를 쓴다
+  const src = p.card || p.thumbnail;
+  const inner = src
+    ? `<img src="${esc(src)}" alt="${esc(p.card ? p.title : (p.thumbnail_alt || p.title))}" loading="lazy">`
     : `<span class="ph-label">${esc(catBySlug[p.category]?.name || '')}</span>`;
-  const cls = `thumb ${ratio}${p.thumbnail ? '' : ' ph'}`;
+  const cls = `thumb ${ratio}${src ? '' : ' ph'}`;
   return linked ? `<a href="${p.url}" class="${cls}" tabindex="-1" aria-hidden="true">${inner}</a>` : `<div class="${cls}">${inner}</div>`;
 }
 const byline = (p) => `${esc(cfg.authors[p.author]?.name || '')} · ${fmtDate(p.date)}`;
@@ -368,7 +370,7 @@ var c=b.querySelector('[data-c]'),n=parseInt((c.textContent||'0').replace(/[^0-9
 b.setAttribute('aria-pressed',on?'true':'false');if(on)mine[r]=1;else delete mine[r];save();b.disabled=true;
 send({action:'react',r:r,delta:on?1:-1}).then(function(d){b.disabled=false;show(d)})});})();
 </script>`;
-  const image = p.thumbnail || undefined;
+  const image = p.card || p.thumbnail || undefined;   // SNS 공유 미리보기에도 card 우선
   return layout({ title: p.title, description: p.summary || p.subtitle || p.excerpt, pathname: p.url, body, ogType: 'article', image,
     jsonld: {
       '@context': 'https://schema.org', '@type': 'Article', headline: p.title, description: p.summary || p.subtitle || p.excerpt,

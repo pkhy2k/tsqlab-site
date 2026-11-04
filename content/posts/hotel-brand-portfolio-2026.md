@@ -4,6 +4,7 @@ subtitle: 더그랜드롯데 개관과 조선호텔앤리조트의 확장 계획
 category: hotel-resort
 author: research
 thumbnail: /images/posts/hotel-brand-portfolio-2026.jpg
+card: /images/cards/hotel-brand-portfolio-2026.jpg
 thumbnail_alt: 롯데는 기존 호텔을 하이엔드 브랜드로 끌어올리고 조선호텔앤리조트는 기존 호텔을 인수해 브랜드를 전환하는 두 가지 방향을 비교한 도식
 date: 2026-11-04
 summary: 롯데호텔 서울은 2026년 8월 하이엔드 브랜드 더그랜드롯데로 다시 문을 열었고, 조선호텔앤리조트는 2030년까지 국내 호텔을 14곳으로 늘리겠다고 밝혔다. 두 사례에 담긴 브랜드 전략을 정리하고 서비스품질 관리에 주는 시사점을 살펴본다.

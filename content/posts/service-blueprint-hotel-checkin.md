@@ -4,6 +4,7 @@ subtitle: 가시선 아래의 직원 업무와 지원 시스템까지 한 장에
 category: service-quality
 author: research
 thumbnail: /images/posts/service-blueprint-hotel-checkin.jpg
+card: /images/cards/service-blueprint-hotel-checkin.jpg
 thumbnail_alt: 고객 행동, 현장 직원, 후방 직원, 지원 시스템의 네 층과 상호작용선·가시선·내부 상호작용선으로 나눈 호텔 체크인 서비스 청사진
 date: 2026-11-02
 summary: 서비스 청사진(Service Blueprint)은 고객 행동부터 직원의 후방 업무, 정보시스템 같은 지원 프로세스까지 한 장에 그려 서비스의 실패 지점을 찾는 도구이다. 호텔 체크인을 예로 청사진의 구성과 활용법을 정리한다.

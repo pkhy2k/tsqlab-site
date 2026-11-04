@@ -4,6 +4,7 @@ subtitle: CoStar와 Marcus & Millichap의 전망으로 본 미국 호텔시장, 
 category: hotel-resort
 author: research
 thumbnail: /images/posts/us-hotel-outlook-2026.jpg
+card: /images/cards/us-hotel-outlook-2026.jpg
 thumbnail_alt: 미국 호텔의 2026년 객실당 매출 전망이 2.8%에서 4.4%로 상향된 것과, 해외 방문객 감소 속에서 단체·출장 수요가 성장을 받친 구조를 보여 주는 도식
 date: 2026-11-04
 summary: 미국 호텔시장의 2026년 전망은 하반기 들어 상향되었다. 해외 방문객은 줄었지만 월드컵과 단체·출장 수요가 성장을 받쳤고, 성장의 중심은 객실 단가였다. 두 기관의 전망을 정리하고 한국 호텔이 참고할 점을 살펴본다.

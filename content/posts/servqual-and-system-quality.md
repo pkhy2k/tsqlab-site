@@ -4,6 +4,7 @@ subtitle: 고객 접점이 디지털로 옮겨간 지금, 소프트웨어 품질
 category: service-quality
 author: research
 thumbnail: /images/posts/servqual-and-system-quality.jpg
+card: /images/cards/servqual-and-system-quality.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 pick: true

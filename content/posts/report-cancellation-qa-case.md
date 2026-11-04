@@ -4,6 +4,7 @@ subtitle: 2주간의 가상 QA 프로젝트를 다섯 개의 산출물로 따라
 category: report
 author: research
 thumbnail: /images/posts/report-cancellation-qa-case.jpg
+card: /images/cards/report-cancellation-qa-case.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 cover: /images/posts/report-cancellation-qa-case-cover.jpg
 pick: true

@@ -4,6 +4,7 @@ subtitle: 개발자가 한 번에 재현하는 보고서의 구조와, 따로 �
 category: hotel-it-qa
 author: research
 thumbnail: /images/posts/defect-report-severity-priority.jpg
+card: /images/cards/defect-report-severity-priority.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 summary: 급하게 남긴 메모 한 줄이 개발팀과 하루를 허비하게 만든다. 호텔 요금 할인 결함 사례로 재현 절차·기대 결과·실제 결과 중심의 결함 보고서 작성법과, 심각도와 우선순위를 구분해 판단하는 기준을 정리한다.
