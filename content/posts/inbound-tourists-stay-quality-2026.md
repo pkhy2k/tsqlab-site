@@ -7,7 +7,7 @@ thumbnail: /images/posts/inbound-tourists-stay-quality-2026.jpg
 thumbnail_alt: 2023년과 2025년 방한 외래객 수는 크게 늘었지만 평균 체류일수는 7.8일에서 6.5일로 줄어든 것을 비교한 도식
 date: 2026-11-02
 summary: 2026년 1~9월 방한 외래관광객은 전년보다 21.5% 늘었지만, 국정감사에서는 평균 체류일수와 1인당 숙박비 지출이 줄었다는 지적이 나왔다. 보도된 수치를 정리하고 호텔과 관광 현장이 볼 서비스품질의 과제를 살펴본다.
-tags: [관광정책, 방한관광, 체류형관광, 재방문, 수용태세, 서비스품질]
+tags: [산업트렌드, 관광정책, 방한관광, 체류형관광, 재방문, 수용태세, 서비스품질]
 references:
   - "SBS Biz (2026.10.28). 9월 외국인 관광객 전년 대비 21.1% 늘어. https://biz.sbs.co.kr/amp/article/20000342717"
   - "디스커버리뉴스 (2026.10.28). 한국관광공사, 2026년 9월 방한 외래관광객 206만 명 달성. https://www.discoverynews.kr/news/articleView.html?idxno=1105167"
