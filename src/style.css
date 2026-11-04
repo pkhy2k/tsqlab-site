@@ -145,6 +145,8 @@ h1, h2, h3 { margin: 0; }
 .prevnext a { flex: 1 1 260px; padding: 16px 0; display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid var(--rule); font-weight: 500; }
 .prevnext a.next { text-align: right; }
 .aside { flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 36px; }
+/* PC: 오른쪽 관련 글 영역이 스크롤을 따라 내려온다(화면보다 길면 아래 끝이 보이는 위치에서 멈춤) */
+@media (min-width: 1024px) { .aside { position: sticky; top: var(--aside-top, 80px); align-self: flex-start; } }
 .mini { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.5; font-weight: 500; margin-bottom: 14px; }
 .contact-card { display: flex; flex-direction: column; gap: 6px; padding: 20px; background: var(--ink); color: #fff; }
 .contact-card:hover { color: #fff; opacity: 0.92; }
