@@ -294,7 +294,9 @@ function pageHome(posts) {
   // 분야 묶음은 메인 기사만 빼고 채우고, 오른쪽 추천 글은 홈의 다른 곳에 나오지 않는 글을 최신순으로(화면에서 메인 기사 높이에 맞춰 개수 조정)
   const shown = new Set([lead]);
   const sectionShown = new Set(cfg.homeSections.flatMap((slug) => posts.filter((p) => p.category === slug && p !== lead).slice(0, 4)));
-  const side = sidePool.filter((p) => !sectionShown.has(p) && !p.tags.includes('신간')).slice(0, 10); // 출간 기사는 추천에서 제외(소장 결정)
+  // 메인 기사 아래 '이어지는 정책 이슈': 메인 기사와 같은 분류의 다음 최신 글 2편
+  const follow = rest.filter((p) => p.category === lead?.category && !sectionShown.has(p)).slice(0, 2);
+  const side = sidePool.filter((p) => !sectionShown.has(p) && !follow.includes(p) && !p.tags.includes('신간')).slice(0, 10); // 출간 기사는 추천에서 제외(소장 결정)
   const sections = cfg.homeSections.map((slug) => {
     const c = catBySlug[slug];
     const list = posts.filter((p) => p.category === slug && !shown.has(p)).slice(0, 4);
@@ -313,7 +315,7 @@ ${others.map((p) => `<a href="${p.url}" class="item">${esc(p.title)}</a>`).join(
 ${lead ? `<section class="lead-wrap" aria-label="주요 기사">
 <div class="lead-row"><article class="lead"><div class="sec-head lead-head"><h2>주요 정책 이슈</h2><a href="/category/${esc(lead.category)}/">${esc(catBySlug[lead.category]?.name || '')} 전체 보기</a></div>${thumb(lead, 'wide')}${catLabel(lead)}
 <h1><a href="${lead.url}">${esc(lead.title)}</a></h1>
-${lead.subtitle ? `<p class="dek">${esc(lead.subtitle)}</p>` : ''}${lead.excerpt ? `<p class="lead-sum">${esc(lead.excerpt)}</p>` : ''}<div class="lead-foot"><span class="meta">${byline(lead)}</span><a class="lead-more" data-nonew href="${lead.url}">기사 읽기 →</a></div></article>
+${lead.subtitle ? `<p class="dek">${esc(lead.subtitle)}</p>` : ''}${lead.excerpt ? `<p class="lead-sum">${esc(lead.excerpt)}</p>` : ''}<div class="lead-foot"><span class="meta">${byline(lead)}</span><a class="lead-more" data-nonew href="${lead.url}">기사 읽기 →</a></div>${follow.length ? `<div class="lead-follow"><span class="lf-title">이어지는 정책 이슈</span><div class="lf-items">${follow.map((p) => `<article class="lf-item">${thumb(p, 'wide')}<div><a href="${p.url}" class="lf-link">${esc(p.title)}</a><span class="meta">${byline(p)}</span></div></article>`).join('')}</div></div>` : ''}</article>
 ${side.length ? `<div class="side-list"><div class="sec-head lead-head"><h2>추천 글</h2></div>${side.map((p, i) => `<article><span class="side-no">${String(i + 1).padStart(2, '0')}</span><div>${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><span class="meta">${byline(p)}</span></div></article>`).join('')}</div>` : ''}
 </div></section>` : '<p>게시된 글이 없다.</p>'}
 <section class="cols" aria-label="분야별 글">${sections}</section>

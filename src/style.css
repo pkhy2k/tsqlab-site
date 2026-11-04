@@ -415,3 +415,13 @@ button.cs-card[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--accent); p
 .lead-row .side-list .sec-head + article { padding-top: 10px; }
 .lead-row .side-list article[hidden] { display: none; }
 .side-no { flex: none; font-family: var(--serif); font-size: 26px; font-weight: 700; line-height: 1; color: var(--logo-orange); min-width: 34px; }
+
+/* 메인 기사 아래 이어지는 정책 이슈 */
+.lead-follow { margin-top: 14px; padding-top: 16px; border-top: 1px solid var(--rule); display: flex; flex-direction: column; gap: 12px; }
+.lf-title { font-size: 13px; font-weight: 700; letter-spacing: .02em; color: var(--ink); }
+.lf-items { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.lf-item { display: flex; gap: 14px; align-items: flex-start; min-width: 0; }
+.lf-item .thumb { flex: 0 0 132px; border: 1px solid var(--rule); }
+.lf-item > div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.lf-link { font-family: var(--serif); font-size: 16.5px; font-weight: 700; line-height: 1.45; color: var(--ink); }
+@media (max-width: 640px) { .lf-items { grid-template-columns: 1fr; gap: 14px; } .lf-item .thumb { flex-basis: 112px; } }
