@@ -494,6 +494,7 @@ var u=new URL(location.href);if(a)u.searchParams.set('author',a);else u.searchPa
 cards.forEach(function(b){b.addEventListener('click',function(){var a=b.getAttribute('data-author');apply(b.getAttribute('aria-pressed')==='true'?'':a)})});
 var all=document.querySelector('.cs-all');if(all)all.addEventListener('click',function(){apply('')});
 var q=new URLSearchParams(location.search).get('author');if(q)apply(q)})();</script>` : '';
+  const rowTags = (ts) => ts.length ? `<div class="row-tags">${ts.map((t) => `<a data-nonew href="/search/?q=${encodeURIComponent(t)}">#${esc(t)}</a>`).join('')}</div>` : '';
   const subs = (cfg.subFilters || {})[c.slug] || [];
   const subUi = subs.length ? `<div class="ro-filter sub-filter" role="group" aria-label="세부 분류"><button type="button" class="on" data-v="">전체 <span>${list.length}</span></button>${subs.map((f) => `<button type="button" data-v="${esc(f.tag)}">${esc(f.label)} <span>${list.filter((p) => p.tags.includes(f.tag)).length}</span></button>`).join('')}</div>` : '';
   const subJs = subs.length ? `<script>(function(){var g=document.querySelector('.sub-filter');if(!g)return;var rows=[].slice.call(document.querySelectorAll('.row[data-tags]'));function apply(v){g.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.v===v)});rows.forEach(function(r){r.hidden=!!v&&r.dataset.tags.split('|').indexOf(v)<0});var u=new URL(location.href);if(v)u.searchParams.set('type',v);else u.searchParams.delete('type');history.replaceState(null,'',u)}g.addEventListener('click',function(e){var b=e.target.closest('button');if(b)apply(b.dataset.v)});var q=new URLSearchParams(location.search).get('type');if(q)apply(q)})();</script>` : '';
@@ -501,7 +502,7 @@ var q=new URLSearchParams(location.search).get('author');if(q)apply(q)})();</scr
 <main id="main" class="wrap list-wrap"><header class="list-head"><h1>${esc(c.name)}</h1><p class="muted">${esc(c.description)}</p></header>
 ${filterUi}
 ${subUi}
-${list.length ? list.map((p) => `<article class="row"${isCol ? ` data-author="${esc(p.author)}"` : ''}${subs.length ? ` data-tags="${esc(p.tags.join('|'))}"` : ''}>${thumb(p, 'photo')}<div class="row-text">${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><p>${esc(p.subtitle || p.excerpt)}</p><span class="meta">${byline(p)}</span></div></article>`).join('') : '<p class="muted">아직 게시된 글이 없다.</p>'}
+${list.length ? list.map((p) => `<article class="row"${isCol ? ` data-author="${esc(p.author)}"` : ''}${subs.length ? ` data-tags="${esc(p.tags.join('|'))}"` : ''}>${thumb(p, 'photo')}<div class="row-text">${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><p>${esc(p.subtitle || p.excerpt)}</p><span class="meta">${byline(p)}</span>${rowTags(p.tags)}</div></article>`).join('') : '<p class="muted">아직 게시된 글이 없다.</p>'}
 </main>${filterJs}${subJs}`;
   return layout({ title: c.name, description: c.description, pathname: `/category/${c.slug}/`, body });
 }
@@ -591,7 +592,7 @@ var IDX=${JSON.stringify(index).replace(/</g, '\\u003c')};
 (function(){var q=document.getElementById('q'),r=document.getElementById('results'),c=document.getElementById('count');
 function e(s){return String(s).replace(/[&<>"]/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]})}
 function run(){var v=q.value.trim().toLowerCase();var hits=v?IDX.filter(function(x){return (x.t+' '+x.s+' '+x.k).toLowerCase().indexOf(v)>-1}):[];
-c.textContent=v?hits.length+'건':'';r.innerHTML=hits.map(function(x){return '<article class="row-plain"><span class="cat-static">'+e(x.c)+'</span><h2><a href="'+e(x.u)+'">'+e(x.t)+'</a></h2><p>'+e(x.s)+'</p><span class="meta">'+e(x.d)+'</span></article>'}).join('')}
+c.textContent=v?hits.length+'건':'';r.innerHTML=hits.map(function(x){return '<article class="row-plain"><span class="cat-static">'+e(x.c)+'</span><h2><a href="'+e(x.u)+'">'+e(x.t)+'</a></h2><p>'+e(x.s)+'</p><span class="meta">'+e(x.d)+'</span>'+(x.k?'<div class="row-tags">'+x.k.split(' ').map(function(t){return '<a href="/search/?q='+encodeURIComponent(t)+'">#'+e(t)+'</a>'}).join('')+'</div>':'')+'</article>'}).join('')}
 q.addEventListener('input',run);var p=new URLSearchParams(location.search).get('q');if(p){q.value=p;run()}})();
 </script>`;
   return layout({ title: '글 검색', pathname: '/search/', body, noindex: true });
