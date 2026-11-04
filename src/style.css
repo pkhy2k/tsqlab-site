@@ -439,3 +439,16 @@ button.cs-card[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--accent); p
 .cc-nav button { width: 32px; height: 32px; border: 1px solid var(--rule); border-radius: 50%; background: #fff; color: var(--ink); font-size: 18px; line-height: 1; cursor: pointer; }
 .cc-nav button:hover { border-color: var(--ink); }
 @media (max-width: 640px) { .col-center .report { flex-basis: 88%; padding: 14px; gap: 14px; } .col-center { padding-left: 6%; padding-right: 6%; scroll-padding: 0 6%; } .col-center .cover { flex-basis: 84px; height: 112px; } .col-center .item-lg { font-size: 16px; } }
+
+/* 연구소 소개: 출판 */
+.pubs { display: flex; flex-direction: column; gap: 16px; margin-top: 4px; }
+.pub { display: flex; gap: 24px; align-items: flex-start; padding: 22px; border: 1px solid var(--rule); border-radius: 12px; background: #fff; }
+.prose .pub img { flex: 0 0 120px; width: 120px; height: auto; margin: 0; box-shadow: 0 6px 18px rgba(30, 42, 58, .15); }
+.pub > div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.pub-tag { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--logo-orange); }
+.prose .pub h3 { margin: 0; font-family: var(--serif); font-size: 20px; line-height: 1.4; }
+.pub-meta { font-size: 13.5px; color: var(--muted); }
+.prose .pub p { margin: 4px 0 0; font-size: 14.5px; line-height: 1.75; color: var(--sub); }
+.pub-links { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 6px; font-size: 13.5px; font-weight: 600; }
+.prose .pub-links a { color: var(--logo-orange); text-decoration: none; }
+@media (max-width: 640px) { .pub { flex-direction: column; gap: 14px; padding: 18px; } .prose .pub img { width: 96px; } }
