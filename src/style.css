@@ -336,3 +336,9 @@ button.cs-card[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--accent); p
 .cs-all { border: 0; background: none; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font: inherit; padding: 0 0 0 8px; }
 .row[hidden] { display: none; }
 @media (max-width: 640px) { .cs-page { grid-template-columns: minmax(0, 1fr); } .cs-card img, .cs-ph { flex-basis: 60px; width: 60px; height: 60px; } }
+
+/* 연구소 소개: 로고의 의미 */
+.prose .logo-meaning { flex-direction: row; display: flex; gap: 22px; align-items: center; margin: 8px 0 4px; padding: 22px 24px; background: var(--paper, #fff); border: 1px solid var(--rule); color: var(--ink); }
+.logo-meaning .logo { flex: none; }
+.prose .logo-meaning figcaption { font-size: 15px; line-height: 1.8; color: var(--sub); }
+@media (max-width: 640px) { .prose .logo-meaning { flex-direction: column; align-items: flex-start; gap: 14px; padding: 18px; } .logo-meaning .logo { width: 56px; height: auto; } }
