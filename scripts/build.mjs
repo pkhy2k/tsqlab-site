@@ -157,6 +157,29 @@ function loadPages() {
 
 // ---------- 공통 조각 ----------
 // 로고: 아치 + 상승하는 막대 3개 (마지막 막대 주황)
+const aboutCta = () => `<div class="about-cta"><div class="about-cta-text"><strong>학계와 현장을 잇는 연구에 함께해 주세요</strong><p>관광·호텔 분야 연구자와 실무자의 회원가입과 원고 투고, 기고·인터뷰 및 공동 연구 제안을 기다립니다.</p></div><div class="book-actions"><a class="btn-solid" href="/join/">회원가입</a><a class="btn-line" href="/contact/">문의하기</a></div></div>`;
+const joinCta = () => `<div class="about-cta"><div class="about-cta-text"><strong>연구소 회원으로 함께해 주세요</strong><p>관광·호텔 분야 연구자와 실무자는 회원으로 가입하여 원고를 투고하고 연구에 참여할 수 있습니다.</p></div><div class="book-actions"><a class="btn-solid" href="/join/">회원가입 안내</a></div></div>`;
+const CONTACT_TYPES = [
+  { key: '기고·인터뷰', icon: 'M4 5h16v11H8l-4 4zM8 9h8M8 12h5', desc: '언론·학회·기관 매체의 원고 기고와 인터뷰 요청을 받습니다.',
+    items: ['매체명과 담당자', '주제와 형식(기고·인터뷰), 분량', '희망 일정과 마감일'] },
+  { key: '연구 협력', icon: 'M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2 20c0-3.5 3-6 7-6s7 2.5 7 6M16 4.5a3.5 3.5 0 0 1 0 6.5M18 14c2.5.8 4 3 4 6', desc: '공동연구, 자료 협력, 학술 행사 등 연구 협력 제안을 받습니다.',
+    items: ['기관명과 연구 책임자', '연구 주제와 협력 형태', '예상 기간과 일정'] },
+  { key: '오류 제보·의견', icon: 'M12 3l10 18H2zM12 10v5M12 18h.01', desc: '게재된 글의 사실관계 오류 제보와 내용에 대한 의견을 받습니다.',
+    items: ['글 제목 또는 주소', '해당 부분과 수정 의견', '근거 자료(있는 경우)'] },
+];
+const contactCards = () => {
+  const mail = cfg.business?.email || 'contact@tourismquality.kr';
+  return `<div class="contact-types">${CONTACT_TYPES.map((t) => {
+    const body = ['성함:', '소속:', '연락처:', '', ...t.items.map((x) => `${x}:`), '', '문의 내용:', ''].join('\n');
+    const href = `mailto:${mail}?subject=${encodeURIComponent(`[${t.key}] `)}&body=${encodeURIComponent(body)}`;
+    return `<section class="ct-card"><svg class="ct-ic" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${t.icon}"/></svg><h3>${esc(t.key)}</h3><p>${esc(t.desc)}</p><ul>${t.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul><a class="btn-line ct-btn" href="${esc(href)}">메일 쓰기</a></section>`;
+  }).join('')}</div>`;
+};
+const contactEmail = () => {
+  const mail = cfg.business?.email || 'contact@tourismquality.kr';
+  return `<div class="ct-mail"><div><span class="ct-label">연구소 이메일</span><a class="ct-addr" href="mailto:${esc(mail)}">${esc(mail)}</a><span class="ct-note">메일을 확인한 뒤 회신드립니다.</span></div><button type="button" class="btn-line ct-copy" data-mail="${esc(mail)}">주소 복사</button><span class="ct-toast" role="status" aria-live="polite"></span></div>
+<script>(function(){var b=document.querySelector('.ct-copy');if(!b)return;var t=document.querySelector('.ct-toast');b.addEventListener('click',function(){var m=b.getAttribute('data-mail');function ok(){t.textContent='주소를 복사했습니다';setTimeout(function(){t.textContent=''},2000)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(m).then(ok,function(){t.textContent=m})}else{t.textContent=m}})})();</script>`;
+};
 const logoMeaning = () => `<figure class="logo-meaning">${logo(76)}<figcaption>연구소의 로고는 손님을 맞이하는 아치형 문과 그 안에서 점차 높아지는 세 개의 막대로 이루어져 있다. 문은 환대의 관문인 서비스 현장을, 세 막대는 정책·산업·품질이라는 연구의 세 축을 뜻하며, 오른쪽으로 갈수록 높아지는 모양은 서비스의 지속적인 개선을 상징한다. 주황색으로 강조한 마지막 막대는 연구가 지향하는 유의미한 시사점을, 남색과 주황색은 각각 학술 연구의 신뢰와 현장의 환대를 나타낸다.</figcaption></figure>`;
 const logo = (size) => `<svg class="logo" width="${size}" height="${Math.round(size * 372 / 380)}" viewBox="130 50 380 372" aria-hidden="true"><path d="M180 397 V210 A140 140 0 0 1 460 210 V397" fill="none" stroke="currentColor" stroke-width="16"/><rect x="137" y="398" width="366" height="16" fill="currentColor"/><rect x="233" y="312" width="47" height="86" fill="currentColor"/><rect x="297" y="265" width="47" height="133" fill="currentColor"/><rect x="360" y="209" width="47" height="189" fill="var(--logo-orange)"/></svg>`;
 const searchBtn = `<a class="icon-btn" href="/search/" aria-label="글 검색"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a>`;
@@ -499,7 +522,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('join-tpl'));var s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent='양식을 선택했습니다. 복사해 주십시오.'}})})();</script>`;
 }
 function pageStatic(pg) {
-  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning()).replace('<p>{{aboutCta}}</p>', `<div class="about-cta"><div class="about-cta-text"><strong>학계와 현장을 잇는 연구에 함께해 주세요</strong><p>관광·호텔 분야 연구자와 실무자의 회원가입과 원고 투고, 기고·인터뷰 및 공동 연구 제안을 기다립니다.</p></div><div class="book-actions"><a class="btn-solid" href="/join/">회원가입</a><a class="btn-line" href="/contact/">문의하기</a></div></div>`);
+  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning()).replace('<p>{{aboutCta}}</p>', aboutCta()).replace('<p>{{contactCards}}</p>', contactCards()).replace('<p>{{contactEmail}}</p>', contactEmail()).replace('<p>{{joinCta}}</p>', joinCta());
   const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">${esc(pg.title)}</h1><div class="prose">${html}</div></main>`;
   return layout({ title: pg.title, description: pg.description, pathname: `/${pg.slug}/`, body });
 }
