@@ -364,3 +364,6 @@ button.cs-card[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--accent); p
 .org-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; align-items: start; }
 .org-col .org-group { margin-bottom: 24px; }
 @media (max-width: 640px) { .org-cols { grid-template-columns: 1fr; } }
+.about-cta-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 320px; }
+.about-cta-text strong { font-family: var(--serif); font-size: 18px; line-height: 1.45; color: var(--ink); }
+.prose .about-cta-text p { font-size: 14.5px; line-height: 1.65; color: var(--sub); }

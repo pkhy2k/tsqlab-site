@@ -499,7 +499,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('join-tpl'));var s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent='양식을 선택했습니다. 복사해 주십시오.'}})})();</script>`;
 }
 function pageStatic(pg) {
-  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning()).replace('<p>{{aboutCta}}</p>', `<div class="about-cta"><p>기고, 인터뷰, 연구 협력 제안과 회원가입·원고 투고를 환영한다.</p><div class="book-actions"><a class="btn-solid" href="/join/">회원가입</a><a class="btn-line" href="/contact/">문의하기</a></div></div>`);
+  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning()).replace('<p>{{aboutCta}}</p>', `<div class="about-cta"><div class="about-cta-text"><strong>학계와 현장을 잇는 연구에 함께해 주세요</strong><p>관광·호텔 분야 연구자와 실무자의 회원가입과 원고 투고, 기고·인터뷰 및 공동 연구 제안을 기다립니다.</p></div><div class="book-actions"><a class="btn-solid" href="/join/">회원가입</a><a class="btn-line" href="/contact/">문의하기</a></div></div>`);
   const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">${esc(pg.title)}</h1><div class="prose">${html}</div></main>`;
   return layout({ title: pg.title, description: pg.description, pathname: `/${pg.slug}/`, body });
 }
