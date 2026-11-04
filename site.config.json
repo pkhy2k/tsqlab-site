@@ -197,7 +197,18 @@
       "type": "저서",
       "member": "박건희",
       "year": 2026,
-      "citation": "박건희 (2026). 『이제 QA, AI Agent랑 같이 합시다』. 부크크. ISBN 9791112326836.",
+      "featured": true,
+      "title": "『이제 QA, AI Agent랑 같이 합시다』",
+      "meta": "박건희 · 2026 · 부크크 · 222쪽 · ISBN 9791112326836",
+      "citation": "박건희. (2026). 이제 QA, AI Agent랑 같이 합시다. 부크크.",
+      "highlight": "서비스·운영 현장 출신 비전공자의 눈높이로 소프트웨어 품질관리(QA)를 시작하는 법을 다룬 입문서이다. ISTQB CTFL 실라버스의 핵심 개념을 가상 호텔 사례로 풀고, AI 에이전트와 함께하는 실무 QA 과정을 보여 준다.",
+      "cover": "/images/book-qa-ai-agent.jpg",
+      "tags": [
+        "소프트웨어QA",
+        "ISTQB",
+        "AI에이전트",
+        "호텔IT"
+      ],
       "links": [
         {
           "label": "책 소개",
@@ -211,14 +222,24 @@
           "label": "교보문고",
           "url": "https://product.kyobobook.co.kr/detail/S000221812690"
         }
-      ],
-      "cover": "/images/book-qa-ai-agent.jpg"
+      ]
     },
     {
       "type": "학술논문",
       "member": "박건희",
       "year": 2025,
-      "citation": "박건희 (2025). 호텔 키오스크의 셀프 서비스 기술 품질(SSTQUAL)이 플로우(Flow)와 지속이용의도에 미치는 영향: 디지털 리터러시의 조절효과를 중심으로. 박사학위논문, 경기대학교 대학원 호텔경영학과.",
+      "featured": true,
+      "title": "호텔 키오스크의 셀프 서비스 기술 품질(SSTQUAL)이 플로우(Flow)와 지속이용의도에 미치는 영향: 디지털 리터러시의 조절효과를 중심으로",
+      "meta": "박건희 · 2025 · 박사학위논문 · 경기대학교 대학원 호텔경영학과",
+      "citation": "박건희. (2025). 호텔 키오스크의 셀프 서비스 기술 품질(SSTQUAL)이 플로우(Flow)와 지속이용의도에 미치는 영향: 디지털 리터러시의 조절효과를 중심으로 [박사학위논문, 경기대학교]. https://www.riss.kr/link?id=T17289997",
+      "highlight": "호텔 셀프 체크인·체크아웃 키오스크 이용객 461명을 분석하여, 키오스크 품질 7요인 가운데 즐거움과 고객화만이 고객의 몰입(플로우)을 이끌고 기능성·보안성·확신성 등은 지속이용의도에만 영향을 미친다는 점을 밝혔다.",
+      "image": "/images/posts/report-hotel-kiosk-sstqual-flow.jpg",
+      "tags": [
+        "SSTQUAL",
+        "셀프서비스기술",
+        "키오스크",
+        "디지털리터러시"
+      ],
       "links": [
         {
           "label": "RISS 원문",
