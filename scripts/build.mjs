@@ -451,8 +451,17 @@ function orgBlock() {
 ${o.board?.length ? `<div class="org-board">${o.board.map((b) => unit(b).replace('class="org-node"', 'class="org-node org-audit"')).join('')}</div>` : ''}</div>`;
   const groups = [...new Set(o.members.map((m) => m.group))];
   const card = (m) => `<div class="org-card${(o.board || []).includes(m.group) ? ' is-audit' : ''}">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<span class="org-ph" aria-hidden="true"><svg viewBox="2 3 20 18" fill="currentColor"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c0-4.1 3.6-7 8-7s8 2.9 8 7v.5H4z"/></svg></span>`}<div><em>${esc(m.role)}</em>${en(m.role) ? `<i>${esc(en(m.role))}</i>` : ''}<b>${esc(m.name)}</b>${m.bio ? `<p class="org-bio">${esc(m.bio)}</p>` : ''}${m.links?.length ? `<span class="org-links">${m.links.map((l) => `<a data-nonew href="${esc(l.url)}">${esc(l.label)} ›</a>`).join('')}</span>` : ''}</div></div>`;
-  const people = groups.map((g) => `<div class="org-group${o.members.some((m) => m.group === g && m.bio) ? ' has-bio' : ''}"><h3>${esc(g)}${en(g) && g !== o.head ? `<small>${esc(en(g))}</small>` : ''}</h3><div class="org-cards">${o.members.filter((m) => m.group === g).map(card).join('')}</div></div>`).join('');
-  return `<div class="org">${chart}<div class="org-people">${people}</div></div>`;
+  const hasBio = (g) => o.members.some((m) => m.group === g && m.bio);
+  const group = (g) => hasBio(g)
+    ? `<div class="org-group has-bio"><div class="org-cards">${o.members.filter((m) => m.group === g).map(card).join('')}</div></div>`
+    : `<div class="org-group"><h3>${esc(g)}${en(g) && g !== o.head ? `<small>${esc(en(g))}</small>` : ''}</h3><div class="org-cards">${o.members.filter((m) => m.group === g).map(card).join('')}</div></div>`;
+  const lead = groups.filter(hasBio).map(group).join('');
+  const rest = groups.filter((g) => !hasBio(g));
+  const cols = Array.isArray(o.layout) && o.layout.length
+    ? `<div class="org-cols">${o.layout.map((col) => `<div class="org-col">${col.filter((g) => rest.includes(g)).map(group).join('')}</div>`).join('')}</div>`
+    : `<div class="org-people">${rest.map(group).join('')}</div>`;
+  const people = lead + cols;
+  return `<div class="org">${chart}<div class="org-members">${people}</div></div>`;
 }
 
 const JOIN_TEMPLATE = `[관광서비스품질연구소 회원가입 신청서]
@@ -490,7 +499,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('join-tpl'));var s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent='양식을 선택했습니다. 복사해 주십시오.'}})})();</script>`;
 }
 function pageStatic(pg) {
-  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning()).replace('<p>{{aboutCta}}</p>', `<div class="about-cta"><p>기고, 인터뷰, 연구 협력 제안과 회원가입·원고 투고를 환영한다.</p><div class="book-actions"><a class="btn-solid" href="/join/">회원가입</a><a class="btn-line" href="/contact/">문의하기</a></div></div>`);
+  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning()).replace('<p>{{aboutCta}}</p>', `<div class="about-cta"><div class="about-cta-text"><strong>학계와 현장을 잇는 연구에 함께해 주세요</strong><p>관광·호텔 분야 연구자와 실무자의 회원가입과 원고 투고, 기고·인터뷰 및 공동 연구 제안을 기다립니다.</p></div><div class="book-actions"><a class="btn-solid" href="/join/">회원가입</a><a class="btn-line" href="/contact/">문의하기</a></div></div>`);
   const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">${esc(pg.title)}</h1><div class="prose">${html}</div></main>`;
   return layout({ title: pg.title, description: pg.description, pathname: `/${pg.slug}/`, body });
 }
