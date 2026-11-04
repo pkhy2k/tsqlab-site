@@ -39,6 +39,11 @@
       "description": "관광정책과 산업 동향을 서비스품질 관점에서 해석한다."
     },
     {
+      "slug": "hotel-resort",
+      "name": "호텔 & 리조트",
+      "description": "국내외 호텔·리조트 산업의 최신 동향과 트렌드를 다룬다."
+    },
+    {
       "slug": "column",
       "name": "칼럼",
       "description": "소장 칼럼과 외부 매체 기고문을 모은다."
