@@ -4,6 +4,7 @@ subtitle: 같은 방, 같은 밤에 두 예약이 배정된 사건을 따라가�
 category: hotel-it-qa
 author: research
 thumbnail: /images/posts/room-703-error-defect-failure.jpg
+card: /images/cards/room-703-error-defect-failure.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 summary: 호텔 예약 시스템이 같은 객실을 두 고객에게 배정한 가상 사례를 통해 ISTQB가 구분하는 오류·결함·장애의 개념을 설명하고, 책임 추궁보다 근본 원인 분석이 재발을 막는다는 점을 짚는다.

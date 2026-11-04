@@ -4,6 +4,7 @@ subtitle: 2026년 7월 시행된 호텔업 등급평가 개편의 주요 내용�
 category: tourism-policy
 author: research
 thumbnail: /images/posts/hotel-grading-reform-2026.jpg
+card: /images/cards/hotel-grading-reform-2026.jpg
 thumbnail_alt: 현장평가 700점과 암행·불시평가 300점으로 구성된 1,000점 만점 호텔 등급평가와 성급별 기준 점수
 date: 2026-11-02
 summary: 문화체육관광부가 2026년 7월 1일부터 호텔업 등급평가 제도를 개편하였다. 성급별로 나뉘어 있던 평가 기준이 하나로 통합되고, 안전·위생 지표가 강화되었으며, 개인정보 보호 활동에 대한 가점과 감점이 새로 생겼다. 개편 내용을 정리하고 호텔의 서비스품질 관리와 IT 운영에 어떤 의미가 있는지 살펴본다.

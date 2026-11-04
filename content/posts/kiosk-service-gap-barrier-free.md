@@ -5,6 +5,7 @@ category: tourism-policy
 pick: true
 author: research
 thumbnail: /images/posts/kiosk-service-gap-barrier-free.jpg
+card: /images/cards/kiosk-service-gap-barrier-free.jpg
 thumbnail_alt: 키오스크 주변에 음성 안내, 화면 높이, 보조 인력과 호출벨, 안내 영상이 표시된 접근성 도식
 date: 2026-11-02
 summary: 호텔 업계는 오랫동안 매뉴얼과 유니폼으로 표준화된 서비스를 지켜 왔다. 그런데 키오스크 앞에서는 고객의 디지털 역량에 따라 같은 서비스가 다르게 경험된다. 호텔 키오스크 이용객 연구에서 확인된 디지털 리터러시의 역할과, 2026년 1월부터 적용된 무인정보단말기 장애인 편의 제공 의무를 함께 살펴보고 호텔이 검토할 과제를 정리한다.

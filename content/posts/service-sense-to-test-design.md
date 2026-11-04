@@ -4,6 +4,7 @@ subtitle: 호텔 서비스 현장의 감각을 소프트웨어 테스트 기법�
 category: hotel-it-qa
 author: research
 thumbnail: /images/posts/service-sense-to-test-design.jpg
+card: /images/cards/service-sense-to-test-design.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 pick: true

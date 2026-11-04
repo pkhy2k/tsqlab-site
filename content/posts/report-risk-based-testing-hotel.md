@@ -4,6 +4,7 @@ subtitle: 가능성과 영향으로 테스트 우선순위를 정하는 방법�
 category: report
 author: research
 thumbnail: /images/posts/report-risk-based-testing-hotel.jpg
+card: /images/cards/report-risk-based-testing-hotel.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 cover: /images/posts/report-risk-based-testing-hotel-cover.jpg
 date: 2026-11-01

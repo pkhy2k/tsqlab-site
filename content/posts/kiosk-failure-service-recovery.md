@@ -4,6 +4,7 @@ subtitle: 셀프서비스 실패를 서비스 회복 이론으로 읽고, 호텔
 category: service-quality
 author: research
 thumbnail: /images/posts/kiosk-failure-service-recovery.jpg
+card: /images/cards/kiosk-failure-service-recovery.jpg
 thumbnail_alt: 키오스크 오류 화면에서 직원 응대로 이어지는 서비스 회복 흐름과 공정성의 세 차원
 date: 2026-11-02
 summary: 셀프서비스는 직원 없이 돌아가도록 설계되지만, 실패하는 순간에는 다시 사람이 필요해진다. 서비스 실패와 회복에 관한 연구가 밝혀 온 공정성의 세 차원과 서비스 회복 패러독스 논쟁을 정리하고, 호텔 키오스크의 실패 상황에서 회복을 어떻게 설계할 수 있는지 살펴본다.

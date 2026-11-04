@@ -4,6 +4,7 @@ subtitle: 좋은 테스트 기법도, AI를 잘 쓰는 법도 결국 좋은 질�
 category: column
 author: director
 thumbnail: /images/posts/column-testing-is-asking.jpg
+card: /images/cards/column-testing-is-asking.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 summary: 동등 분할, 경곗값 분석, 결정 테이블, 상태 전이는 모두 하나의 질문으로 요약된다. 703호 이중 배정을 막은 것도 회의실에서 던진 질문 하나였다. 테스트 기법과 AI 활용을 질문의 관점에서 다시 읽는다.

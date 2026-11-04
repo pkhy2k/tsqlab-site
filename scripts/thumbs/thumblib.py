@@ -1,6 +1,6 @@
 """대표 이미지(1600x900) 공용 템플릿
 - 분류마다 배경색을 달리하고(어두운 2종·밝은 2종), 4가지 구도 중 하나를 고른다.
-- 글자와 핵심 도형은 홈 카드(3:2)에 잘리지 않도록 가로 125~1475px 안에 둔다.
+- 글자와 핵심 도형은 홈 카드(3:2, 좌우 125px씩 잘림)에서도 여백이 남도록 가로 180~1420px 안에 둔다.
 사용 예:
     from thumblib import keyword, stat, compare, steps, render
     svg = stat('hotel-resort', '+25.2%', '리조트 객실당 매출', '2026년 3분기 · 전년 대비', icon='resort')
@@ -10,6 +10,7 @@ from playwright.sync_api import sync_playwright
 import os
 
 FONT = "'Noto Sans CJK KR','Noto Sans KR',sans-serif"
+L, R = 180, 1420   # 안전 영역 좌우 경계
 NAVY, ORANGE, CREAM, GRAY = '#1E2A3A', '#C8792D', '#F7F5F0', '#8A96A8'
 
 # 분류별 색 구성: bg 배경, fg 주 글자, sub 보조 글자, acc 강조, card 카드 바탕, line 선
@@ -62,7 +63,7 @@ def lines(x, y, rows, size, fill, weight=800, gap=1.22, anchor='start'):
 
 def frame(cat, inner):
     t = THEMES[cat]
-    tag = f'<rect x="125" y="96" width="{len(t["label"]) * 26 + 44}" height="50" rx="25" fill="none" stroke="{t["acc"]}" stroke-width="2.5"/>' + text(147, 130, t['label'], 24, t['acc'], 700)
+    tag = f'<rect x="{L}" y="96" width="{len(t["label"]) * 26 + 44}" height="50" rx="25" fill="none" stroke="{t["acc"]}" stroke-width="2.5"/>' + text(L + 22, 130, t['label'], 24, t['acc'], 700)
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="{FONT}">'
             f'<rect width="1600" height="900" fill="{t["bg"]}"/>{tag}{inner}</svg>')
 
@@ -70,11 +71,11 @@ def frame(cat, inner):
 def keyword(cat, rows, sub='', icon_name='hotel'):
     """rows: 큰 글자 1~3줄(한 줄 10자 안팎). sub: 아래 한 줄 설명."""
     t = THEMES[cat]
-    size = 92 if max(len(r) for r in rows) <= 9 else 78
+    size = 88 if max(len(r) for r in rows) <= 9 else 74
     y0 = 450 - (len(rows) - 1) * size * 0.61
-    s = lines(125, y0, rows, size, t['fg'])
-    if sub: s += text(125, y0 + len(rows) * size * 1.22 + 20, sub, 30, t['sub'], 500)
-    s += f'<circle cx="1210" cy="470" r="250" fill="{t["card"]}"/>' + icon(icon_name, 1060, 320, 300, t['acc'], 1.4)
+    s = lines(L, y0, rows, size, t['fg'])
+    if sub: s += text(L, y0 + len(rows) * size * 1.22 + 20, sub, 30, t['sub'], 500)
+    s += f'<circle cx="1190" cy="470" r="220" fill="{t["card"]}"/>' + icon(icon_name, 1060, 340, 260, t['acc'], 1.4)
     return frame(cat, s)
 
 # ---- 구도 2: 숫자 강조(큰 수치 + 설명)
@@ -82,39 +83,39 @@ def stat(cat, value, label, note='', icon_name='chartup'):
     t = THEMES[cat]
     # 글자 폭을 어림해(한글 1em, 숫자·영문 0.6em, 기호 0.35em) 980px 안에 들도록 크기를 정한다
     em = sum(1.0 if ord(ch) > 0x3000 else (0.35 if ch in ',.·' else 0.6) for ch in value)
-    vs = min(250, int(980 / max(em, 1)))
-    s = text(125, 560, value, vs, t['acc'], 800, ls=-6)
-    s += text(130, 650, label, 46, t['fg'], 800) + (text(130, 710, note, 28, t['sub'], 500) if note else '')
-    s += f'<rect x="1150" y="250" width="320" height="320" rx="40" fill="{t["card"]}"/>' + icon(icon_name, 1200, 300, 220, t['fg'], 1.5)
+    vs = min(240, int(860 / max(em, 1)))
+    s = text(L, 560, value, vs, t['acc'], 800, ls=-6)
+    s += text(L + 5, 650, label, 46, t['fg'], 800) + (text(L + 5, 710, note, 28, t['sub'], 500) if note else '')
+    s += f'<rect x="1120" y="260" width="300" height="300" rx="40" fill="{t["card"]}"/>' + icon(icon_name, 1165, 305, 210, t['fg'], 1.5)
     return frame(cat, s)
 
 # ---- 구도 3: 비교(왼쪽 대 오른쪽)
 def compare(cat, title, left, right, mid='→'):
     """left/right: (큰 글자, 작은 설명, 아이콘)"""
     t = THEMES[cat]
-    s = text(125, 250, title, 54, t['fg'], 800)
+    s = text(L, 250, title, 54, t['fg'], 800)
     for i, (big, small, ic) in enumerate([left, right]):
-        x = 125 + i * 720
+        x = L + i * 660
         fill = t['card'] if i == 0 else t['acc']
         fg = t['fg'] if i == 0 else ('#1E2A3A' if cat in ('tourism-policy', 'hotel-resort', 'report') else '#FFFFFF')
-        s += f'<rect x="{x}" y="320" width="630" height="440" rx="28" fill="{fill}"/>' + icon(ic, x + 50, 370, 120, fg, 1.6)
+        s += f'<rect x="{x}" y="320" width="580" height="440" rx="28" fill="{fill}"/>' + icon(ic, x + 50, 370, 120, fg, 1.6)
         s += text(x + 50, 610, big, 64, fg, 800) + text(x + 50, 680, small, 30, fg, 500)
-    s += text(800, 570, mid, 64, t['sub'], 700, 'middle')
+    s += text(800, 570, mid, 56, t['sub'], 700, 'middle')
     return frame(cat, s)
 
 # ---- 구도 4: 단계·요소 3개
 def steps(cat, title, items, joiner='arrow'):
     """items: [(아이콘, 짧은 글자, 설명)] 3개. joiner: 'arrow'(흐름) 또는 'plus'(요소)"""
     t = THEMES[cat]
-    s = text(125, 260, title, 58, t['fg'], 800)
+    s = text(L, 260, title, 58, t['fg'], 800)
     for i, (ic, big, small) in enumerate(items[:3]):
-        x = 125 + i * 470
-        s += f'<rect x="{x}" y="340" width="400" height="420" rx="26" fill="{t["card"]}"/>'
-        s += f'<circle cx="{x + 200}" cy="470" r="80" fill="{t["bg"]}"/>' + icon(ic, x + 145, 415, 110, t['acc'], 1.7)
-        s += text(x + 200, 625, big, 44, t['fg'], 800, 'middle') + text(x + 200, 680, small, 26, t['sub'], 500, 'middle')
+        x = L + i * 435
+        s += f'<rect x="{x}" y="340" width="370" height="420" rx="26" fill="{t["card"]}"/>'
+        s += f'<circle cx="{x + 185}" cy="470" r="80" fill="{t["bg"]}"/>' + icon(ic, x + 130, 415, 110, t['acc'], 1.7)
+        s += text(x + 185, 625, big, 44, t['fg'], 800, 'middle') + text(x + 185, 680, small, 26, t['sub'], 500, 'middle')
         if i < 2:
             sym = '→' if joiner == 'arrow' else '+'
-            s += text(x + 435, 565, sym, 48, t['acc'], 800, 'middle')
+            s += text(x + 402, 565, sym, 44, t['acc'], 800, 'middle')
     return frame(cat, s)
 
 def render(svgs, out_dir):

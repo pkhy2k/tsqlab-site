@@ -4,6 +4,7 @@ subtitle: AI 에이전트를 업무에 쓰는 호텔 IT 조직이 지켜야 할 
 category: hotel-it-qa
 author: research
 thumbnail: /images/posts/hotel-data-ai-agent.jpg
+card: /images/cards/hotel-data-ai-agent.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 summary: 호텔은 이름, 연락처, 여권 번호, 카드 정보까지 다루는 대표적인 개인정보 집약 산업이다. AI 에이전트를 품질관리 업무에 활용할 때 넣지 말아야 할 정보, 회사 안에서 먼저 해야 할 가명 처리, AI 결과를 초안으로 보고 검증하는 습관을 정리한다.

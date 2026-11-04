@@ -4,6 +4,7 @@ subtitle: 2026년 국정감사에서 제기된 체류·지출 감소 지적을 �
 category: tourism-policy
 author: research
 thumbnail: /images/posts/inbound-tourists-stay-quality-2026.jpg
+card: /images/cards/inbound-tourists-stay-quality-2026.jpg
 thumbnail_alt: 2023년과 2025년 방한 외래객 수는 크게 늘었지만 평균 체류일수는 7.8일에서 6.5일로 줄어든 것을 비교한 도식
 date: 2026-11-02
 summary: 2026년 1~9월 방한 외래관광객은 전년보다 21.5% 늘었지만, 국정감사에서는 평균 체류일수와 1인당 숙박비 지출이 줄었다는 지적이 나왔다. 보도된 수치를 정리하고 호텔과 관광 현장이 볼 서비스품질의 과제를 살펴본다.

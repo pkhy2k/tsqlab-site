@@ -4,6 +4,7 @@ subtitle: 영업일자, 숙박일, 현지 시각이 엇갈리는 지점과 그 �
 category: hotel-it-qa
 author: research
 thumbnail: /images/posts/hotel-dates-test-design.jpg
+card: /images/cards/hotel-dates-test-design.jpg
 thumbnail_alt: 달력 날짜와 호텔 영업일자가 자정과 야간 마감 사이에서 어긋나는 타임라인
 date: 2026-11-02
 summary: 호텔 시스템의 결함 가운데 상당수는 날짜에서 생긴다. 달력의 날짜와 호텔의 영업일자가 다르고, 숙박은 밤 단위로 계산되며, 예약 채널마다 시간대가 다르다. 호텔 업무의 날짜 개념을 정리하고, 그 경계에서 확인해야 할 테스트 관점을 제안한다.
