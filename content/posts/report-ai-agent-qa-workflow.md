@@ -4,7 +4,6 @@ subtitle: 프롬프트의 네 요소부터 단계별 역할 분담까지, 호텔
 category: report
 author: research
 thumbnail: /images/posts/report-ai-agent-qa-workflow.jpg
-card: /images/cards/report-ai-agent-qa-workflow.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 cover: /images/posts/report-ai-agent-qa-workflow-cover.jpg
 date: 2026-11-01

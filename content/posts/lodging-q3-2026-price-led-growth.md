@@ -4,7 +4,6 @@ subtitle: 야놀자리서치의 3분기 숙박업 동향 보고서로 본 가격
 category: hotel-resort
 author: research
 thumbnail: /images/posts/lodging-q3-2026-price-led-growth.jpg
-card: /images/cards/lodging-q3-2026-price-led-growth.jpg
 thumbnail_alt: 2026년 3분기 호텔·리조트의 객실 단가는 9% 올랐지만 점유율은 1% 오르는 데 그친 것을 비교한 막대 도식
 date: 2026-11-04
 summary: 2026년 3분기 국내 호텔·리조트의 객실당 매출은 전년보다 10.1% 늘었지만, 그 대부분은 객실 단가 인상에서 나왔다. 보도된 수치를 정리하고, 가격이 성장을 이끄는 국면에서 호텔이 점검해야 할 서비스품질의 과제를 살펴본다.

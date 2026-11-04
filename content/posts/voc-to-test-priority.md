@@ -4,7 +4,6 @@ subtitle: 서비스품질 관리의 오랜 도구인 VOC 분석을 소프트웨�
 category: service-quality
 author: research
 thumbnail: /images/posts/voc-to-test-priority.jpg
-card: /images/cards/voc-to-test-priority.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 summary: 호텔 시스템에 쌓이는 고객과 직원의 문의는 결함이 어디에 몰려 있는지 보여 주는 데이터다. VOC를 정리·분류·집계·해석·반영의 다섯 단계로 분석해 테스트 우선순위와 기획 개선으로 연결하는 방법을 사례와 함께 살펴본다.

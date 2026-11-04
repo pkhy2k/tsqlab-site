@@ -4,7 +4,6 @@ subtitle: 대체될 것이라는 걱정은 새로운 일의 출발점이 되었�
 category: column
 author: director
 thumbnail: /images/posts/column-kiosk-and-front-manager.jpg
-card: /images/cards/column-kiosk-and-front-manager.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 summary: 해외 브랜드 체인 호텔의 프런트 오피스 매니저였던 필자가 키오스크에 대한 두려움에서 출발해 호텔 솔루션 기업의 QA 담당자가 되기까지, 그리고 그 과정에서 현장 경험이 품질관리의 언어로 바뀐 순간을 돌아본다.
