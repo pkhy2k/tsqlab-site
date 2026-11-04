@@ -54,6 +54,7 @@
     "hotel-it-qa",
     "tourism-policy"
   ],
+  "leadCategory": "tourism-policy",
   "authors": {
     "director": {
       "name": "박건희",

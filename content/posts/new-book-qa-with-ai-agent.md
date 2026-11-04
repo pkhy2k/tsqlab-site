@@ -4,7 +4,6 @@ subtitle: 박건희 소장, ISTQB CTFL 핵심 개념을 가상 호텔 사례로 
 category: hotel-it-qa
 author: research
 date: 2026-11-01
-featured: true
 thumbnail: /images/book-qa-ai-agent-hero.jpg
 thumbnail_alt: 『이제 QA, AI Agent랑 같이 합시다』 앞표지
 thumbnail_caption: 『이제 QA, AI Agent랑 같이 합시다』(박건희 지음, 부크크, 2026) 표지
