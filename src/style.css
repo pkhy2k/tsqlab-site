@@ -452,3 +452,20 @@ button.cs-card[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--accent); p
 .pub-links { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 6px; font-size: 13.5px; font-weight: 600; }
 .prose .pub-links a { color: var(--logo-orange); text-decoration: none; }
 @media (max-width: 640px) { .pub { flex-direction: column; gap: 14px; padding: 18px; } .prose .pub img { width: 96px; } }
+
+/* 연구 성과 */
+.ro { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.ro-filter { display: flex; flex-wrap: wrap; gap: 6px; }
+.ro-filter button { padding: 6px 14px; border: 1px solid var(--rule); border-radius: 999px; background: #fff; color: var(--sub); font: inherit; font-size: 13.5px; cursor: pointer; }
+.ro-filter button.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.ro-year { margin-top: 14px; border-top: 2px solid var(--ink); }
+.prose .ro-year h3 { margin: 12px 0 0; font-family: var(--serif); font-size: 20px; }
+.prose .ro-list { list-style: none; margin: 0; padding: 0; }
+.ro-filter + .ro-year, .ro-filter + .ro-filter { margin-top: 10px; }
+.prose .ro-list li { display: grid; grid-template-columns: 84px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--rule); margin: 0; }
+.ro-list li[hidden], .ro-year[hidden] { display: none; }
+.ro-type { align-self: start; padding: 3px 0; border: 1px solid var(--logo-orange); border-radius: 4px; color: var(--logo-orange); font-size: 12.5px; font-weight: 700; text-align: center; }
+.prose .ro-cite { margin: 0; font-size: 15px; line-height: 1.75; }
+@media (max-width: 640px) { .prose .ro-list li { grid-template-columns: 1fr; gap: 8px; } .ro-type { justify-self: start; padding: 3px 10px; } }
+.ro-body.has-cover { display: flex; gap: 18px; align-items: flex-start; }
+.prose .ro-cover { flex: 0 0 76px; width: 76px; height: auto; margin: 0; box-shadow: 0 4px 12px rgba(30, 42, 58, .15); }

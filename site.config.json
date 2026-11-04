@@ -191,5 +191,49 @@
     "navBooks": false,
     "columnStrip": false,
     "columnFilter": true
-  }
+  },
+  "outputs": [
+    {
+      "type": "저서",
+      "member": "박건희",
+      "year": 2026,
+      "citation": "박건희 (2026). 『이제 QA, AI Agent랑 같이 합시다』. 부크크. ISBN 9791112326836.",
+      "links": [
+        {
+          "label": "책 소개",
+          "url": "/books/"
+        },
+        {
+          "label": "신간 소개 기사",
+          "url": "/posts/new-book-qa-with-ai-agent/"
+        },
+        {
+          "label": "교보문고",
+          "url": "https://product.kyobobook.co.kr/detail/S000221812690"
+        }
+      ],
+      "cover": "/images/book-qa-ai-agent.jpg"
+    },
+    {
+      "type": "학술논문",
+      "member": "박건희",
+      "year": 2025,
+      "citation": "박건희 (2025). 호텔 키오스크의 셀프 서비스 기술 품질(SSTQUAL)이 플로우(Flow)와 지속이용의도에 미치는 영향: 디지털 리터러시의 조절효과를 중심으로. 박사학위논문, 경기대학교 대학원 호텔경영학과.",
+      "links": [
+        {
+          "label": "RISS 원문",
+          "url": "https://www.riss.kr/link?id=T17289997"
+        },
+        {
+          "label": "리뷰 읽기",
+          "url": "/posts/report-hotel-kiosk-sstqual-flow/"
+        }
+      ]
+    }
+  ],
+  "outputTypes": [
+    "저서",
+    "학술논문",
+    "기고·발표"
+  ]
 }

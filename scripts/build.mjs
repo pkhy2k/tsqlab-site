@@ -158,6 +158,18 @@ function loadPages() {
 
 // ---------- 공통 조각 ----------
 // 로고: 아치 + 상승하는 막대 3개 (마지막 막대 주황)
+const outputsBlock = () => {
+  const list = [...(cfg.outputs || [])].sort((a, b) => b.year - a.year);
+  if (!list.length) return '<p class="muted">등록된 연구 성과가 없다.</p>';
+  const types = (cfg.outputTypes || []).filter((t) => list.some((o) => o.type === t));
+  const members = [...new Set(list.map((o) => o.member))];
+  const chips = (name, vals) => `<div class="ro-filter" data-key="${name}"><button type="button" class="on" data-v="">전체</button>${vals.map((v) => `<button type="button" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div>`;
+  const ext = (u) => /^https?:/.test(u) ? ' target="_blank" rel="noopener"' : ' data-nonew';
+  const years = [...new Set(list.map((o) => o.year))];
+  const items = years.map((y) => `<section class="ro-year" data-year="${y}"><h3>${y}</h3><ul class="ro-list">${list.filter((o) => o.year === y).map((o) => `<li data-type="${esc(o.type)}" data-member="${esc(o.member)}"><span class="ro-type">${esc(o.type)}</span><div class="ro-body${o.cover ? ' has-cover' : ''}">${o.cover ? `<img class="ro-cover" src="${esc(o.cover)}" alt="${esc(o.type)} 표지" loading="lazy">` : ''}<div><p class="ro-cite">${esc(o.citation)}</p>${o.links?.length ? `<span class="pub-links">${o.links.map((l) => `<a${ext(l.url)} href="${esc(l.url)}">${esc(l.label)} ›</a>`).join('')}</span>` : ''}</div></div></li>`).join('')}</ul></section>`).join('');
+  return `<div class="ro">${types.length > 1 ? chips('type', types) : ''}${members.length > 1 ? chips('member', members) : ''}${items}</div>
+<script>(function(){var f={type:'',member:''};function apply(){document.querySelectorAll('.ro-list li').forEach(function(li){li.hidden=(f.type&&li.dataset.type!==f.type)||(f.member&&li.dataset.member!==f.member)});document.querySelectorAll('.ro-year').forEach(function(y){y.hidden=!y.querySelector('li:not([hidden])')})}document.querySelectorAll('.ro-filter').forEach(function(g){g.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;g.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)});f[g.dataset.key]=b.dataset.v;apply()})})})();</script>`;
+};
 const publications = () => `<div class="pubs">${cfg.books.map((b) => {
   const meta = [b.author && `${esc(b.author)} 지음`, b.publisher && esc(b.publisher), b.date && `${fmtDate(b.date)} ${esc(b.status || '출간')}`, b.pages && esc(b.pages)].filter(Boolean).join(' · ');
   const links = [b.post && `<a data-nonew href="${esc(b.post)}">신간 소개 기사 ›</a>`, `<a href="/books/">출판 페이지 ›</a>`, ...(b.links || []).map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}에서 보기 ›</a>`)].filter(Boolean).join('');
@@ -195,7 +207,7 @@ const navLinks = (active) => cfg.categories.filter((c) => !CAT_USED.size || CAT_
 function headerHome() {
   const today = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'full', timeZone: 'Asia/Seoul' }).format(new Date());
   return `<header class="topbar"><div class="wrap topbar-in"><span>${today}</span>
-<nav aria-label="보조 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a><a href="/contact/">문의하기</a>${cfg.social.instagram ? `<a href="${esc(cfg.social.instagram)}" target="_blank" rel="noopener">인스타그램</a>` : ''}</nav></div></header>
+<nav aria-label="보조 메뉴"><a href="/about/">연구소 소개</a><a href="/research/">연구 성과</a><a href="/join/">회원가입</a><a href="/contact/">문의하기</a>${cfg.social.instagram ? `<a href="${esc(cfg.social.instagram)}" target="_blank" rel="noopener">인스타그램</a>` : ''}</nav></div></header>
 <div class="wrap masthead"><a href="/" class="brand-lg" aria-label="${esc(cfg.name)} 홈">${logo(52)}<span>${esc(cfg.name)}</span></a><span class="brand-en">${esc(cfg.nameEn)}</span></div>
 <nav class="mainnav" aria-label="주 메뉴"><div class="wrap mainnav-in"><div class="nav-left"><a href="/" class="nav-brand" aria-label="${esc(cfg.name)} 홈">${logo(24)}<span>${esc(cfg.name)}</span></a><div class="navlinks">${navLinks()}</div></div>${searchBtn}</div></nav>`;
 }
@@ -209,7 +221,7 @@ function footer() {
 <strong>${esc(cfg.name)}</strong>
 <span>비영리 학술연구 단체 · 소장 ${esc(b.director)}${b.email ? ` · 이메일 <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ''}</span>
 <span>© ${esc(cfg.name)}. 무단 전재 및 재배포 금지.</span></div>
-<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
+<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/research/">연구 성과</a><a href="/join/">회원가입</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
 }
 function thumb(p, ratio = 'wide', linked = true) {
   // 목록·홈 미리보기는 card(미리보기 전용 이미지)를 먼저 쓰고, 없으면 본문 이미지(thumbnail)를 쓴다
@@ -531,6 +543,8 @@ const JOIN_TEMPLATE = `[관광서비스품질연구소 회원가입 신청서]
 - 필수 항목 수집·이용에 동의합니다(예 / 아니오):
 - 선택 항목: 프로필 사진 제출 및 웹사이트 조직 소개 게재에 동의합니다(예 / 아니오):
   (동의하시면 프로필 사진을 첨부해 주십시오.)
+- 선택 항목: 대표 연구실적의 웹사이트 연구 성과 페이지 게재에 동의합니다(예 / 아니오):
+  (동의하시면 9번에 적은 연구실적을 성명과 함께 게재합니다.)
 
 신청일:`;
 function joinForm() {
@@ -545,7 +559,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('join-tpl'));var s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent='양식을 선택했습니다. 복사해 주십시오.'}})})();</script>`;
 }
 function pageStatic(pg) {
-  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning()).replace('<p>{{aboutCta}}</p>', aboutCta()).replace('<p>{{publications}}</p>', publications()).replace('<p>{{contactCards}}</p>', contactCards()).replace('<p>{{contactEmail}}</p>', contactEmail()).replace('<p>{{joinCta}}</p>', joinCta());
+  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning()).replace('<p>{{aboutCta}}</p>', aboutCta()).replace('<p>{{publications}}</p>', publications()).replace('<p>{{outputs}}</p>', outputsBlock()).replace('<p>{{contactCards}}</p>', contactCards()).replace('<p>{{contactEmail}}</p>', contactEmail()).replace('<p>{{joinCta}}</p>', joinCta());
   const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">${esc(pg.title)}</h1><div class="prose">${html}</div></main>`;
   return layout({ title: pg.title, description: pg.description, pathname: `/${pg.slug}/`, body });
 }
