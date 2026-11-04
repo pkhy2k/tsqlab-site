@@ -256,5 +256,22 @@
     "저서",
     "학술논문",
     "기고·발표"
-  ]
+  ],
+  "subFilters": {
+    "hotel-it-qa": [
+      {
+        "label": "IT 솔루션",
+        "tag": "호텔IT솔루션"
+      },
+      {
+        "label": "품질관리(QA)",
+        "tag": "소프트웨어QA"
+      }
+    ]
+  },
+  "homeExcludeTags": {
+    "hotel-it-qa": [
+      "소프트웨어QA"
+    ]
+  }
 }
