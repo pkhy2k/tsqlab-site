@@ -7,7 +7,7 @@ thumbnail: /images/posts/channel-manager-integration-testing.jpg
 thumbnail_alt: PMS와 채널 매니저, 여러 온라인 판매 채널 사이를 오가는 재고·요금·예약 메시지와 지연·중복·순서 뒤바뀜이 생기는 지점을 표시한 도식
 date: 2026-11-02
 summary: 호텔의 객실 재고와 요금은 PMS, 채널 매니저, 여러 온라인 판매 채널 사이를 오가며 맞춰진다. 각 시스템이 정상이어도 그 사이에서 결함이 생기는 이유와, 통합 테스트에서 확인해야 할 관점을 정리한다.
-tags: [호텔IT, QA, 통합테스트, 채널매니저, 인터페이스, 오버부킹]
+tags: [호텔IT, 소프트웨어QA, 통합테스트, 채널매니저, 인터페이스, 오버부킹]
 references:
   - "ISTQB. Certified Tester Foundation Level (CTFL) Syllabus, v4.0.1."
 ---

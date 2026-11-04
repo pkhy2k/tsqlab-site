@@ -7,7 +7,7 @@ thumbnail: /images/posts/hotelier-to-domain-qa.jpg
 thumbnail_alt: 기사 내용을 요약한 일러스트
 date: 2026-11-01
 summary: 호텔 업무의 디지털 전환은 서비스 인력에게 위기이자 새로운 진로의 출발점이다. 특정 업무 시스템을 전문으로 하는 도메인 QA 직무와, 서비스 경험을 품질관리의 언어로 번역하는 방법, 교육과 인력 정책에 주는 시사점을 살펴본다.
-tags: [관광인력, 디지털전환, 도메인QA, 경력전환, ISTQB, 호텔IT]
+tags: [산업트렌드, 관광인력, 디지털전환, 도메인QA, 경력전환, ISTQB, 호텔IT]
 references:
   - "박건희 (2026). *이제 QA, AI Agent랑 같이 합시다*. 부크크. 프롤로그, 1장, 13장."
   - "ISTQB. Certified Tester Foundation Level (CTFL) Syllabus, v4.0.1."

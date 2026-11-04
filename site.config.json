@@ -256,5 +256,42 @@
     "저서",
     "학술논문",
     "기고·발표"
-  ]
+  ],
+  "subFilters": {
+    "hotel-it-qa": [
+      {
+        "label": "IT 솔루션",
+        "tag": "호텔IT솔루션"
+      },
+      {
+        "label": "품질관리(QA)",
+        "tag": "소프트웨어QA"
+      }
+    ],
+    "tourism-policy": [
+      {
+        "label": "정책·제도",
+        "tag": "정책제도"
+      },
+      {
+        "label": "산업·트렌드",
+        "tag": "산업트렌드"
+      }
+    ],
+    "hotel-resort": [
+      {
+        "label": "국내",
+        "tag": "국내호텔"
+      },
+      {
+        "label": "해외",
+        "tag": "해외호텔"
+      }
+    ]
+  },
+  "homeExcludeTags": {
+    "hotel-it-qa": [
+      "소프트웨어QA"
+    ]
+  }
 }

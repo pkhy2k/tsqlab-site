@@ -7,7 +7,7 @@ thumbnail: /images/posts/lodging-q3-2026-price-led-growth.jpg
 thumbnail_alt: 2026년 3분기 호텔·리조트의 객실 단가는 9% 올랐지만 점유율은 1% 오르는 데 그친 것을 비교한 막대 도식
 date: 2026-11-04
 summary: 2026년 3분기 국내 호텔·리조트의 객실당 매출은 전년보다 10.1% 늘었지만, 그 대부분은 객실 단가 인상에서 나왔다. 보도된 수치를 정리하고, 가격이 성장을 이끄는 국면에서 호텔이 점검해야 할 서비스품질의 과제를 살펴본다.
-tags: [호텔리조트, 숙박시장, 객실단가, RevPAR, 수익관리, 호텔경영]
+tags: [국내호텔, 호텔리조트, 숙박시장, 객실단가, RevPAR, 수익관리, 호텔경영]
 references:
   - "호텔앤레스토랑 (2026.10.28). 3분기 숙박업 '전 부문 성장'… '객실단가' 상승이 실적 견인. https://www.hotelrestaurant.co.kr/news/articleView.html?idxno=22433"
   - "한국경제 (2026.10.27). 외국인 관광객 1700만명 왔는데…모텔 10곳 중 3곳은 손님 0명. https://www.hankyung.com/article/202610277622g"

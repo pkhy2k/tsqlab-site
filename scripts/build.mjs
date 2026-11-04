@@ -328,16 +328,17 @@ function pageHome(posts) {
   const sidePool = rest.filter((p) => !['column', 'report'].includes(p.category));
   // 분야 묶음은 메인 기사만 빼고 채우고, 오른쪽 추천 글은 홈의 다른 곳에 나오지 않는 글을 최신순으로(화면에서 메인 기사 높이에 맞춰 개수 조정)
   const shown = new Set([lead]);
-  const sectionShown = new Set(cfg.homeSections.flatMap((slug) => posts.filter((p) => p.category === slug && p !== lead).slice(0, 4)));
+  const homeOk = (p) => !(((cfg.homeExcludeTags || {})[p.category]) || []).some((t) => p.tags.includes(t)); // 홈에서 뺄 세부 주제(예: 호텔 IT의 QA 글)
+  const sectionShown = new Set(cfg.homeSections.flatMap((slug) => posts.filter((p) => p.category === slug && p !== lead && homeOk(p)).slice(0, 4)));
   // 메인 기사 아래 '이어지는 정책 이슈': 메인 기사와 같은 분류의 다음 최신 글 2편
   const follow = rest.filter((p) => p.category === lead?.category && !sectionShown.has(p)).slice(0, 2);
   // 추천 글: 분류당 1편, 우선순위 순(소장 지정). 홈의 다른 영역에 나온 글과 신간 기사는 제외하고, 해당 분류에 남은 글이 없으면 다음 분류로
   const RECO_ORDER = ['tourism-policy', 'hotel-resort', 'service-quality', 'hotel-it-qa'];
-  const recoPool = sidePool.filter((p) => !sectionShown.has(p) && !follow.includes(p) && !p.tags.includes('신간'));
+  const recoPool = sidePool.filter((p) => !sectionShown.has(p) && !follow.includes(p) && !p.tags.includes('신간') && homeOk(p));
   const side = RECO_ORDER.map((c) => recoPool.find((p) => p.category === c)).filter(Boolean).slice(0, 3); // 출간 기사는 추천에서 제외(소장 결정)
   const sections = cfg.homeSections.map((slug) => {
     const c = catBySlug[slug];
-    const list = posts.filter((p) => p.category === slug && !shown.has(p)).slice(0, 4);
+    const list = posts.filter((p) => p.category === slug && !shown.has(p) && homeOk(p)).slice(0, 4);
     if (!list.length) return `<div class="col"><div class="sec-head"><h2>${esc(c.name)}</h2></div><p class="muted">아직 게시된 글이 없다.</p></div>`;
     const [first, ...others] = list;
     return `<div class="col"><div class="sec-head"><h2>${esc(c.name)}</h2><a href="/category/${slug}/">더보기</a></div>
@@ -493,11 +494,15 @@ var u=new URL(location.href);if(a)u.searchParams.set('author',a);else u.searchPa
 cards.forEach(function(b){b.addEventListener('click',function(){var a=b.getAttribute('data-author');apply(b.getAttribute('aria-pressed')==='true'?'':a)})});
 var all=document.querySelector('.cs-all');if(all)all.addEventListener('click',function(){apply('')});
 var q=new URLSearchParams(location.search).get('author');if(q)apply(q)})();</script>` : '';
+  const subs = (cfg.subFilters || {})[c.slug] || [];
+  const subUi = subs.length ? `<div class="ro-filter sub-filter" role="group" aria-label="세부 분류"><button type="button" class="on" data-v="">전체 <span>${list.length}</span></button>${subs.map((f) => `<button type="button" data-v="${esc(f.tag)}">${esc(f.label)} <span>${list.filter((p) => p.tags.includes(f.tag)).length}</span></button>`).join('')}</div>` : '';
+  const subJs = subs.length ? `<script>(function(){var g=document.querySelector('.sub-filter');if(!g)return;var rows=[].slice.call(document.querySelectorAll('.row[data-tags]'));function apply(v){g.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.v===v)});rows.forEach(function(r){r.hidden=!!v&&r.dataset.tags.split('|').indexOf(v)<0});var u=new URL(location.href);if(v)u.searchParams.set('type',v);else u.searchParams.delete('type');history.replaceState(null,'',u)}g.addEventListener('click',function(e){var b=e.target.closest('button');if(b)apply(b.dataset.v)});var q=new URLSearchParams(location.search).get('type');if(q)apply(q)})();</script>` : '';
   const body = `${headerCompact(c.slug)}
 <main id="main" class="wrap list-wrap"><header class="list-head"><h1>${esc(c.name)}</h1><p class="muted">${esc(c.description)}</p></header>
 ${filterUi}
-${list.length ? list.map((p) => `<article class="row"${isCol ? ` data-author="${esc(p.author)}"` : ''}>${thumb(p, 'photo')}<div class="row-text">${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><p>${esc(p.subtitle || p.excerpt)}</p><span class="meta">${byline(p)}</span></div></article>`).join('') : '<p class="muted">아직 게시된 글이 없다.</p>'}
-</main>${filterJs}`;
+${subUi}
+${list.length ? list.map((p) => `<article class="row"${isCol ? ` data-author="${esc(p.author)}"` : ''}${subs.length ? ` data-tags="${esc(p.tags.join('|'))}"` : ''}>${thumb(p, 'photo')}<div class="row-text">${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><p>${esc(p.subtitle || p.excerpt)}</p><span class="meta">${byline(p)}</span></div></article>`).join('') : '<p class="muted">아직 게시된 글이 없다.</p>'}
+</main>${filterJs}${subJs}`;
   return layout({ title: c.name, description: c.description, pathname: `/category/${c.slug}/`, body });
 }
 

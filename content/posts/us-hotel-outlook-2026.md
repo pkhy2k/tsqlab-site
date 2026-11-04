@@ -7,7 +7,7 @@ thumbnail: /images/posts/us-hotel-outlook-2026.jpg
 thumbnail_alt: 미국 호텔의 2026년 객실당 매출 전망이 2.8%에서 4.4%로 상향된 것과, 해외 방문객 감소 속에서 단체·출장 수요가 성장을 받친 구조를 보여 주는 도식
 date: 2026-11-04
 summary: 미국 호텔시장의 2026년 전망은 하반기 들어 상향되었다. 해외 방문객은 줄었지만 월드컵과 단체·출장 수요가 성장을 받쳤고, 성장의 중심은 객실 단가였다. 두 기관의 전망을 정리하고 한국 호텔이 참고할 점을 살펴본다.
-tags: [호텔리조트, 해외호텔시장, 미국호텔, RevPAR, 단체수요, 호텔경영]
+tags: [해외호텔, 호텔리조트, 해외호텔시장, 미국호텔, RevPAR, 단체수요, 호텔경영]
 references:
   - "Hotel Dive (2026.08.07). CoStar, Tourism Economics 'significantly' boost US hotel outlook. https://www.hoteldive.com/news/costar-tourism-economics-raise-us-hotel-performance-outlook-2026/827318/"
   - "Marcus & Millichap (2026.10). 2026 U.S. Hotel Outlook: Domestic Demand Supports Growth as Financing and Supply Risks Rise. https://www.marcusmillichap.com/research/special-report/2026/10/2026-us-hotel-outlook-domestic-demand-supports-growth-as-financing-and-supply-risks-rise"
