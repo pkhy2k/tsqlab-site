@@ -1,6 +1,7 @@
 """기존 글의 미리보기 카드 이미지(목록·홈·SNS 공유용) 생성
 본문 상단 이미지(thumbnail)는 그대로 두고, 미리보기용 card 이미지만 새 템플릿으로 만든다.
 관광정책·트렌드 글은 전문성을 보여 주기 위해 card를 만들지 않고 기존 차트 이미지를 미리보기에도 쓴다(소장 결정).
+출판 관련 글(신간 소개 등)도 예외로 card를 만들지 않는다. 앞으로 출판 콘텐츠는 소장이 예외 처리를 요청한다.
 사용법: python3 scripts/thumbs/cards_20261104.py <출력 폴더(png)>
 """
 import sys
@@ -19,7 +20,6 @@ C = {
  'hotel-kiosk-quality-checklist': stat('hotel-it-qa', '461명', '호텔 키오스크 이용객 분석', '오류 없는 기능만으로는 충분하지 않다', 'kiosk'),
  'kiosk-failure-service-recovery': steps('service-quality', '셀프서비스가 실패할 때', [('kiosk', '기기 오류', '예약을 찾지 못함'), ('users', '직원 연결', '사람에게 넘김'), ('check', '회복', '설명·사과·보상')]),
  'lodging-q3-2026-price-led-growth': stat('hotel-resort', '+10.1%', '호텔·리조트 객실당 매출', '대부분 객실 단가 인상에서 · 2026년 3분기', 'chartup'),
- 'new-book-qa-with-ai-agent': keyword('hotel-it-qa', ['비전공자를 위한', 'QA 입문서 출간'], '『이제 QA, AI Agent랑 같이 합시다』', 'doc'),
  'report-ai-agent-qa-workflow': compare('report', 'AI 에이전트와 함께하는 QA', ('맡길 일', '문서 정리·빠진 것 찾기', 'doc'), ('판단할 일', '실행과 판정은 사람이', 'check')),
  'report-cancellation-qa-case': steps('report', '예약 변경·취소 기능 QA 2주', [('doc', '리뷰', '기획서 검토'), ('search', '설계·실행', '테스트와 결함 관리'), ('check', '완료 보고', '결과 정리')]),
  'report-hotel-kiosk-sstqual-flow': keyword('report', ['무엇이 고객을', '몰입하게 하는가'], '호텔 키오스크 이용객 461명 분석', 'kiosk'),

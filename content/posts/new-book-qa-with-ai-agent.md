@@ -5,7 +5,6 @@ category: hotel-it-qa
 author: research
 date: 2026-11-01
 thumbnail: /images/book-qa-ai-agent-hero.jpg
-card: /images/cards/new-book-qa-with-ai-agent.jpg
 thumbnail_alt: 『이제 QA, AI Agent랑 같이 합시다』 앞표지
 thumbnail_caption: 『이제 QA, AI Agent랑 같이 합시다』(박건희 지음, 부크크, 2026) 표지
 summary: 관광서비스품질연구소 박건희 소장이 소프트웨어 품질보증(QA) 입문서 『이제 QA, AI Agent랑 같이 합시다』(부크크)를 펴냈다. 서비스·운영 현장 출신 비전공자의 눈높이에서 테스트 기법과 AI 에이전트 활용법을 설명한다.
