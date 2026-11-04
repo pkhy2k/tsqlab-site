@@ -19,7 +19,7 @@ const fmtDate = (d) => (d ? d.replaceAll('-', '.') : '');
 // 신규 글 표시: 글 링크에 게시일(data-d)을 달고, 브라우저에서 최근 N일 이내 글에 NEW 표시
 const DATE_BY_SLUG = {};
 const markNew = (html) => html.replace(/<a ([^>]*?)href="\/posts\/([a-z0-9-]+)\/"/g,
-  (m, pre, slug) => (DATE_BY_SLUG[slug] && !/aria-hidden|tabindex="-1"/.test(pre) ? `<a ${pre}href="/posts/${slug}/" data-d="${DATE_BY_SLUG[slug]}"` : m));
+  (m, pre, slug) => (DATE_BY_SLUG[slug] && !/aria-hidden|tabindex="-1"|data-nonew/.test(pre) ? `<a ${pre}href="/posts/${slug}/" data-d="${DATE_BY_SLUG[slug]}"` : m));
 const write = (rel, content) => {
   if (rel.endsWith('.html')) content = markNew(content);
   const file = path.join(DIST, rel);
@@ -450,8 +450,8 @@ function orgBlock() {
 <div class="org-units" style="--n:${o.units.length}">${o.units.map((u) => `<div class="org-unit">${unit(uname(u))}${typeof u !== 'string' && u.sub?.length ? u.sub.map((x) => `<div class="org-subline"></div><div class="org-sub">${unit(x)}</div>`).join('') : ''}</div>`).join('')}</div></div>
 ${o.board?.length ? `<div class="org-board">${o.board.map((b) => unit(b).replace('class="org-node"', 'class="org-node org-audit"')).join('')}</div>` : ''}</div>`;
   const groups = [...new Set(o.members.map((m) => m.group))];
-  const card = (m) => `<div class="org-card${(o.board || []).includes(m.group) ? ' is-audit' : ''}">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<span class="org-ph" aria-hidden="true"><svg viewBox="2 3 20 18" fill="currentColor"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c0-4.1 3.6-7 8-7s8 2.9 8 7v.5H4z"/></svg></span>`}<div><em>${esc(m.role)}</em>${en(m.role) ? `<i>${esc(en(m.role))}</i>` : ''}<b>${esc(m.name)}</b></div></div>`;
-  const people = groups.map((g) => `<div class="org-group"><h3>${esc(g)}${en(g) && g !== o.head ? `<small>${esc(en(g))}</small>` : ''}</h3><div class="org-cards">${o.members.filter((m) => m.group === g).map(card).join('')}</div></div>`).join('');
+  const card = (m) => `<div class="org-card${(o.board || []).includes(m.group) ? ' is-audit' : ''}">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<span class="org-ph" aria-hidden="true"><svg viewBox="2 3 20 18" fill="currentColor"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c0-4.1 3.6-7 8-7s8 2.9 8 7v.5H4z"/></svg></span>`}<div><em>${esc(m.role)}</em>${en(m.role) ? `<i>${esc(en(m.role))}</i>` : ''}<b>${esc(m.name)}</b>${m.bio ? `<p class="org-bio">${esc(m.bio)}</p>` : ''}${m.links?.length ? `<span class="org-links">${m.links.map((l) => `<a data-nonew href="${esc(l.url)}">${esc(l.label)} ›</a>`).join('')}</span>` : ''}</div></div>`;
+  const people = groups.map((g) => `<div class="org-group${o.members.some((m) => m.group === g && m.bio) ? ' has-bio' : ''}"><h3>${esc(g)}${en(g) && g !== o.head ? `<small>${esc(en(g))}</small>` : ''}</h3><div class="org-cards">${o.members.filter((m) => m.group === g).map(card).join('')}</div></div>`).join('');
   return `<div class="org">${chart}<div class="org-people">${people}</div></div>`;
 }
 
@@ -490,7 +490,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('join-tpl'));var s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent='양식을 선택했습니다. 복사해 주십시오.'}})})();</script>`;
 }
 function pageStatic(pg) {
-  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning());
+  const html = pg.html.replace('<p>{{organization}}</p>', orgBlock()).replace('<p>{{joinForm}}</p>', joinForm()).replace('<p>{{logoMeaning}}</p>', logoMeaning()).replace('<p>{{aboutCta}}</p>', `<div class="about-cta"><p>기고, 인터뷰, 연구 협력 제안과 회원가입·원고 투고를 환영한다.</p><div class="book-actions"><a class="btn-solid" href="/join/">회원가입</a><a class="btn-line" href="/contact/">문의하기</a></div></div>`);
   const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">${esc(pg.title)}</h1><div class="prose">${html}</div></main>`;
   return layout({ title: pg.title, description: pg.description, pathname: `/${pg.slug}/`, body });
 }

@@ -342,3 +342,17 @@ button.cs-card[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--accent); p
 .logo-meaning .logo { flex: none; }
 .prose .logo-meaning figcaption { font-size: 15px; line-height: 1.8; color: var(--sub); }
 @media (max-width: 640px) { .prose .logo-meaning { flex-direction: column; align-items: flex-start; gap: 14px; padding: 18px; } .logo-meaning .logo { width: 56px; height: auto; } }
+
+/* 조직: 소장 약력 카드, 소개 페이지 하단 안내 */
+.org-group.has-bio { column-span: all; }
+.org-group.has-bio .org-card { align-items: flex-start; padding: 18px 20px; }
+.org-group.has-bio .org-card img { width: 72px; height: 72px; flex-basis: 72px; }
+.org-bio { margin: 8px 0 0; font-size: 14px; line-height: 1.75; color: var(--sub); font-weight: 400; }
+.org-links { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; font-size: 13.5px; font-weight: 600; }
+.org-links a { color: var(--logo-orange); }
+.about-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; margin-top: 12px; padding: 24px; background: var(--soft); border-radius: 12px; }
+.prose .about-cta p { margin: 0; font-size: 15.5px; }
+.about-cta .book-actions { margin-top: 0; }
+.prose .about-cta a { text-decoration: none; }
+.prose .about-cta a.btn-solid { color: #fff; }
+.prose .about-cta a.btn-line { color: var(--ink); }
