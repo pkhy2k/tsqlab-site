@@ -213,7 +213,7 @@ const navLinks = (active) => cfg.categories.filter((c) => !CAT_USED.size || CAT_
 function headerHome() {
   const today = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'full', timeZone: 'Asia/Seoul' }).format(new Date());
   return `<header class="topbar"><div class="wrap topbar-in"><span>${today}</span>
-<nav aria-label="보조 메뉴"><a href="/about/">연구소 소개</a><a href="/research/">연구 성과</a><a href="/join/">회원가입</a><a href="/contact/">문의하기</a>${cfg.social.instagram ? `<a href="${esc(cfg.social.instagram)}" target="_blank" rel="noopener">인스타그램</a>` : ''}</nav></div></header>
+<nav aria-label="보조 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a><a href="/contact/">문의하기</a>${cfg.social.instagram ? `<a href="${esc(cfg.social.instagram)}" target="_blank" rel="noopener">인스타그램</a>` : ''}</nav></div></header>
 <div class="wrap masthead"><a href="/" class="brand-lg" aria-label="${esc(cfg.name)} 홈">${logo(52)}<span>${esc(cfg.name)}</span></a><span class="brand-en">${esc(cfg.nameEn)}</span></div>
 <nav class="mainnav" aria-label="주 메뉴"><div class="wrap mainnav-in"><div class="nav-left"><a href="/" class="nav-brand" aria-label="${esc(cfg.name)} 홈">${logo(24)}<span>${esc(cfg.name)}</span></a><div class="navlinks">${navLinks()}</div></div>${searchBtn}</div></nav>`;
 }
