@@ -46,7 +46,7 @@
     {
       "slug": "column",
       "name": "칼럼",
-      "description": "소장 칼럼과 외부 매체 기고문을 모은다."
+      "description": "연구소 연구진이 쓰는 칼럼과 외부 매체 기고문을 모은다. 칼럼의 의견은 필자의 견해이며 연구소의 공식 입장과 다를 수 있다."
     },
     {
       "slug": "report",
@@ -55,7 +55,6 @@
     }
   ],
   "homeSections": [
-    "tourism-policy",
     "hotel-resort",
     "service-quality",
     "hotel-it-qa"
@@ -165,9 +164,6 @@
     "showDirectorBand": false,
     "showBooks": false,
     "navBooks": false,
-    "focusCategories": [
-      "tourism-policy",
-      "hotel-resort"
-    ]
+    "columnStrip": true
   }
 }

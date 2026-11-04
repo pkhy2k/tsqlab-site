@@ -262,9 +262,9 @@ function pageHome(posts) {
     || (cfg.leadCategory && posts.find((p) => p.category === cfg.leadCategory))
     || posts[0];
   const rest = posts.filter((p) => p !== lead);
-  // 곁 기사: 중점 분류(관광정책·트렌드, 호텔 & 리조트) 외 분야의 최신 글. 중점 분류 글은 아래 분야 묶음 앞쪽 칸에 보인다
-  const focus = cfg.home?.focusCategories || [cfg.leadCategory];
-  const side = rest.filter((p) => !['column', 'report', ...focus].includes(p.category)).slice(0, 3);
+  // 곁 기사: 메인 기사에 이어지는 관광정책·트렌드 최신 글(부족하면 다른 분야로 채움)
+  const sidePool = rest.filter((p) => !['column', 'report'].includes(p.category));
+  const side = [...sidePool.filter((p) => p.category === cfg.leadCategory), ...sidePool.filter((p) => p.category !== cfg.leadCategory)].slice(0, 3);
   const shown = new Set([lead, ...side]);
   const sections = cfg.homeSections.map((slug) => {
     const c = catBySlug[slug];
@@ -294,6 +294,7 @@ ${col ? `<div class="column-text"><span class="eyebrow">DIRECTOR'S COLUMN</span>
 <p>${esc(col.excerpt)}</p><span class="meta-inv">${esc(dir.name)} · ${esc(dir.title)}</span></div>`
   : `<div class="column-text"><span class="eyebrow">DIRECTOR</span><h2><a href="/about/">${esc(dir.name)}</a></h2>
 <p>${esc(dir.title)}</p><span class="meta-inv"><a href="/about/" class="inv-link">연구소 소개 보기 ›</a></span></div>`}</section>`}
+${cfg.home?.columnStrip ? columnStrip(posts, 'link') : ''}
 <section class="split" aria-label="리포트와 추천 글">
 <div class="split-main"><div class="sec-head"><h2>리포트</h2><a href="/category/report/">더보기</a></div>
 <div class="reports">${reports.length ? reports.map((p) => `<article class="report"><a class="cover" href="${p.url}" tabindex="-1" aria-hidden="true">${p.cover || p.thumbnail ? `<img src="${esc(p.cover || p.thumbnail)}" alt="">` : '<span>REPORT</span>'}</a>
@@ -379,12 +380,57 @@ send({action:'react',r:r,delta:on?1:-1}).then(function(d){b.disabled=false;show(
     } });
 }
 
+// 연구자별 칼럼 묶음: 칼럼을 쓴 필자를 최신 칼럼 순으로 4명씩 보여 주고 넘겨 본다.
+// mode 'link'(홈): 칼럼 페이지의 필자 필터로 이동 / 'filter'(칼럼 페이지): 그 자리에서 목록을 거른다
+const PERSON_ICON = '<svg viewBox="2 3 20 18" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c0-4.1 3.6-7 8-7s8 2.9 8 7v.5H4z"/></svg>';
+function columnAuthors(posts) {
+  const seen = new Map();
+  for (const p of posts.filter((x) => x.category === 'column')) {
+    if (!seen.has(p.author)) seen.set(p.author, { key: p.author, latest: p, count: 0 });
+    seen.get(p.author).count++;
+  }
+  return [...seen.values()];
+}
+function columnStrip(posts, mode) {
+  const list = columnAuthors(posts);
+  if (!list.length) return '';
+  const card = (a) => {
+    const au = cfg.authors[a.key] || {};
+    const face = au.photo ? `<img src="${esc(au.photo)}" alt="" loading="lazy">` : `<span class="cs-ph">${PERSON_ICON}</span>`;
+    const inner = `${face}<span class="cs-text"><span class="cs-name">${esc(au.name || '')}</span><span class="cs-title">${esc(a.latest.title)}</span></span>`;
+    return mode === 'link'
+      ? `<a class="cs-card" href="/category/column/?author=${encodeURIComponent(a.key)}">${inner}</a>`
+      : `<button type="button" class="cs-card" data-author="${esc(a.key)}" aria-pressed="false">${inner}</button>`;
+  };
+  const pages = [];
+  for (let i = 0; i < list.length; i += 4) pages.push(list.slice(i, i + 4));
+  const nav = pages.length > 1 ? `<span class="cs-nav"><button type="button" class="cs-prev" aria-label="이전 연구자">◀</button><button type="button" class="cs-next" aria-label="다음 연구자">▶</button></span>` : '';
+  const head = mode === 'link'
+    ? `<div class="sec-head"><h2>칼럼</h2><span class="cs-head-r">${nav}<a href="/category/column/">더보기</a></span></div>`
+    : `<div class="cs-bar"><h2 class="cs-label">연구자별 칼럼</h2>${nav}</div>`;
+  return `<section class="col-strip" aria-label="연구자별 칼럼">${head}
+<div class="cs-view"><div class="cs-track">${pages.map((pg) => `<div class="cs-page">${pg.map(card).join('')}</div>`).join('')}</div></div>
+<script>(function(){var s=document.currentScript.parentNode,t=s.querySelector('.cs-track'),n=t.children.length,i=0,p=s.querySelector('.cs-prev'),q=s.querySelector('.cs-next');
+function go(k){i=Math.max(0,Math.min(n-1,k));t.style.transform='translateX('+(-100*i)+'%)';if(p){p.disabled=i===0;q.disabled=i===n-1}}
+if(p){p.addEventListener('click',function(){go(i-1)});q.addEventListener('click',function(){go(i+1)})}go(0)})();</script></section>`;
+}
+
 function pageCategory(c, posts) {
   const list = posts.filter((p) => p.category === c.slug);
+  const isCol = c.slug === 'column';
+  const filterUi = isCol ? `${columnStrip(posts, 'filter')}<p class="cs-status muted small" role="status" aria-live="polite" hidden><span></span> <button type="button" class="cs-all">전체 칼럼 보기</button></p>` : '';
+  const filterJs = isCol ? `<script>(function(){var rows=[].slice.call(document.querySelectorAll('.row[data-author]')),cards=[].slice.call(document.querySelectorAll('.cs-card[data-author]')),st=document.querySelector('.cs-status'),names=${JSON.stringify(Object.fromEntries(Object.entries(cfg.authors).map(([k, v]) => [k, v.name]))).replace(/</g, '\\u003c')};
+function apply(a){var c=0;rows.forEach(function(r){var on=!a||r.getAttribute('data-author')===a;r.hidden=!on;if(on)c++});cards.forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-author')===a))});
+if(st){st.hidden=!a;if(a)st.querySelector('span').textContent=(names[a]||'')+' 칼럼 '+c+'편'}
+var u=new URL(location.href);if(a)u.searchParams.set('author',a);else u.searchParams.delete('author');history.replaceState(null,'',u)}
+cards.forEach(function(b){b.addEventListener('click',function(){var a=b.getAttribute('data-author');apply(b.getAttribute('aria-pressed')==='true'?'':a)})});
+var all=document.querySelector('.cs-all');if(all)all.addEventListener('click',function(){apply('')});
+var q=new URLSearchParams(location.search).get('author');if(q)apply(q)})();</script>` : '';
   const body = `${headerCompact(c.slug)}
 <main id="main" class="wrap list-wrap"><header class="list-head"><h1>${esc(c.name)}</h1><p class="muted">${esc(c.description)}</p></header>
-${list.length ? list.map((p) => `<article class="row">${thumb(p, 'photo')}<div class="row-text">${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><p>${esc(p.subtitle || p.excerpt)}</p><span class="meta">${byline(p)}</span></div></article>`).join('') : '<p class="muted">아직 게시된 글이 없다.</p>'}
-</main>`;
+${filterUi}
+${list.length ? list.map((p) => `<article class="row"${isCol ? ` data-author="${esc(p.author)}"` : ''}>${thumb(p, 'photo')}<div class="row-text">${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><p>${esc(p.subtitle || p.excerpt)}</p><span class="meta">${byline(p)}</span></div></article>`).join('') : '<p class="muted">아직 게시된 글이 없다.</p>'}
+</main>${filterJs}`;
   return layout({ title: c.name, description: c.description, pathname: `/category/${c.slug}/`, body });
 }
 
