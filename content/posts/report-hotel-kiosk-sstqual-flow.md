@@ -4,7 +4,6 @@ subtitle: 박건희 소장 박사학위논문 리뷰 — 셀프서비스 기술 
 category: report
 author: research
 thumbnail: /images/posts/report-hotel-kiosk-sstqual-flow.jpg
-card: /images/cards/report-hotel-kiosk-sstqual-flow.jpg
 thumbnail_alt: SSTQUAL 7요인 가운데 즐거움과 고객화만 플로우에 유의한 영향을 미치고, 플로우가 지속이용의도로 이어지는 연구모형 도식
 cover: /images/posts/report-hotel-kiosk-sstqual-flow-cover.jpg
 date: 2026-11-02
