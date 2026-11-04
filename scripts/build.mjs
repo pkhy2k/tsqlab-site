@@ -297,7 +297,10 @@ function pageHome(posts) {
   const sectionShown = new Set(cfg.homeSections.flatMap((slug) => posts.filter((p) => p.category === slug && p !== lead).slice(0, 4)));
   // 메인 기사 아래 '이어지는 정책 이슈': 메인 기사와 같은 분류의 다음 최신 글 2편
   const follow = rest.filter((p) => p.category === lead?.category && !sectionShown.has(p)).slice(0, 2);
-  const side = sidePool.filter((p) => !sectionShown.has(p) && !follow.includes(p) && !p.tags.includes('신간')).slice(0, 3); // 출간 기사는 추천에서 제외(소장 결정)
+  // 추천 글: 분류당 1편, 우선순위 순(소장 지정). 홈의 다른 영역에 나온 글과 신간 기사는 제외하고, 해당 분류에 남은 글이 없으면 다음 분류로
+  const RECO_ORDER = ['tourism-policy', 'hotel-resort', 'service-quality', 'hotel-it-qa'];
+  const recoPool = sidePool.filter((p) => !sectionShown.has(p) && !follow.includes(p) && !p.tags.includes('신간'));
+  const side = RECO_ORDER.map((c) => recoPool.find((p) => p.category === c)).filter(Boolean).slice(0, 3); // 출간 기사는 추천에서 제외(소장 결정)
   const sections = cfg.homeSections.map((slug) => {
     const c = catBySlug[slug];
     const list = posts.filter((p) => p.category === slug && !shown.has(p)).slice(0, 4);
