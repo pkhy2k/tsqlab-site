@@ -318,18 +318,21 @@ ${meta ? `<p class="meta">${meta}</p>` : ''}${b.summary ? `<p>${esc(b.summary)}<
 }
 
 // ---------- 페이지 ----------
-// 이슈 포커스: 소장이 고른 키워드 탭(site.config.json issueFocus.tags), 누르면 그 자리에서 해당 키워드 최신 글로 바뀜
+// 이슈 포커스: 키워드(site.config.json issueFocus.tags)가 몇 초마다 자동으로 바뀌고, 아래 글 목록도 그 키워드의 최신 글로 함께 바뀜(이데일리 방식). 마우스를 올리거나 터치·포커스하면 멈춤
 function issueFocus(posts, homeOk) {
   const f = cfg.issueFocus;
   if (!f || !f.tags?.length) return '';
   const per = f.perTag || 4;
   const sets = f.tags.map((t) => ({ t, list: posts.filter((p) => p.tags.includes(t) && homeOk(p)).slice(0, per) })).filter((x) => x.list.length);
   if (!sets.length) return '';
-  const card = (p) => `<article class="if-card">${thumb(p, 'photo')}${catLabel(p)}<a class="if-title" href="${p.url}">${esc(p.title)}</a><span class="meta">${fmtDate(p.date)}</span></article>`;
-  return `<section class="issue-focus" aria-label="이슈 포커스"><div class="if-head"><h2>이슈 포커스</h2><div class="if-tabs" role="tablist">${sets.map((x, i) => `<button type="button" role="tab" id="if-t${i}" aria-controls="if-p${i}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>#${esc(x.t)}</button>`).join('')}</div></div>
-${sets.map((x, i) => `<div class="if-panel" role="tabpanel" id="if-p${i}" aria-labelledby="if-t${i}"${i ? ' hidden' : ''}><div class="if-grid">${x.list.map(card).join('')}</div><a class="if-more" data-nonew href="/search/?q=${encodeURIComponent(x.t)}">#${esc(x.t)} 글 모두 보기 ›</a></div>`).join('')}
-<script>(function(){var r=document.querySelector('.issue-focus');if(!r)return;var tabs=[].slice.call(r.querySelectorAll('[role=tab]'));function sel(i){tabs.forEach(function(t,j){var on=i===j;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=!on})}
-tabs.forEach(function(t,i){t.addEventListener('click',function(){sel(i)});t.addEventListener('keydown',function(e){var k=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(k){var n=(i+k+tabs.length)%tabs.length;sel(n);tabs[n].focus();e.preventDefault()}})})})();</script></section>`;
+  const card = (p) => `<article class="if-card">${thumb(p, 'photo')}<div>${catLabel(p)}<a class="if-title" href="${p.url}">${esc(p.title)}</a><span class="meta">${fmtDate(p.date)}</span></div></article>`;
+  return `<section class="issue-focus" aria-label="이슈 포커스" data-interval="${(f.seconds || 4) * 1000}"><div class="if-bar"><h2>이슈 포커스</h2><div class="if-roll" aria-live="polite">${sets.map((x, i) => `<a class="if-kw${i ? '' : ' on'}" data-i="${i}" data-nonew href="/search/?q=${encodeURIComponent(x.t)}"${i ? ' aria-hidden="true" tabindex="-1"' : ''}>#${esc(x.t)}</a>`).join('')}</div><span class="if-dots" aria-hidden="true">${sets.map((x, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</span><button type="button" class="if-next" aria-label="다음 키워드">›</button></div>
+${sets.map((x, i) => `<div class="if-panel" data-i="${i}"${i ? ' hidden' : ''}><div class="if-grid">${x.list.map(card).join('')}</div></div>`).join('')}
+<script>(function(){var r=document.querySelector('.issue-focus');if(!r)return;var kw=[].slice.call(r.querySelectorAll('.if-kw')),pn=[].slice.call(r.querySelectorAll('.if-panel')),dt=[].slice.call(r.querySelectorAll('.if-dots i')),n=kw.length,cur=0,hold=false,ms=+r.dataset.interval||4000;
+function go(i){cur=(i+n)%n;kw.forEach(function(k,j){var on=j===cur;k.classList.toggle('on',on);k.setAttribute('aria-hidden',on?'false':'true');k.tabIndex=on?0:-1});pn.forEach(function(p,j){p.hidden=j!==cur});dt.forEach(function(d,j){d.classList.toggle('on',j===cur)})}
+r.querySelector('.if-next').addEventListener('click',function(){go(cur+1)});
+['mouseenter','focusin','touchstart'].forEach(function(e){r.addEventListener(e,function(){hold=true},{passive:true})});['mouseleave','focusout'].forEach(function(e){r.addEventListener(e,function(){hold=false})});
+if(n>1&&!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))setInterval(function(){if(!hold&&!document.hidden)go(cur+1)},ms)})();</script></section>`;
 }
 
 function pageHome(posts) {
