@@ -296,7 +296,8 @@ function go(dir){r.scrollTo({left:toCenter(centerIdx()+dir),behavior:'smooth'})}
 var p=document.querySelector('.cc-prev'),nx=document.querySelector('.cc-next');p&&p.addEventListener('click',function(){go(-1)});nx&&nx.addEventListener('click',function(){go(1)});
 r.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();e.stopImmediatePropagation();go(e.key==='ArrowRight'?1:-1)}},true);
 function init(){jump(toCenter(loop?n:Math.min(1,cards.length-1)));mark()}
-addEventListener('resize',function(){var b=centerIdx();jump(toCenter(b));mark()});addEventListener('load',init);init()})();</script><script>(function(){document.querySelectorAll('.drag-row').forEach(function(r){var down=false,moved=false,sx=0,sl=0;r.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;moved=false;sx=e.clientX;sl=r.scrollLeft;r.classList.add('dragging')});addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>4)moved=true;r.scrollLeft=sl-dx});addEventListener('pointerup',function(){if(!down)return;down=false;r.classList.remove('dragging');var w=r.querySelector('.report');if(w){var step=w.offsetWidth+24;r.scrollTo({left:Math.round(r.scrollLeft/step)*step,behavior:'smooth'})}});r.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);r.addEventListener('keydown',function(e){var w=r.querySelector('.report');if(!w)return;var step=w.offsetWidth+24;if(e.key==='ArrowRight'){r.scrollBy({left:step,behavior:'smooth'})}if(e.key==='ArrowLeft'){r.scrollBy({left:-step,behavior:'smooth'})}})})})();</script><script>(function(){var a=document.querySelector('.aside');if(!a)return;function g(){var h=document.querySelector('.compact,.mainnav');var t=(h?h.offsetHeight:0)+24;a.style.setProperty('--aside-top',Math.min(t,window.innerHeight-a.offsetHeight-24)+'px')}addEventListener('resize',g);addEventListener('load',g);g()})();</script>
+addEventListener('resize',function(){var b=centerIdx();jump(toCenter(b));mark()});addEventListener('load',init);init();
+var AUTO=${Number(cfg.home?.columnAutoSeconds) || 0},hold=false,box=r.closest('.home-cols')||r;if(AUTO&&!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)){['mouseenter','focusin','pointerdown','touchstart'].forEach(function(e){box.addEventListener(e,function(){hold=true},{passive:true})});['mouseleave','focusout'].forEach(function(e){box.addEventListener(e,function(){hold=false})});addEventListener('touchend',function(){setTimeout(function(){hold=false},4000)},{passive:true});setInterval(function(){if(!hold&&!document.hidden)go(1)},AUTO*1000)}})();</script><script>(function(){document.querySelectorAll('.drag-row').forEach(function(r){var down=false,moved=false,sx=0,sl=0;r.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;moved=false;sx=e.clientX;sl=r.scrollLeft;r.classList.add('dragging')});addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>4)moved=true;r.scrollLeft=sl-dx});addEventListener('pointerup',function(){if(!down)return;down=false;r.classList.remove('dragging');var w=r.querySelector('.report');if(w){var step=w.offsetWidth+24;r.scrollTo({left:Math.round(r.scrollLeft/step)*step,behavior:'smooth'})}});r.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);r.addEventListener('keydown',function(e){var w=r.querySelector('.report');if(!w)return;var step=w.offsetWidth+24;if(e.key==='ArrowRight'){r.scrollBy({left:step,behavior:'smooth'})}if(e.key==='ArrowLeft'){r.scrollBy({left:-step,behavior:'smooth'})}})})})();</script><script>(function(){var a=document.querySelector('.aside');if(!a)return;function g(){var h=document.querySelector('.compact,.mainnav');var t=(h?h.offsetHeight:0)+24;a.style.setProperty('--aside-top',Math.min(t,window.innerHeight-a.offsetHeight-24)+'px')}addEventListener('resize',g);addEventListener('load',g);g()})();</script>
 <script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 </body>
 </html>`;
@@ -318,20 +319,21 @@ ${meta ? `<p class="meta">${meta}</p>` : ''}${b.summary ? `<p>${esc(b.summary)}<
 }
 
 // ---------- 페이지 ----------
-// 이슈 포커스: 키워드(site.config.json issueFocus.tags)가 몇 초마다 자동으로 바뀌고, 아래 글 목록도 그 키워드의 최신 글로 함께 바뀜(이데일리 방식). 마우스를 올리거나 터치·포커스하면 멈춤
+// 이슈 포커스: 최신 기사(칼럼·리포트 제외)에 붙은 키워드를 자동으로 골라, 한 줄에서 몇 초마다 바꿔 보여 준다(이데일리 방식). 키워드를 누르면 태그 검색
 function issueFocus(posts, homeOk) {
   const f = cfg.issueFocus;
-  if (!f || !f.tags?.length) return '';
-  const per = f.perTag || 4;
-  const sets = f.tags.map((t) => ({ t, list: posts.filter((p) => p.tags.includes(t) && homeOk(p)).slice(0, per) })).filter((x) => x.list.length);
-  if (!sets.length) return '';
-  const card = (p) => `<article class="if-card">${thumb(p, 'photo')}<div>${catLabel(p)}<a class="if-title" href="${p.url}">${esc(p.title)}</a><span class="meta">${fmtDate(p.date)}</span></div></article>`;
-  return `<section class="issue-focus" aria-label="이슈 포커스" data-interval="${(f.seconds || 4) * 1000}"><div class="if-bar"><h2>이슈 포커스</h2><div class="if-roll" aria-live="polite">${sets.map((x, i) => `<a class="if-kw${i ? '' : ' on'}" data-i="${i}" data-nonew href="/search/?q=${encodeURIComponent(x.t)}"${i ? ' aria-hidden="true" tabindex="-1"' : ''}>#${esc(x.t)}</a>`).join('')}</div><span class="if-dots" aria-hidden="true">${sets.map((x, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</span><button type="button" class="if-next" aria-label="다음 키워드">›</button></div>
-${sets.map((x, i) => `<div class="if-panel" data-i="${i}"${i ? ' hidden' : ''}><div class="if-grid">${x.list.map(card).join('')}</div></div>`).join('')}
-<script>(function(){var r=document.querySelector('.issue-focus');if(!r)return;var kw=[].slice.call(r.querySelectorAll('.if-kw')),pn=[].slice.call(r.querySelectorAll('.if-panel')),dt=[].slice.call(r.querySelectorAll('.if-dots i')),n=kw.length,cur=0,hold=false,ms=+r.dataset.interval||4000;
-function go(i){cur=(i+n)%n;kw.forEach(function(k,j){var on=j===cur;k.classList.toggle('on',on);k.setAttribute('aria-hidden',on?'false':'true');k.tabIndex=on?0:-1});pn.forEach(function(p,j){p.hidden=j!==cur});dt.forEach(function(d,j){d.classList.toggle('on',j===cur)})}
+  if (!f) return '';
+  const skip = new Set([...(f.excludeTags || []), ...cfg.categories.map((c) => c.name.replace(/[\s·&]/g, '')), ...Object.values(cfg.subFilters || {}).flat().map((x) => x.tag), ...Object.values(cfg.homeExcludeTags || {}).flat()]);
+  const recent = posts.filter((p) => !['column', 'report'].includes(p.category) && homeOk(p)).slice(0, f.recentPosts || 8);
+  const kws = [];
+  // 최신 글부터 한 글에 한 개씩 돌아가며 뽑아 한 글의 태그가 몰리지 않게 한다
+  for (let k = 0; kws.length < (f.count || 6) && k < 10; k++) recent.forEach((p) => { const t = p.tags.find((x) => !skip.has(x) && !kws.includes(x)); if (t && kws.length < (f.count || 6) && !kws.includes(t)) kws.push(t); });
+  if (!kws.length) return '';
+  return `<section class="issue-focus" aria-label="이슈 포커스" data-interval="${Math.round((f.seconds || 1) * 1000)}"><div class="if-bar"><h2>이슈 포커스</h2><div class="if-roll">${kws.map((t, i) => `<a class="if-kw${i ? '' : ' on'}" data-nonew href="/search/?q=${encodeURIComponent(t)}"${i ? ' aria-hidden="true" tabindex="-1"' : ''}>#${esc(t)}</a>`).join('')}</div><button type="button" class="if-next" aria-label="다음 키워드">›</button></div>
+<script>(function(){var r=document.querySelector('.issue-focus');if(!r)return;var kw=[].slice.call(r.querySelectorAll('.if-kw')),n=kw.length,cur=0,hold=false,ms=+r.dataset.interval||1000;
+function go(i){cur=(i+n)%n;kw.forEach(function(k,j){var on=j===cur;k.classList.toggle('on',on);k.setAttribute('aria-hidden',on?'false':'true');k.tabIndex=on?0:-1})}
 r.querySelector('.if-next').addEventListener('click',function(){go(cur+1)});
-['mouseenter','focusin','touchstart'].forEach(function(e){r.addEventListener(e,function(){hold=true},{passive:true})});['mouseleave','focusout'].forEach(function(e){r.addEventListener(e,function(){hold=false})});
+['mouseenter','focusin'].forEach(function(e){r.addEventListener(e,function(){hold=true})});['mouseleave','focusout'].forEach(function(e){r.addEventListener(e,function(){hold=false})});
 if(n>1&&!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))setInterval(function(){if(!hold&&!document.hidden)go(cur+1)},ms)})();</script></section>`;
 }
 

@@ -193,7 +193,8 @@
     "columnStrip": false,
     "columnFilter": true,
     "showResearchLink": false,
-    "showStats": false
+    "showStats": false,
+    "columnAutoSeconds": 2
   },
   "outputs": [
     {
@@ -298,13 +299,18 @@
     ]
   },
   "issueFocus": {
-    "tags": [
-      "AI에이전트",
-      "키오스크",
-      "PMS",
-      "셀프서비스기술",
-      "디지털리터러시"
-    ],
-    "perTag": 4
+    "count": 6,
+    "recentPosts": 8,
+    "seconds": 1,
+    "excludeTags": [
+      "호텔IT",
+      "관광정책",
+      "서비스품질",
+      "호텔경영",
+      "호텔리조트",
+      "칼럼",
+      "소장칼럼",
+      "신간"
+    ]
   }
 }
