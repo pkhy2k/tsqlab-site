@@ -191,7 +191,8 @@
     "navBooks": false,
     "columnStrip": false,
     "columnFilter": true,
-    "showResearchLink": false
+    "showResearchLink": false,
+    "showStats": false
   },
   "outputs": [
     {
