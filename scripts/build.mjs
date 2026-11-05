@@ -519,12 +519,13 @@ function orgBlock() {
 <div class="org-main"><div class="org-node org-head">${esc(o.head)}${en(o.head) ? `<small>${esc(en(o.head))}</small>` : ''}</div><div class="org-down"></div>
 <div class="org-units" style="--n:${o.units.length}">${o.units.map((u) => `<div class="org-unit">${unit(uname(u))}${typeof u !== 'string' && u.sub?.length ? u.sub.map((x) => `<div class="org-subline"></div><div class="org-sub">${unit(x)}</div>`).join('') : ''}</div>`).join('')}</div></div>
 ${o.board?.length ? `<div class="org-board">${o.board.map((b) => unit(b).replace('class="org-node"', 'class="org-node org-audit"')).join('')}</div>` : ''}</div>`;
-  const groups = [...new Set(o.members.map((m) => m.group))];
+  const members = o.hideMembers ? o.members.filter((m) => m.group === o.head) : o.members; // hideMembers: 소장 외 구성원 숨김(데이터는 유지)
+  const groups = [...new Set(members.map((m) => m.group))];
   const card = (m) => `<div class="org-card${(o.board || []).includes(m.group) ? ' is-audit' : ''}">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<span class="org-ph" aria-hidden="true"><svg viewBox="2 3 20 18" fill="currentColor"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c0-4.1 3.6-7 8-7s8 2.9 8 7v.5H4z"/></svg></span>`}<div><em>${esc(m.role)}</em>${en(m.role) ? `<i>${esc(en(m.role))}</i>` : ''}<b>${esc(m.name)}</b>${m.bio ? `<p class="org-bio">${esc(m.bio)}</p>` : ''}${m.links?.length ? `<span class="org-links">${m.links.map((l) => `<a data-nonew href="${esc(l.url)}">${esc(l.label)} ›</a>`).join('')}</span>` : ''}</div></div>`;
-  const hasBio = (g) => o.members.some((m) => m.group === g && m.bio);
+  const hasBio = (g) => members.some((m) => m.group === g && m.bio);
   const group = (g) => hasBio(g)
-    ? `<div class="org-group has-bio"><div class="org-cards">${o.members.filter((m) => m.group === g).map(card).join('')}</div></div>`
-    : `<div class="org-group"><h3>${esc(g)}${en(g) && g !== o.head ? `<small>${esc(en(g))}</small>` : ''}</h3><div class="org-cards">${o.members.filter((m) => m.group === g).map(card).join('')}</div></div>`;
+    ? `<div class="org-group has-bio"><div class="org-cards">${members.filter((m) => m.group === g).map(card).join('')}</div></div>`
+    : `<div class="org-group"><h3>${esc(g)}${en(g) && g !== o.head ? `<small>${esc(en(g))}</small>` : ''}</h3><div class="org-cards">${members.filter((m) => m.group === g).map(card).join('')}</div></div>`;
   const lead = groups.filter(hasBio).map(group).join('');
   const rest = groups.filter((g) => !hasBio(g));
   const cols = Array.isArray(o.layout) && o.layout.length

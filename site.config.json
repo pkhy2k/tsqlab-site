@@ -163,7 +163,8 @@
         "고문",
         "자문위원회"
       ]
-    ]
+    ],
+    "hideMembers": true
   },
   "books": [
     {
