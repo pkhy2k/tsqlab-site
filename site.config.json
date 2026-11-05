@@ -193,7 +193,8 @@
     "columnStrip": false,
     "columnFilter": true,
     "showResearchLink": false,
-    "showStats": false
+    "showStats": false,
+    "columnAutoSeconds": 3
   },
   "outputs": [
     {
@@ -295,6 +296,21 @@
   "homeExcludeTags": {
     "hotel-it-qa": [
       "소프트웨어QA"
+    ]
+  },
+  "issueFocus": {
+    "count": 6,
+    "recentPosts": 8,
+    "seconds": 2,
+    "excludeTags": [
+      "호텔IT",
+      "관광정책",
+      "서비스품질",
+      "호텔경영",
+      "호텔리조트",
+      "칼럼",
+      "소장칼럼",
+      "신간"
     ]
   }
 }
