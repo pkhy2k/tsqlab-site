@@ -318,6 +318,20 @@ ${meta ? `<p class="meta">${meta}</p>` : ''}${b.summary ? `<p>${esc(b.summary)}<
 }
 
 // ---------- 페이지 ----------
+// 이슈 포커스: 소장이 고른 키워드 탭(site.config.json issueFocus.tags), 누르면 그 자리에서 해당 키워드 최신 글로 바뀜
+function issueFocus(posts, homeOk) {
+  const f = cfg.issueFocus;
+  if (!f || !f.tags?.length) return '';
+  const per = f.perTag || 4;
+  const sets = f.tags.map((t) => ({ t, list: posts.filter((p) => p.tags.includes(t) && homeOk(p)).slice(0, per) })).filter((x) => x.list.length);
+  if (!sets.length) return '';
+  const card = (p) => `<article class="if-card">${thumb(p, 'photo')}${catLabel(p)}<a class="if-title" href="${p.url}">${esc(p.title)}</a><span class="meta">${fmtDate(p.date)}</span></article>`;
+  return `<section class="issue-focus" aria-label="이슈 포커스"><div class="if-head"><h2>이슈 포커스</h2><div class="if-tabs" role="tablist">${sets.map((x, i) => `<button type="button" role="tab" id="if-t${i}" aria-controls="if-p${i}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>#${esc(x.t)}</button>`).join('')}</div></div>
+${sets.map((x, i) => `<div class="if-panel" role="tabpanel" id="if-p${i}" aria-labelledby="if-t${i}"${i ? ' hidden' : ''}><div class="if-grid">${x.list.map(card).join('')}</div><a class="if-more" data-nonew href="/search/?q=${encodeURIComponent(x.t)}">#${esc(x.t)} 글 모두 보기 ›</a></div>`).join('')}
+<script>(function(){var r=document.querySelector('.issue-focus');if(!r)return;var tabs=[].slice.call(r.querySelectorAll('[role=tab]'));function sel(i){tabs.forEach(function(t,j){var on=i===j;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=!on})}
+tabs.forEach(function(t,i){t.addEventListener('click',function(){sel(i)});t.addEventListener('keydown',function(e){var k=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(k){var n=(i+k+tabs.length)%tabs.length;sel(n);tabs[n].focus();e.preventDefault()}})})})();</script></section>`;
+}
+
 function pageHome(posts) {
   // 메인 기사: featured 지정 글 → 최신 관광정책·트렌드 글(cfg.leadCategory) → 최신 글 순
   const lead = posts.find((p) => p.featured === true)
@@ -358,6 +372,7 @@ ${lead.subtitle ? `<p class="dek">${esc(lead.subtitle)}</p>` : ''}${lead.excerpt
 <div class="side-list">${side.length ? `<div class="sec-head lead-head"><h2>추천 글</h2></div>${side.map((p, i) => `<article><span class="side-no">${String(i + 1).padStart(2, '0')}</span><div>${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><span class="meta">${byline(p)}</span></div></article>`).join('')}` : ''}
 ${picks.length ? `<div class="side-cols"><div class="sec-head"><h2>추천 칼럼</h2><a href="/category/column/">더보기</a></div><ol class="ranked">${picks.map((p) => `<li><a href="${p.url}">${esc(p.title)}</a></li>`).join('')}</ol></div>` : ''}</div>
 </div></section>` : '<p>게시된 글이 없다.</p>'}
+${issueFocus(posts, homeOk)}
 <section class="cols" aria-label="분야별 글">${sections}</section>
 ${cfg.home?.showDirectorBand === false ? '' : `<section class="column-band" aria-label="${col ? '소장 칼럼' : '소장 소개'}">
 <div class="portrait">${dir.photo ? `<img src="${esc(dir.photo)}" alt="${esc(dir.name)} 소장">` : ''}</div>
