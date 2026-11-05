@@ -194,7 +194,7 @@
     "columnFilter": true,
     "showResearchLink": false,
     "showStats": false,
-    "columnAutoSeconds": 2
+    "columnAutoSeconds": 3
   },
   "outputs": [
     {
@@ -301,7 +301,7 @@
   "issueFocus": {
     "count": 6,
     "recentPosts": 8,
-    "seconds": 1,
+    "seconds": 2,
     "excludeTags": [
       "호텔IT",
       "관광정책",
