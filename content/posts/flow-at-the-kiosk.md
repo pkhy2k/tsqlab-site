@@ -5,7 +5,7 @@ category: service-quality
 author: research
 thumbnail: /images/posts/flow-at-the-kiosk.jpg
 thumbnail_alt: 도전과 기술 수준에 따라 플로우, 불안, 지루함, 무관심으로 나뉘는 4채널 플로우 모델
-date: 2026-11-02
+date: 2025-10-29
 summary: 플로우는 운동선수와 예술가의 몰입을 설명하기 위해 제시된 개념이지만, 웹과 모바일을 거쳐 셀프서비스 기기로 연구 범위가 넓어지고 있다. 플로우 이론의 핵심인 도전과 기술의 균형을 정리하고, 호텔 키오스크 이용객 연구에서 무엇이 몰입을 이끌었는지, 고객의 디지털 역량은 어떤 역할을 했는지 살펴본다.
 tags: [서비스품질, 플로우, 몰입, 디지털리터러시, 키오스크, 고객경험]
 references:
