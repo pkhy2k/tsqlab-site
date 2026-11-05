@@ -227,7 +227,7 @@ function footer() {
 <strong>${esc(cfg.name)}</strong>
 <span>비영리 학술연구 단체 · 소장 ${esc(b.director)}${b.email ? ` · 이메일 <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ''}</span>
 <span>© ${esc(cfg.name)}. 무단 전재 및 재배포 금지.</span></div>
-<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a><a href="/research/">연구 성과</a><a href="/join/">회원가입</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
+<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a>${cfg.home?.showResearchLink ? '<a href="/research/">연구 성과</a>' : ''}<a href="/join/">회원가입</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
 }
 function thumb(p, ratio = 'wide', linked = true) {
   // 목록·홈 미리보기는 card(미리보기 전용 이미지)를 먼저 쓰고, 없으면 본문 이미지(thumbnail)를 쓴다
