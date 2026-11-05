@@ -190,7 +190,8 @@
     "showBooks": false,
     "navBooks": false,
     "columnStrip": false,
-    "columnFilter": true
+    "columnFilter": true,
+    "showResearchLink": false
   },
   "outputs": [
     {
