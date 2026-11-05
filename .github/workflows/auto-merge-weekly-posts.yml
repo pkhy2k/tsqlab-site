@@ -1,0 +1,59 @@
+# 자동 발행 글(post/weekly-* 브랜치) PR을 빌드 확인 후 자동으로 병합한다.
+# 병합되면 Cloudflare Pages가 main을 자동 배포한다.
+# 안전 장치: 같은 저장소의 브랜치만, 글·이미지 파일만 바뀐 PR만, 빌드가 통과한 경우에만 병합한다.
+name: 자동 발행 글 자동 병합
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: auto-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  merge:
+    if: >-
+      startsWith(github.head_ref, 'post/weekly-') &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: 바뀐 파일이 글·이미지뿐인지 확인
+        run: |
+          git fetch origin main
+          changed=$(git diff --name-only origin/main...HEAD)
+          echo "바뀐 파일:"; echo "$changed"
+          bad=$(echo "$changed" | grep -vE '^(content/posts/[a-z0-9-]+\.md|scripts/thumbs/make_[0-9a-z_]+\.py|scripts/thumbs/originals/[a-z0-9-]+\.jpg|static/images/posts/[a-z0-9-]+\.jpg)$' || true)
+          if [ -n "$bad" ]; then
+            echo "::error::자동 병합 대상이 아닌 파일이 포함되어 있습니다. 직접 검토 후 병합하세요:"; echo "$bad"; exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 사이트 빌드
+        run: npm run build
+
+      - name: PR 병합
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for i in 1 2 3 4 5; do
+            if gh pr merge "${{ github.event.pull_request.number }}" --repo "${{ github.repository }}" --merge --match-head-commit "${{ github.event.pull_request.head.sha }}"; then
+              echo "병합 완료"; exit 0
+            fi
+            echo "병합 재시도 ($i)"; sleep 15
+          done
+          exit 1
