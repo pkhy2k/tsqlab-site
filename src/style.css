@@ -294,12 +294,15 @@ a.book:hover strong { color: var(--accent); }
 .org-down-cell { grid-column: 2; grid-row: 2; display: flex; justify-content: center; }
 .org-units-cell { grid-column: 1 / -1; grid-row: 3; display: flex; justify-content: center; }
 @media (max-width: 640px) {
-  .org-chart.has-adv { grid-template-columns: 1fr; justify-items: center; }
-  .org-head-cell, .org-down-cell, .org-units-cell { grid-column: 1; }
-  .org-adv-cell { grid-column: 1; grid-row: 4; flex-direction: column; align-items: center; margin-top: 8px; }
-  .org-dash { flex: 0 0 auto; height: 26px; margin-top: 0; border-top: 0; border-left: 1.5px dashed var(--muted); }
-  .org-fill { display: none; }
-  .org-adv .org-node { min-width: 0; }
+  .org-chart.has-adv { padding: 22px 10px; }
+  .org-chart.has-adv .org-head { min-width: 0; padding: 12px 10px; font-size: 14.5px; }
+  .org-chart.has-adv .org-node small { font-size: 10.5px; }
+  .org-dash { flex: 0 0 10px; margin-top: 30px; }
+  .org-adv { padding: 16px 6px 6px; border-radius: 10px; }
+  .org-adv-label { top: -10px; left: 8px; padding: 0 7px; font-size: 11.5px; }
+  .org-adv-row { flex-direction: column; gap: 6px; }
+  .org-adv .org-node { min-width: 0; padding: 8px 6px; font-size: 13px; }
+  .org-units-cell { margin-top: 0; }
 }
 
 .org-node small { display: block; margin-top: 2px; font-size: 11.5px; font-weight: 500; color: var(--muted); }
