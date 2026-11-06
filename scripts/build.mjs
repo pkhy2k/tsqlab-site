@@ -480,13 +480,15 @@ function columnAuthors(posts) {
   }
   return [...seen.values()];
 }
+// 필자 소속·직책: authors의 affiliation + position(예: 관광서비스품질연구소 소장). 없으면 title의 ' · ' 앞부분
+const authorRole = (au) => [au.affiliation, au.position].filter(Boolean).join(' ') || String(au.title || '').split(' · ')[0];
 function columnStrip(posts, mode) {
   const list = columnAuthors(posts);
   if (!list.length) return '';
   const card = (a) => {
     const au = cfg.authors[a.key] || {};
     const face = au.photo ? `<img src="${esc(au.photo)}" alt="" loading="lazy">` : `<span class="cs-ph">${PERSON_ICON}</span>`;
-    const inner = `${face}<span class="cs-text"><span class="cs-name">${esc(au.name || '')}</span><span class="cs-title">${esc(a.latest.title)}</span></span>`;
+    const inner = `${face}<span class="cs-text"><span class="cs-name">${esc(au.name || '')}</span><span class="cs-title">${esc(authorRole(au))}</span></span>`;
     return mode === 'link'
       ? `<a class="cs-card" href="/category/column/?author=${encodeURIComponent(a.key)}">${inner}</a>`
       : `<button type="button" class="cs-card" data-author="${esc(a.key)}" aria-pressed="false">${inner}</button>`;

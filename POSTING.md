@@ -22,7 +22,7 @@
 title: 글 제목 (40자 이내 권장, 핵심어를 앞에)
 subtitle: 부제 한 문장
 category: service-quality      # service-quality | hotel-it-qa | tourism-policy | column | report
-author: research               # research(편집부) | director(소장)
+author: research               # research(편집부) | director(소장) | 새 연구원은 site.config.json authors에 키를 추가
 date: 2026-11-01               # YYYY-MM-DD
 updated: 2026-11-05            # 수정한 경우에만
 summary: 검색 결과·공유 미리보기에 쓰이는 요약 (80~150자)
@@ -47,6 +47,8 @@ references:
 - `> 강조 문장` (글마다 1개 이내)
 - `- 목록`, `1. 번호 목록`
 - `![대체 텍스트](/images/파일.jpg "사진 설명")` (한 줄에 단독으로)
+
+새 연구원이 칼럼을 쓰면 site.config.json의 authors에 name, title, affiliation(소속), position(직책), bio, photo를 넣는다. 칼럼 페이지의 연구자별 칼럼에는 "소속 직책"(예: 관광서비스품질연구소 연구위원)이 표시된다.
 
 빌드는 필수 항목 누락, 없는 분류·필자, 잘못된 날짜 형식, 해석할 수 없는 프론트매터를 발견하면 중단된다.
 
