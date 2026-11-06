@@ -281,6 +281,27 @@ a.book:hover strong { color: var(--accent); }
   .org-board { margin-top: 0; padding-left: 0; padding-top: 18px; border-left: 0; border-top: 1px dashed var(--rule); flex-direction: row; }
 }
 
+/* 조직도: 자문 기구를 소장과 점선으로 연결 */
+.org-chart.has-adv { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; justify-content: stretch; align-items: stretch; }
+.org-head-cell { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; align-items: center; }
+.org-fill { flex: 1; border-left: 1.5px solid var(--muted); }
+.org-adv-cell { grid-column: 3; grid-row: 1; display: flex; align-items: flex-start; min-width: 0; }
+.org-dash { flex: 0 0 28px; margin-top: 36px; border-top: 1.5px dashed var(--muted); }
+.org-adv { position: relative; padding: 20px 12px 12px; border: 1.5px dashed var(--muted); border-radius: 12px; background: rgba(255,255,255,.55); }
+.org-adv-label { position: absolute; top: -11px; left: 14px; padding: 1px 10px; border-radius: 999px; background: var(--soft); font-size: 12.5px; font-weight: 700; color: var(--sub); }
+.org-adv-row { display: flex; gap: 10px; }
+.org-adv .org-node { min-width: 96px; padding: 12px 12px; font-size: 14.5px; }
+.org-down-cell { grid-column: 2; grid-row: 2; display: flex; justify-content: center; }
+.org-units-cell { grid-column: 1 / -1; grid-row: 3; display: flex; justify-content: center; }
+@media (max-width: 640px) {
+  .org-chart.has-adv { grid-template-columns: 1fr; justify-items: center; }
+  .org-head-cell, .org-down-cell, .org-units-cell { grid-column: 1; }
+  .org-adv-cell { grid-column: 1; grid-row: 4; flex-direction: column; align-items: center; margin-top: 8px; }
+  .org-dash { flex: 0 0 auto; height: 26px; margin-top: 0; border-top: 0; border-left: 1.5px dashed var(--muted); }
+  .org-fill { display: none; }
+  .org-adv .org-node { min-width: 0; }
+}
+
 .org-node small { display: block; margin-top: 2px; font-size: 11.5px; font-weight: 500; color: var(--muted); }
 .org-head small { color: #C9D1DC; }
 .org-card i { display: block; font-style: normal; font-size: 11.5px; color: var(--muted); margin-top: 1px; }

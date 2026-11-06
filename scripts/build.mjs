@@ -538,9 +538,16 @@ function orgBlock() {
   const unit = (n) => `<div class="org-node">${esc(n)}${en(n) ? `<small>${esc(en(n))}</small>` : ''}</div>`;
   const uname = (u) => (typeof u === 'string' ? u : u.name);
   const label = o.units.map((u) => (typeof u === 'string' ? u : `${u.name}(하위: ${u.sub.join(', ')})`)).join(', ');
-  const chart = `<div class="org-chart" role="img" aria-label="조직도: ${esc(o.head)} 아래 ${esc(label)}${o.board?.length ? `, 별도로 ${esc(o.board.join(', '))}` : ''}">
-<div class="org-main"><div class="org-node org-head">${esc(o.head)}${en(o.head) ? `<small>${esc(en(o.head))}</small>` : ''}</div><div class="org-down"></div>
-<div class="org-units" style="--n:${o.units.length}">${o.units.map((u) => `<div class="org-unit">${unit(uname(u))}${typeof u !== 'string' && u.sub?.length ? u.sub.map((x) => `<div class="org-subline"></div><div class="org-sub">${unit(x)}</div>`).join('') : ''}</div>`).join('')}</div></div>
+  const units = `<div class="org-units" style="--n:${o.units.length}">${o.units.map((u) => `<div class="org-unit">${unit(uname(u))}${typeof u !== 'string' && u.sub?.length ? u.sub.map((x) => `<div class="org-subline"></div><div class="org-sub">${unit(x)}</div>`).join('') : ''}</div>`).join('')}</div>`;
+  const head = `<div class="org-node org-head">${esc(o.head)}${en(o.head) ? `<small>${esc(en(o.head))}</small>` : ''}</div>`;
+  // advisory: 소장과 점선으로만 이어지는 자문 기구(고문·자문위원회를 나란히). 위촉은 소장, 활동은 독립적인 자문
+  const chart = o.advisory?.length
+    ? `<div class="org-chart has-adv" role="img" aria-label="조직도: ${esc(o.head)} 아래 ${esc(label)}. ${esc(o.head)}와 자문 관계로 ${esc(o.advisory.join(', '))}">
+<div class="org-head-cell">${head}<span class="org-fill" aria-hidden="true"></span></div><div class="org-adv-cell"><span class="org-dash" aria-hidden="true"></span><div class="org-adv"><span class="org-adv-label">${esc(o.advisoryLabel || '자문')}</span><div class="org-adv-row">${o.advisory.map((x) => unit(x)).join('')}</div></div></div>
+<div class="org-down-cell"><div class="org-down"></div></div><div class="org-units-cell">${units}</div></div>`
+    : `<div class="org-chart" role="img" aria-label="조직도: ${esc(o.head)} 아래 ${esc(label)}${o.board?.length ? `, 별도로 ${esc(o.board.join(', '))}` : ''}">
+<div class="org-main">${head}<div class="org-down"></div>
+${units}</div>
 ${o.board?.length ? `<div class="org-board">${o.board.map((b) => unit(b).replace('class="org-node"', 'class="org-node org-audit"')).join('')}</div>` : ''}</div>`;
   const members = o.hideMembers ? o.members.filter((m) => m.group === o.head) : o.members; // hideMembers: 소장 외 구성원 숨김(데이터는 유지)
   const groups = [...new Set(members.map((m) => m.group))];
