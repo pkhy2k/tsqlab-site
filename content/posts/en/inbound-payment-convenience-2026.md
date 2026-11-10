@@ -35,7 +35,7 @@ Pinpoint News also reported that one prepaid card provider said cards issued in 
 
 Where the spending went matters too. Hankyung (13 August) reported an analysis of foreign card sales by Korea Credit Data (KCD): of the 328,000 stores nationwide where foreign cards were used over the past year, the top 1% accounted for 66.9% of the value of payments, and Seoul accounted for 65%. As this analysis comes from a single source, it should be read alongside other statistics.
 
-These figures show that payment convenience is also tied to how tourism is distributed across regions. This is one reason the government has set aside a separate budget for transport and payment convenience in tourism zones centred on regional airports, which we discussed in [Five regional airport tourism zones and the 2027 tourism budget](/posts/regional-tourism-zones-2027-budget/) (in Korean).
+These figures show that payment convenience is also tied to how tourism is distributed across regions. This is one reason the government has set aside a separate budget for transport and payment convenience in tourism zones centred on regional airports, which we discussed in [Five regional airport tourism zones and the 2027 tourism budget](/posts/regional-tourism-zones-2027-budget/).
 
 ## Payment is a hidden dimension of service quality
 
@@ -47,7 +47,7 @@ Hotels and other accommodation providers may want to check the following.
 
 - **Test the payment methods you accept**: Try foreign-issued cards, prepaid cards for foreign visitors and mobile payments at the front desk, in food and beverage outlets and at kiosks.
 - **Explain how deposits are handled**: Prepaid cards have fixed balances and limits, so confirm how deposit authorisations and later settlements are processed, and explain this in foreign languages.
-- **Set a fallback when payment fails**: Decide what staff should say when a card is declined and how they will offer an alternative. The same principle applies to failures at self check-in, as discussed in [When the kiosk stops, service recovery is a human job](/posts/kiosk-failure-service-recovery/) (in Korean).
+- **Set a fallback when payment fails**: Decide what staff should say when a card is declined and how they will offer an alternative. The same principle applies to failures at self check-in, as discussed in [When the kiosk stops, service recovery is a human job](/posts/kiosk-failure-service-recovery/).
 - **Track payment complaints separately**: Classifying foreign guests' payment inquiries and complaints on their own shows which methods cause recurring problems.
 
 > When payment goes smoothly, guests do not remember it. When it fails, they remember that moment for a long time.

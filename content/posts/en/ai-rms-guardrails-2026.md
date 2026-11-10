@@ -35,7 +35,7 @@ Price is a matter of revenue and also the first piece of service information a g
 - **Document the guardrails**: Revenue managers should set and record rate floors and ceilings, the maximum daily change and the acceptable range relative to competitors. The standards must remain even if the system or the person in charge changes.
 - **Set criteria for switching out of automation**: For periods when historical data does not fit, such as major events, disasters or system outages, decide in advance the conditions under which automation stops and people decide.
 - **Record why recommendations were rejected**: When a revenue manager does not accept the AI's recommendation, recording the reason provides a basis for adjusting the system and learning material for the team.
-- **Check rate consistency across channels**: The more often rates change, the more important it is that the channel manager and booking engine reflect the same rates on time. We covered integration checks in [Channel manager integration testing](/posts/channel-manager-integration-testing/) (in Korean).
+- **Check rate consistency across channels**: The more often rates change, the more important it is that the channel manager and booking engine reflect the same rates on time. We covered integration checks in [Channel manager integration testing](/posts/channel-manager-integration-testing/).
 - **Ask whether you can explain it to guests**: If the rate for the same date changes significantly within a few hours, guests will ask why. Explanations should be ready at a level the front desk and reservations staff can give.
 
 ## Conclusion

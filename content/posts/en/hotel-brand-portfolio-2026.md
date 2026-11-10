@@ -41,7 +41,7 @@ For guests, a brand is a promise of a certain level of service. Under the same b
 
 - **Have the people changed before the sign?** Staff at converted hotels are used to the previous brand's ways of working. Check that the new brand's service standards have taken hold through training and on-site inspections.
 - **Can you handle higher expectations?** At a hotel moved up to high-end, guests' expectations rise even with the same staff and the same spaces. Compare reviews and complaint types just after the rebranding with those before.
-- **Is the systems transition invisible to guests?** Changing brands often means changing reservation systems, loyalty programmes, the property management system (PMS) and channel integrations at the same time. Missing bookings and inventory errors during the transition become the guest's first experience of the new brand. We covered how to check channel integrations in [Channel manager integration testing](/posts/channel-manager-integration-testing/) (in Korean).
+- **Is the systems transition invisible to guests?** Changing brands often means changing reservation systems, loyalty programmes, the property management system (PMS) and channel integrations at the same time. Missing bookings and inventory errors during the transition become the guest's first experience of the new brand. We covered how to check channel integrations in [Channel manager integration testing](/posts/channel-manager-integration-testing/).
 - **Can regional hotels keep the same promise?** The further a brand expands into the regions, the harder staffing becomes and the greater the distance to manage. Brand standards can be adapted to local conditions, but the core experience guests expect must be kept.
 
 ## Conclusion

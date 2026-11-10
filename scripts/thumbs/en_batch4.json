@@ -1,0 +1,96 @@
+{
+ "room-703-error-defect-failure": {
+  "script": "make.py",
+  "map": {
+   "결함 Defect": "Defect",
+   "오류": "Human",
+   "장애": "Runtime"
+  }
+ },
+ "defect-report-severity-priority": {
+  "script": "make.py",
+  "map": {
+   "15% 나옴": "Shows 15%",
+   "255,000원": "KRW 255,000",
+   "270,000원": "KRW 270,000",
+   "결함 보고서": "Defect report",
+   "기대 결과": "Expected",
+   "높음": "High",
+   "별도 판단": "Separate",
+   "실제 결과": "Actual",
+   "심각도": "Severity",
+   "우선순위": "Priority",
+   "재현 절차": "Steps",
+   "할인 이상함": "Discount looks odd",
+   "확인 바람": "Please check"
+  }
+ },
+ "hotel-data-ai-agent": {
+  "script": "make.py",
+  "map": {
+   "객실X 예약 취소": "Room X cancelled",
+   "고객A": "Guest A",
+   "연락처": "Contact",
+   "이메일": "Email",
+   "초안 → 검증": "@18|Draft → Verify",
+   "카드": "Card"
+  }
+ },
+ "service-sense-to-test-design": {
+  "script": "make.py",
+  "map": {
+   "2값 경곗값 분석으로 테스트할 값 6개": "Six values to test with two-value boundary analysis",
+   "무효": "Invalid",
+   "숙박일 (박)": "Length of stay (nights)",
+   "연박 할인 5%": "5% multi-night",
+   "할인 없음": "No discount",
+   "혹시 14박이면?": "14 nights?"
+  }
+ },
+ "channel-manager-integration-testing": {
+  "script": "make_20261102.py",
+  "map": {
+   "객실 재고는 시스템 사이에서 틀어진다": "Inventory goes wrong between systems",
+   "부분 실패": "Partial failure",
+   "분배 · 수신": "Distribute · Receive",
+   "순서 뒤바뀜": "Out of order",
+   "예약": "Bookings",
+   "자사 예약 엔진": "Booking engine",
+   "재고 · 요금": "Inventory · Rates",
+   "재고·요금": "Inventory·Rates",
+   "중복": "Duplicate",
+   "지연": "Latency",
+   "채널 매니저": "@30|Channel manager"
+  }
+ },
+ "hotel-dates-test-design": {
+  "script": "make5.py",
+  "map": {
+   "00:00 자정": "00:00 Midnight",
+   "03:00 나이트 오디트": "03:00 Night audit",
+   "11월 1일": "Nov 1",
+   "11월 2일": "Nov 2",
+   "날짜가 어긋나는 시간": "When dates diverge",
+   "달력 날짜": "Calendar date",
+   "마감 시각은 호텔마다 다르다 · 예시": "Closing time varies by hotel · Example",
+   "영업일자": "Business date",
+   "자정과 나이트 오디트 사이": "Between midnight and the night audit"
+  }
+ },
+ "hotel-kiosk-quality-checklist": {
+  "script": "make4.py",
+  "map": {
+   "결함 없음 다음": "Beyond no defects",
+   "고객화": "Customisation",
+   "기능성": "Functionality",
+   "두 요인 모두 재이용에도 유의": "Both also significant for reuse",
+   "디자인성": "Design",
+   "몰입의 조건": "Conditions for flow",
+   "보안성/개인정보": "Security/Privacy",
+   "재이용의 조건": "Conditions for reuse",
+   "즐거움": "Enjoyment",
+   "편리성은 두 결과 모두에서 고유 효과가 유의하지 않았다": "Convenience had no significant unique effect on either",
+   "확신성": "Assurance"
+  }
+ }
+}

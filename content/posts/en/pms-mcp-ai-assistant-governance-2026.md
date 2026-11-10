@@ -42,7 +42,7 @@ Based on this discussion, the editorial team suggests checking the following.
 - **Follow the permissions of human accounts**: Agents should not act with separate administrator rights but only within the permissions of the staff member who instructed them.
 - **Keep logs and designate owners**: It must be possible to trace who changed what under which instruction, and an owner should be assigned for each automated task.
 - **Verify bulk changes in advance**: Being able to change 2,000 bookings at once means a wrong instruction is also applied to 2,000 bookings at once. Check the results on a sample of bookings before applying changes to all of them.
-- **Check where guest data goes**: When guest information is passed to an external AI service, Korean law requires a review of whether this counts as entrusted processing or a cross-border transfer of personal data. Detailed standards need to be checked against the law and with experts; the basic principles are summarised in [What to check before putting hotel guest data into AI](/posts/hotel-data-ai-agent/) (in Korean).
+- **Check where guest data goes**: When guest information is passed to an external AI service, Korean law requires a review of whether this counts as entrusted processing or a cross-border transfer of personal data. Detailed standards need to be checked against the law and with experts; the basic principles are summarised in [What to check before putting hotel guest data into AI](/posts/hotel-data-ai-agent/).
 
 ## Conclusion
 
