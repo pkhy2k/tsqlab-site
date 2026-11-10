@@ -8,21 +8,40 @@ import { createHash } from 'node:crypto';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CSS_VER = createHash('md5').update(fs.readFileSync(path.join(ROOT, 'src', 'style.css'))).digest('hex').slice(0, 8);
 const DIST = path.join(ROOT, 'dist');
-const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'site.config.json'), 'utf8'));
+let cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'site.config.json'), 'utf8'));
 const SITE_URL = cfg.url.replace(/\/$/, '');
 const errors = [];
+const CFG_KO = cfg;
+// ---------- 다국어(한국어 기본, 영어 /en/) ----------
+// 코드 안의 내부 주소는 언어 구분 없이 '/posts/..'처럼 쓰고, 영어 페이지를 쓸 때 write()가 영어판이 있는 경로만 /en/으로 바꾼다
+let LANG = 'ko';
+const T = (ko, en) => (LANG === 'en' ? en : ko);
+const L = (p) => (LANG === 'en' && typeof p === 'string' && p.startsWith('/') && !p.startsWith('/en/') ? '/en' + p : p);
+const EN_PATHS = new Set();   // 영어판이 있는 경로(언어 접두어 없는 형태)
+const EN_ROUTE = /^\/(posts|category|search|about|contact)\//;
 
 // ---------- 유틸 ----------
 const esc = (s = '') => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const fmtDate = (d) => (d ? d.replaceAll('-', '.') : '');
+const fmtDate = (d) => (!d ? '' : LANG === 'en' ? new Date(d + 'T00:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }) : d.replaceAll('-', '.'));
 // 신규 글 표시: 글 링크에 게시일(data-d)을 달고, 브라우저에서 최근 N일 이내 글에 NEW 표시
 const DATE_BY_SLUG = {};
-const CAT_USED = new Set(); // 글이 하나라도 있는 분류만 메뉴에 표시
+let CAT_USED = new Set(); // 글이 하나라도 있는 분류만 메뉴에 표시
 const markNew = (html) => html.replace(/<a ([^>]*?)href="\/posts\/([a-z0-9-]+)\/"/g,
   (m, pre, slug) => (DATE_BY_SLUG[slug] && !/aria-hidden|tabindex="-1"|data-nonew/.test(pre) ? `<a ${pre}href="/posts/${slug}/" data-d="${DATE_BY_SLUG[slug]}"` : m));
+const langSwitch = (pth) => {
+  const ko = pth, en = EN_PATHS.has(pth) ? '/en' + pth : '/en/';
+  return `<div class="lang-sw" role="group" aria-label="Language"><a href="${ko}" hreflang="ko" lang="ko"${LANG === 'ko' ? ' aria-current="true"' : ''}>KO</a><a href="${LANG === 'en' ? '/en' + pth : en}" hreflang="en" lang="en"${LANG === 'en' ? ' aria-current="true"' : ''}>EN</a></div>`;
+};
+// 영어 페이지: 영어판이 있는 내부 링크만 /en/으로 바꾼다(없는 페이지는 한국어판으로 연결)
+const enLinks = (html) => html.replace(/(href|action)="(\/[^"]*)"/g, (m, a, u) => {
+  const bare = u.split(/[?#]/)[0];
+  return (u === '/' || EN_ROUTE.test(u) && (EN_PATHS.has(bare) || /^\/search\//.test(u))) ? `${a}="/en${u}"` : m;
+}).replace(/'\/search\/\?q='/g, "'/en/search/?q='");
 const write = (rel, content) => {
   if (rel.endsWith('.html')) content = markNew(content);
+  if (rel.endsWith('.html') && LANG === 'en') content = enLinks(content);
+  if (rel.endsWith('.html')) content = content.replace(/<!--LANGSW:([^>]*)-->/g, (m, pth) => langSwitch(pth)).replaceAll('href="@ko/', 'href="/');
   const file = path.join(DIST, rel);
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, content);
@@ -35,7 +54,7 @@ const copyDir = (src, dest) => {
     e.isDirectory() ? copyDir(s, d) : fs.copyFileSync(s, d);
   }
 };
-const catBySlug = Object.fromEntries(cfg.categories.map((c) => [c.slug, c]));
+let catBySlug = Object.fromEntries(cfg.categories.map((c) => [c.slug, c]));
 
 // ---------- 프론트매터 ----------
 function parseValue(v) {
@@ -123,8 +142,8 @@ const plain = (md) => md.replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/\[([^\]]+
 
 // ---------- 콘텐츠 읽기 ----------
 const REQUIRED = ['title', 'category', 'author', 'date'];
-function loadPosts() {
-  const dir = path.join(ROOT, 'content', 'posts');
+function loadPosts(dir = path.join(ROOT, 'content', 'posts')) {
+  if (!fs.existsSync(dir)) return [];
   const posts = [];
   for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.md'))) {
     const { data, body } = parseFrontmatter(fs.readFileSync(path.join(dir, f), 'utf8'), f);
@@ -147,8 +166,7 @@ function loadPosts() {
   }
   return posts.sort((a, b) => (b.date || '').localeCompare(a.date || '') || a.slug.localeCompare(b.slug));
 }
-function loadPages() {
-  const dir = path.join(ROOT, 'content', 'pages');
+function loadPages(dir = path.join(ROOT, 'content', 'pages')) {
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir).filter((x) => x.endsWith('.md')).map((f) => {
     const { data, body } = parseFrontmatter(fs.readFileSync(path.join(dir, f), 'utf8'), f);
@@ -181,7 +199,7 @@ const publications = () => `<div class="pubs">${cfg.books.map((b) => {
   const links = [b.post && `<a data-nonew href="${esc(b.post)}">신간 소개 기사 ›</a>`, `<a href="/books/">출판 페이지 ›</a>`, ...(b.links || []).map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}에서 보기 ›</a>`)].filter(Boolean).join('');
   return `<article class="pub">${b.cover ? `<img src="${esc(b.cover)}" alt="${esc(b.title)} 표지">` : ''}<div><span class="pub-tag">저서</span><h3>『${esc(b.title)}』</h3><span class="pub-meta">${meta}</span>${b.summary ? `<p>${esc(b.summary)}</p>` : ''}<span class="pub-links">${links}</span></div></article>`;
 }).join('')}</div>`;
-const aboutCta = () => `<div class="about-cta"><div class="about-cta-text"><strong>학계와 현장을 잇는 연구에 함께해 주세요</strong><p>관광·호텔 분야 연구자와 실무자의 회원가입과 원고 투고, 기고·인터뷰 및 공동 연구 제안을 기다립니다.</p></div><div class="book-actions"><a class="btn-solid" href="/join/">회원가입</a><a class="btn-line" href="/contact/">문의하기</a></div></div>`;
+const aboutCta = () => LANG === 'en' ? `<div class="about-cta"><div class="about-cta-text"><strong>Work with us</strong><p>We welcome contributions, interview requests and research partnership proposals from researchers and practitioners in tourism and hospitality.</p></div><div class="book-actions"><a class="btn-solid" href="/contact/">Contact us</a></div></div>` : `<div class="about-cta"><div class="about-cta-text"><strong>학계와 현장을 잇는 연구에 함께해 주세요</strong><p>관광·호텔 분야 연구자와 실무자의 회원가입과 원고 투고, 기고·인터뷰 및 공동 연구 제안을 기다립니다.</p></div><div class="book-actions"><a class="btn-solid" href="/join/">회원가입</a><a class="btn-line" href="/contact/">문의하기</a></div></div>`;
 const joinCta = () => `<div class="about-cta"><div class="about-cta-text"><strong>연구소 회원으로 함께해 주세요</strong><p>관광·호텔 분야 연구자와 실무자는 회원으로 가입하여 원고를 투고하고 연구에 참여할 수 있습니다.</p></div><div class="book-actions"><a class="btn-solid" href="/join/">회원가입 안내</a></div></div>`;
 const CONTACT_TYPES = [
   { key: '기고·인터뷰', icon: 'M4 5h16v11H8l-4 4zM8 9h8M8 12h5', desc: '언론·학회·기관 매체의 원고 기고와 인터뷰 요청을 받습니다.',
@@ -201,34 +219,34 @@ const contactCards = () => {
 };
 const contactEmail = () => {
   const mail = cfg.business?.email || 'contact@tourismquality.kr';
-  return `<div class="ct-mail"><div><span class="ct-label">연구소 이메일</span><a class="ct-addr" href="mailto:${esc(mail)}">${esc(mail)}</a><span class="ct-note">메일을 확인한 뒤 회신드립니다.</span></div><button type="button" class="btn-line ct-copy" data-mail="${esc(mail)}">주소 복사</button><span class="ct-toast" role="status" aria-live="polite"></span></div>
-<script>(function(){var b=document.querySelector('.ct-copy');if(!b)return;var t=document.querySelector('.ct-toast');b.addEventListener('click',function(){var m=b.getAttribute('data-mail');function ok(){t.textContent='주소를 복사했습니다';setTimeout(function(){t.textContent=''},2000)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(m).then(ok,function(){t.textContent=m})}else{t.textContent=m}})})();</script>`;
+  return `<div class="ct-mail"><div><span class="ct-label">${T('연구소 이메일', 'Email')}</span><a class="ct-addr" href="mailto:${esc(mail)}">${esc(mail)}</a><span class="ct-note">${T('메일을 확인한 뒤 회신드립니다.', 'We will reply after reviewing your message.')}</span></div><button type="button" class="btn-line ct-copy" data-mail="${esc(mail)}">${T('주소 복사', 'Copy address')}</button><span class="ct-toast" role="status" aria-live="polite"></span></div>
+<script>(function(){var b=document.querySelector('.ct-copy');if(!b)return;var t=document.querySelector('.ct-toast');b.addEventListener('click',function(){var m=b.getAttribute('data-mail');function ok(){t.textContent='${T('주소를 복사했습니다', 'Address copied')}';setTimeout(function(){t.textContent=''},2000)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(m).then(ok,function(){t.textContent=m})}else{t.textContent=m}})})();</script>`;
 };
 // 로고의 의미 문단(소장 확정 문구): 연구소 소개에서는 뺐고 명함·브랜드 자료용으로 보관. 페이지에 {{logoMeaning}}을 넣으면 다시 표시
 const logoMeaning = () => `<figure class="logo-meaning">${logo(76)}<figcaption>연구소의 로고는 손님을 맞이하는 아치형 문과 그 안에서 점차 높아지는 세 개의 막대로 이루어져 있다. 문은 환대의 관문인 서비스 현장을, 세 막대는 정책·산업·품질이라는 연구의 세 축을 뜻하며, 오른쪽으로 갈수록 높아지는 모양은 서비스의 지속적인 개선을 상징한다. 주황색으로 강조한 마지막 막대는 연구가 지향하는 유의미한 시사점을, 남색과 주황색은 각각 학술 연구의 신뢰와 현장의 환대를 나타낸다.</figcaption></figure>`;
 const logo = (size) => `<svg class="logo" width="${size}" height="${Math.round(size * 372 / 380)}" viewBox="130 50 380 372" aria-hidden="true"><path d="M180 397 V210 A140 140 0 0 1 460 210 V397" fill="none" stroke="currentColor" stroke-width="16"/><rect x="137" y="398" width="366" height="16" fill="currentColor"/><rect x="233" y="312" width="47" height="86" fill="currentColor"/><rect x="297" y="265" width="47" height="133" fill="currentColor"/><rect x="360" y="209" width="47" height="189" fill="var(--logo-orange)"/></svg>`;
-const searchBtn = `<a class="icon-btn" href="/search/" aria-label="글 검색"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a>`;
+const searchBtn = () => `<a class="icon-btn" href="/search/" aria-label="${T('글 검색', 'Search')}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a>`;
 const navLinks = (active) => cfg.categories.filter((c) => !CAT_USED.size || CAT_USED.has(c.slug)).map((c) =>
-  `<a href="/category/${c.slug}/"${c.slug === active ? ' class="active" aria-current="page"' : ''}>${esc(c.name)}</a>`).join('') + (cfg.home?.navBooks === false ? '' : '<a href="/books/">출판</a>');
+  `<a href="/category/${c.slug}/"${c.slug === active ? ' class="active" aria-current="page"' : ''}>${esc(c.name)}</a>`).join('') + (cfg.home?.navBooks === false || LANG === 'en' ? '' : '<a href="/books/">출판</a>');
 
 function headerHome() {
-  const today = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'full', timeZone: 'Asia/Seoul' }).format(new Date());
+  const today = new Intl.DateTimeFormat(T('ko-KR', 'en-US'), { dateStyle: 'full', timeZone: 'Asia/Seoul' }).format(new Date());
   return `<header class="topbar"><div class="wrap topbar-in"><span>${today}</span>
-<nav aria-label="보조 메뉴"><a href="/about/">연구소 소개</a><a href="/join/">회원가입</a><a href="/contact/">문의하기</a>${cfg.social.instagram ? `<a href="${esc(cfg.social.instagram)}" target="_blank" rel="noopener">인스타그램</a>` : ''}</nav></div></header>
-<div class="wrap masthead"><a href="/" class="brand-lg" aria-label="${esc(cfg.name)} 홈">${logo(52)}<span>${esc(cfg.name)}</span></a><span class="brand-en">${esc(cfg.nameEn)}</span></div>
-<nav class="mainnav" aria-label="주 메뉴"><div class="wrap mainnav-in"><div class="nav-left"><a href="/" class="nav-brand" aria-label="${esc(cfg.name)} 홈">${logo(24)}<span>${esc(cfg.name)}</span></a><div class="navlinks">${navLinks()}</div></div>${searchBtn}</div></nav>`;
+<div class="topbar-r"><nav aria-label="${T('보조 메뉴', 'Utility menu')}"><a href="/about/">${T('연구소 소개', 'About')}</a>${T('<a href="/join/">회원가입</a>', '')}<a href="/contact/">${T('문의하기', 'Contact')}</a>${cfg.social.instagram ? `<a href="${esc(cfg.social.instagram)}" target="_blank" rel="noopener">${T('인스타그램', 'Instagram')}</a>` : ''}</nav><!--LANGSW:PATH--></div></div></header>
+<div class="wrap masthead"><a href="/" class="brand-lg" aria-label="${esc(cfg.name)} ${T('홈', 'home')}">${logo(52)}<span>${esc(cfg.name)}</span></a><span class="brand-en">${esc(cfg.nameEn)}</span></div>
+<nav class="mainnav" aria-label="${T('주 메뉴', 'Main menu')}"><div class="wrap mainnav-in"><div class="nav-left"><a href="/" class="nav-brand" aria-label="${esc(cfg.name)} ${T('홈', 'home')}">${logo(24)}<span>${esc(cfg.name)}</span></a><div class="navlinks">${navLinks()}</div></div>${searchBtn()}</div></nav>`;
 }
 function headerCompact(active) {
-  return `<header class="compact"><div class="wrap compact-in"><a href="/" class="brand-sm" aria-label="${esc(cfg.name)} 홈">${logo(34)}<span>${esc(cfg.name)}</span></a>
-<nav class="navlinks" aria-label="주 메뉴">${navLinks(active)}${searchBtn}</nav></div></header>`;
+  return `<header class="compact"><div class="wrap compact-in"><a href="/" class="brand-sm" aria-label="${esc(cfg.name)} ${T('홈', 'home')}">${logo(34)}<span>${esc(cfg.name)}</span></a>
+<nav class="navlinks" aria-label="${T('주 메뉴', 'Main menu')}">${navLinks(active)}${searchBtn()}</nav><!--LANGSW:PATH--></div></header>`;
 }
 function footer() {
   const b = cfg.business;
   return `<footer class="site-footer"><div class="wrap footer-in"><div class="footer-info">
 <strong>${esc(cfg.name)}</strong>
-<span>비영리 학술연구 단체 · 소장 ${esc(b.director)}${b.email ? ` · 이메일 <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ''}</span>
-<span>© ${esc(cfg.name)}. 무단 전재 및 재배포 금지.</span></div>
-<nav aria-label="하단 메뉴"><a href="/about/">연구소 소개</a>${cfg.home?.showResearchLink ? '<a href="/research/">연구 성과</a>' : ''}<a href="/join/">회원가입</a><a href="/terms/">이용약관</a><a href="/privacy/" class="strong">개인정보처리방침</a><a href="/contact/">문의하기</a></nav></div></footer>`;
+<span>${T('비영리 학술연구 단체 · 소장', 'Non-profit academic research group · Director')} ${esc(b.director)}${b.email ? ` · ${T('이메일', 'Email')} <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ''}</span>
+<span>© ${esc(cfg.name)}. ${T('무단 전재 및 재배포 금지.', 'All rights reserved.')}</span></div>
+<nav aria-label="${T('하단 메뉴', 'Footer menu')}"><a href="/about/">${T('연구소 소개', 'About')}</a>${cfg.home?.showResearchLink ? `<a href="/research/">${T('연구 성과', 'Research')}</a>` : ''}<a href="/join/"${T('', ' lang="ko"')}>${T('회원가입', 'Membership (Korean)')}</a><a href="/terms/"${T('', ' lang="ko"')}>${T('이용약관', 'Terms (Korean)')}</a><a href="/privacy/" class="strong"${T('', ' lang="ko"')}>${T('개인정보처리방침', 'Privacy Policy (Korean)')}</a><a href="/contact/">${T('문의하기', 'Contact')}</a></nav></div></footer>`;
 }
 function thumb(p, ratio = 'wide', linked = true) {
   // 목록·홈 미리보기는 card(미리보기 전용 이미지)를 먼저 쓰고, 없으면 본문 이미지(thumbnail)를 쓴다
@@ -244,22 +262,26 @@ const catLabel = (p) => `<a href="/category/${p.category}/" class="cat">${esc(ca
 
 function layout({ title, description, pathname, body, ogType = 'website', image, jsonld, noindex }) {
   const fullTitle = title ? `${title} | ${cfg.name}` : cfg.name;
-  const canonical = SITE_URL + pathname;
+  const canonical = SITE_URL + L(pathname);
+  body = body.replace(/<!--LANGSW:PATH-->/g, `<!--LANGSW:${pathname}-->`);
+  const hasEn = EN_PATHS.has(pathname);
+  const alt = hasEn ? `<link rel="alternate" hreflang="ko" href="${SITE_URL}${pathname}">\n<link rel="alternate" hreflang="en" href="${SITE_URL}/en${pathname}">\n<link rel="alternate" hreflang="x-default" href="${SITE_URL}${pathname}">` : '';
   const img = image ? (image.startsWith('http') ? image : SITE_URL + image) : `${SITE_URL}/images/og-default.png`;
   return `<!doctype html>
-<html lang="${cfg.language}">
+<html lang="${LANG}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(fullTitle)}</title>
 <meta name="description" content="${esc(description || cfg.description)}">
 <link rel="canonical" href="${canonical}">
+${alt}
 ${noindex ? '<meta name="robots" content="noindex">' : ''}
 ${cfg.verification.naver ? `<meta name="naver-site-verification" content="${esc(cfg.verification.naver)}">` : ''}
 ${cfg.verification.google ? `<meta name="google-site-verification" content="${esc(cfg.verification.google)}">` : ''}
 <meta property="og:type" content="${ogType}">
 <meta property="og:site_name" content="${esc(cfg.name)}">
-<meta property="og:locale" content="${cfg.locale}">
+<meta property="og:locale" content="${T(cfg.locale, 'en_US')}">
 <meta property="og:title" content="${esc(title || cfg.name)}">
 <meta property="og:description" content="${esc(description || cfg.description)}">
 <meta property="og:url" content="${canonical}">
@@ -281,7 +303,7 @@ ${cfg.verification.google ? `<meta name="google-site-verification" content="${es
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 </head>
 <body>
-<a class="skip" href="#main">본문 바로가기</a>
+<a class="skip" href="#main">${T('본문 바로가기', 'Skip to content')}</a>
 ${body}
 ${footer()}
 <script>(function(){var D=${Number(cfg.newBadgeDays) || 0};if(!D)return;var now=Date.now()+9*36e5,day=864e5;document.querySelectorAll('a[data-d]').forEach(function(a){var t=Date.parse(a.getAttribute('data-d')+'T00:00:00Z');if(isNaN(t))return;var age=Math.floor(now/day)-Math.floor(t/day);if(age<0||age>=D)return;var host=a.querySelector('img')?a.querySelector('span'):a;if(!host)return;var b=document.createElement('span');b.className='new-badge';b.textContent='NEW';b.setAttribute('aria-label','새 글');var tn=host.lastChild;if(tn&&tn.nodeType===3){var m=tn.nodeValue.match(/^([\s\S]*?)(\S+)(\s*)$/);if(m){tn.nodeValue=m[1];var k=document.createElement('span');k.className='nb-keep';k.textContent=m[2];k.appendChild(b);host.appendChild(k);return}}host.appendChild(b)})})();</script>
@@ -331,7 +353,7 @@ function issueFocus(posts, homeOk) {
   for (let k = 0; kws.length < (f.count || 6) && k < 10; k++) recent.forEach((p) => { const t = p.tags.find((x) => !skip.has(x) && !kws.includes(x)); if (t && kws.length < (f.count || 6) && !kws.includes(t)) kws.push(t); });
   if (!kws.length) return '';
   const cnt = (t) => posts.filter((p) => p.tags.includes(t)).length; // 검색 결과와 같은 기준(전체 글)
-  return `<section class="issue-focus" aria-label="이슈 포커스" data-interval="${Math.round((f.seconds || 2) * 1000)}"><div class="if-bar"><h2 class="if-label"><i aria-hidden="true"></i>ISSUE FOCUS<span class="sr-only"> 이슈 포커스</span></h2><div class="if-roll">${kws.map((t, i) => `<a class="if-kw${i ? '' : ' on'}" data-nonew href="/search/?q=${encodeURIComponent(t)}"${i ? ' aria-hidden="true" tabindex="-1"' : ''}><b>#${esc(t)}</b><span>관련 기사 <em>${cnt(t)}</em>편</span></a>`).join('')}</div><span class="if-dots" aria-hidden="true">${kws.map((t, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</span><button type="button" class="if-next" aria-label="다음 키워드">›</button></div>
+  return `<section class="issue-focus" aria-label="${T('이슈 포커스', 'Issue focus')}" data-interval="${Math.round((f.seconds || 2) * 1000)}"><div class="if-bar"><h2 class="if-label"><i aria-hidden="true"></i>ISSUE FOCUS<span class="sr-only"> ${T('이슈 포커스', '')}</span></h2><div class="if-roll">${kws.map((t, i) => `<a class="if-kw${i ? '' : ' on'}" data-nonew href="/search/?q=${encodeURIComponent(t)}"${i ? ' aria-hidden="true" tabindex="-1"' : ''}><b>#${esc(t)}</b><span>${T(`관련 기사 <em>${cnt(t)}</em>편`, `<em>${cnt(t)}</em> related article${cnt(t) > 1 ? 's' : ''}`)}</span></a>`).join('')}</div><span class="if-dots" aria-hidden="true">${kws.map((t, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</span><button type="button" class="if-next" aria-label="${T('다음 키워드', 'Next keyword')}">›</button></div>
 <script>(function(){var r=document.querySelector('.issue-focus');if(!r)return;var kw=[].slice.call(r.querySelectorAll('.if-kw')),dt=[].slice.call(r.querySelectorAll('.if-dots i')),n=kw.length,cur=0,hold=false,ms=+r.dataset.interval||2000;
 function go(i){cur=(i+n)%n;kw.forEach(function(k,j){var on=j===cur;k.classList.toggle('on',on);k.setAttribute('aria-hidden',on?'false':'true');k.tabIndex=on?0:-1});dt.forEach(function(d,j){d.classList.toggle('on',j===cur)})}
 r.querySelector('.if-next').addEventListener('click',function(){go(cur+1)});
@@ -360,9 +382,9 @@ function pageHome(posts) {
   const sections = cfg.homeSections.map((slug) => {
     const c = catBySlug[slug];
     const list = posts.filter((p) => p.category === slug && !shown.has(p) && homeOk(p)).slice(0, 4);
-    if (!list.length) return `<div class="col"><div class="sec-head"><h2>${esc(c.name)}</h2></div><p class="muted">아직 게시된 글이 없다.</p></div>`;
+    if (!list.length) return `<div class="col"><div class="sec-head"><h2>${esc(c.name)}</h2></div><p class="muted">${T('아직 게시된 글이 없다.', 'English articles are coming soon.')}</p></div>`;
     const [first, ...others] = list;
-    return `<div class="col"><div class="sec-head"><h2>${esc(c.name)}</h2><a href="/category/${slug}/">더보기</a></div>
+    return `<div class="col"><div class="sec-head"><h2>${esc(c.name)}</h2><a href="/category/${slug}/">${T('더보기', 'More')}</a></div>
 ${thumb(first, 'photo')}<a href="${first.url}" class="item-lg">${esc(first.title)}</a>
 ${others.map((p) => `<a href="${p.url}" class="item">${esc(p.title)}</a>`).join('')}</div>`;
   }).join('');
@@ -372,25 +394,25 @@ ${others.map((p) => `<a href="${p.url}" class="item">${esc(p.title)}</a>`).join(
   const picks = posts.filter((p) => p.category === 'column').slice(0, 5); // 추천 칼럼: 최신순 5편(소장 지정)
   const body = `${headerHome()}
 <main id="main" class="wrap main">
-${lead ? `<section class="lead-wrap" aria-label="주요 기사">
-<div class="lead-row"><article class="lead"><div class="sec-head lead-head"><h2>주요 정책 이슈</h2><a href="/category/${esc(lead.category)}/">${esc(catBySlug[lead.category]?.name || '')} 전체 보기</a></div>${thumb(lead, 'wide')}${catLabel(lead)}
+${lead ? `<section class="lead-wrap" aria-label="${T('주요 기사', 'Top story')}">
+<div class="lead-row"><article class="lead"><div class="sec-head lead-head"><h2>${T('주요 정책 이슈', 'Policy Spotlight')}</h2><a href="/category/${esc(lead.category)}/">${T(`${esc(catBySlug[lead.category]?.name || '')} 전체 보기`, `All ${esc(catBySlug[lead.category]?.name || '')}`)}</a></div>${thumb(lead, 'wide')}${catLabel(lead)}
 <h1><a href="${lead.url}">${esc(lead.title)}</a></h1>
-${lead.subtitle ? `<p class="dek">${esc(lead.subtitle)}</p>` : ''}${lead.excerpt ? `<p class="lead-sum">${esc(lead.excerpt)}</p>` : ''}<div class="lead-foot"><span class="meta">${byline(lead)}</span><a class="lead-more" data-nonew href="${lead.url}">기사 읽기 →</a></div>${follow.length ? `<div class="lead-follow"><span class="lf-title">이어지는 정책 이슈</span><div class="lf-items">${follow.map((p) => `<article class="lf-item">${thumb(p, 'wide')}<div><a href="${p.url}" class="lf-link">${esc(p.title)}</a><span class="meta">${byline(p)}</span></div></article>`).join('')}</div></div>` : ''}</article>
-<div class="side-list">${side.length ? `<div class="sec-head lead-head"><h2>추천 글</h2></div>${side.map((p, i) => `<article><span class="side-no">${String(i + 1).padStart(2, '0')}</span><div>${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><span class="meta">${byline(p)}</span></div></article>`).join('')}` : ''}
-${picks.length ? `<div class="side-cols"><div class="sec-head"><h2>추천 칼럼</h2><a href="/category/column/">더보기</a></div><ol class="ranked">${picks.map((p) => `<li><a href="${p.url}">${esc(p.title)}</a></li>`).join('')}</ol></div>` : ''}</div>
-</div></section>` : '<p>게시된 글이 없다.</p>'}
+${lead.subtitle ? `<p class="dek">${esc(lead.subtitle)}</p>` : ''}${lead.excerpt ? `<p class="lead-sum">${esc(lead.excerpt)}</p>` : ''}<div class="lead-foot"><span class="meta">${byline(lead)}</span><a class="lead-more" data-nonew href="${lead.url}">${T('기사 읽기 →', 'Read the article →')}</a></div>${follow.length ? `<div class="lead-follow"><span class="lf-title">${T('이어지는 정책 이슈', 'More policy issues')}</span><div class="lf-items">${follow.map((p) => `<article class="lf-item">${thumb(p, 'wide')}<div><a href="${p.url}" class="lf-link">${esc(p.title)}</a><span class="meta">${byline(p)}</span></div></article>`).join('')}</div></div>` : ''}</article>
+<div class="side-list">${side.length ? `<div class="sec-head lead-head"><h2>${T('추천 글', 'Recommended')}</h2></div>${side.map((p, i) => `<article><span class="side-no">${String(i + 1).padStart(2, '0')}</span><div>${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><span class="meta">${byline(p)}</span></div></article>`).join('')}` : ''}
+${picks.length ? `<div class="side-cols"><div class="sec-head"><h2>${T('추천 칼럼', 'Recommended columns')}</h2><a href="/category/column/">${T('더보기', 'More')}</a></div><ol class="ranked">${picks.map((p) => `<li><a href="${p.url}">${esc(p.title)}</a></li>`).join('')}</ol></div>` : ''}</div>
+</div></section>` : `<p>${T('게시된 글이 없다.', 'No articles yet.')}</p>`}
 ${issueFocus(posts, homeOk)}
-<section class="cols" aria-label="분야별 글">${sections}</section>
-${cfg.home?.showDirectorBand === false ? '' : `<section class="column-band" aria-label="${col ? '소장 칼럼' : '소장 소개'}">
-<div class="portrait">${dir.photo ? `<img src="${esc(dir.photo)}" alt="${esc(dir.name)} 소장">` : ''}</div>
+<section class="cols" aria-label="${T('분야별 글', 'Articles by field')}">${sections}</section>
+${cfg.home?.showDirectorBand === false ? '' : `<section class="column-band" aria-label="${col ? T('소장 칼럼', "Director's column") : T('소장 소개', 'Director')}">
+<div class="portrait">${dir.photo ? `<img src="${esc(dir.photo)}" alt="${esc(dir.name)}${T(' 소장', ', Director')}">` : ''}</div>
 ${col ? `<div class="column-text"><span class="eyebrow">DIRECTOR'S COLUMN</span><h2><a href="${col.url}">${esc(col.title)}</a></h2>
 <p>${esc(col.excerpt)}</p><span class="meta-inv">${esc(dir.name)} · ${esc(dir.title)}</span></div>`
   : `<div class="column-text"><span class="eyebrow">DIRECTOR</span><h2><a href="/about/">${esc(dir.name)}</a></h2>
-<p>${esc(dir.title)}</p><span class="meta-inv"><a href="/about/" class="inv-link">연구소 소개 보기 ›</a></span></div>`}</section>`}
+<p>${esc(dir.title)}</p><span class="meta-inv"><a href="/about/" class="inv-link">${T('연구소 소개 보기 ›', 'About the Lab ›')}</a></span></div>`}</section>`}
 ${cfg.home?.columnStrip ? columnStrip(posts, 'link') : ''}
-<section class="home-cols" aria-label="칼럼"><div class="sec-head"><h2>칼럼</h2><span class="cs-head-r"><span class="cc-nav"><button type="button" class="cc-prev" aria-label="이전 칼럼">‹</button><button type="button" class="cc-next" aria-label="다음 칼럼">›</button></span><a href="/category/column/">더보기</a></span></div>
-<div class="reports drag-row col-center" tabindex="0" aria-label="칼럼 목록, 좌우로 넘겨 볼 수 있음">${homeCols.length ? (() => { const card = (p, clone) => `<article class="report${clone ? ' is-clone' : ''}"${clone ? ' aria-hidden="true"' : ''}><a class="cover" href="${p.url}" tabindex="-1" aria-hidden="true" draggable="false">${p.cover || p.thumbnail ? `<img src="${esc(p.cover || p.thumbnail)}" alt="" draggable="false">` : '<span>COLUMN</span>'}</a>
-<div><span class="cat-static">COLUMN</span><a href="${p.url}" class="item-lg" draggable="false"${clone ? ' tabindex="-1"' : ''}>${esc(p.title)}</a><span class="meta">${esc((cfg.authors[p.author] || {}).name || '')} · ${fmtDate(p.date)}</span></div></article>`; const real = homeCols.map((p) => card(p, false)).join(''); const loop = homeCols.length > 3; return loop ? homeCols.map((p) => card(p, true)).join('') + real + homeCols.map((p) => card(p, true)).join('') : real; })() : '<p class="muted">칼럼을 준비 중이다.</p>'}</div>
+<section class="home-cols" aria-label="${T('칼럼', 'Columns')}"><div class="sec-head"><h2>${T('칼럼', 'Columns')}</h2><span class="cs-head-r"><span class="cc-nav"><button type="button" class="cc-prev" aria-label="${T('이전 칼럼', 'Previous column')}">‹</button><button type="button" class="cc-next" aria-label="${T('다음 칼럼', 'Next column')}">›</button></span><a href="/category/column/">${T('더보기', 'More')}</a></span></div>
+<div class="reports drag-row col-center" tabindex="0" aria-label="${T('칼럼 목록, 좌우로 넘겨 볼 수 있음', 'Column list, scroll sideways')}">${homeCols.length ? (() => { const card = (p, clone) => `<article class="report${clone ? ' is-clone' : ''}"${clone ? ' aria-hidden="true"' : ''}><a class="cover" href="${p.url}" tabindex="-1" aria-hidden="true" draggable="false">${p.cover || p.thumbnail ? `<img src="${esc(p.cover || p.thumbnail)}" alt="" draggable="false">` : '<span>COLUMN</span>'}</a>
+<div><span class="cat-static">COLUMN</span><a href="${p.url}" class="item-lg" draggable="false"${clone ? ' tabindex="-1"' : ''}>${esc(p.title)}</a><span class="meta">${esc((cfg.authors[p.author] || {}).name || '')} · ${fmtDate(p.date)}</span></div></article>`; const real = homeCols.map((p) => card(p, false)).join(''); const loop = homeCols.length > 3; return loop ? homeCols.map((p) => card(p, true)).join('') + real + homeCols.map((p) => card(p, true)).join('') : real; })() : `<p class="muted">${T('칼럼을 준비 중이다.', 'English versions of our columns are coming soon.')}</p>`}</div>
 </section>
 ${cfg.home?.showBooks === false ? '' : `<section aria-label="출판"><div class="sec-head"><h2>출판</h2><a href="/books/">전체 보기</a></div>
 <div class="books">${cfg.books.map(bookCard).join('')}</div></section>`}
@@ -408,41 +430,41 @@ function pagePost(p, posts) {
   const body = `${headerCompact(p.category)}
 <main id="main" class="wrap article-wrap">
 <article class="article">
-<nav class="crumb" aria-label="현재 위치"><a href="/">홈</a><span aria-hidden="true">›</span>${catLabel(p)}</nav>
+<nav class="crumb" aria-label="${T('현재 위치', 'Breadcrumb')}"><a href="/">${T('홈', 'Home')}</a><span aria-hidden="true">›</span>${catLabel(p)}</nav>
 <h1>${esc(p.title)}</h1>
 ${p.subtitle ? `<p class="dek">${esc(p.subtitle)}</p>` : ''}
 <div class="byline"><div><strong>${esc(author.name)}</strong> <span class="muted">${esc(author.title)}</span><br>
-<span class="meta">입력 ${fmtDate(p.date)}${p.updated ? ` · 수정 ${fmtDate(p.updated)}` : ''}<span class="views" hidden> · 조회 <span data-views>0</span></span></span></div>
-<div class="share"><button type="button" class="circle" data-copy aria-label="링크 복사"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></button>
-<button type="button" class="circle" data-share aria-label="공유하기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
-<button type="button" class="circle" onclick="window.print()" aria-label="인쇄하기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="1"/><path d="M6 14h12v7H6z"/></svg></button>
+<span class="meta">${T('입력', 'Published')} ${fmtDate(p.date)}${p.updated ? ` · ${T('수정', 'Updated')} ${fmtDate(p.updated)}` : ''}<span class="views" hidden> · ${T('조회', 'Views')} <span data-views>0</span></span></span></div>
+<div class="share"><button type="button" class="circle" data-copy aria-label="${T('링크 복사', 'Copy link')}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></button>
+<button type="button" class="circle" data-share aria-label="${T('공유하기', 'Share')}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+<button type="button" class="circle" onclick="window.print()" aria-label="${T('인쇄하기', 'Print')}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="1"/><path d="M6 14h12v7H6z"/></svg></button>
 <span class="toast" role="status" aria-live="polite"></span></div></div>
 ${p.thumbnail ? `<figure class="hero"><img src="${esc(p.thumbnail)}" alt="${esc(p.thumbnail_alt || p.title)}">${p.thumbnail_caption ? `<figcaption>${esc(p.thumbnail_caption)}</figcaption>` : ''}</figure>` : ''}
 <div class="prose">${p.html}</div>
-${p.references.length ? `<section class="refs" aria-label="참고문헌"><h2>참고문헌</h2><ol>${p.references.map((r) => `<li>${inline(String(r))}</li>`).join('')}</ol></section>` : ''}
+${p.references.length ? `<section class="refs" aria-label="${T('참고문헌', 'References')}"><h2>${T('참고문헌', 'References')}</h2>${LANG === 'en' && p.refsNote !== false ? '<p class="muted small">Most sources are in Korean.</p>' : ''}<ol>${p.references.map((r) => `<li>${inline(String(r))}</li>`).join('')}</ol></section>` : ''}
 <section class="reactions" aria-label="기사 반응" data-slug="${p.slug}"${cfg.home?.showStats ? '' : ' hidden'}><p class="reactions-q">이 글이 도움이 되셨나요?</p><div class="reactions-row">
 <button type="button" class="react" data-r="useful" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1.1 2V16h5v-.2c.1-.8.5-1.5 1.1-2A6 6 0 0 0 12 3z"/></svg><span class="react-label">유익해요</span><span class="react-count" data-c="useful">0</span></button>
 <button type="button" class="react" data-r="agree" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="react-label">공감해요</span><span class="react-count" data-c="agree">0</span></button>
 <button type="button" class="react" data-r="more" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg><span class="react-label">더 알고 싶어요</span><span class="react-count" data-c="more">0</span></button>
 </div></section>
 ${p.tags.length ? `<div class="tags">${p.tags.map((t) => `<span>#${esc(t)}</span>`).join('')}</div>` : ''}
-<section class="author-box" aria-label="필자 소개">${author.photo ? `<img class="author-photo" src="${esc(author.photo)}" alt="${esc(author.name)}">` : ''}<div><strong>${esc(author.name)}</strong><span class="accent-text">${esc(author.title)}</span><p>${esc(author.bio)}</p></div></section>
-${p.source ? `<p class="muted small">이 글은 ${inline(String(p.source))}에 처음 게재되었다.</p>` : ''}
-<p class="muted small">© ${esc(cfg.name)}. 이 글의 무단 전재 및 재배포를 금지한다.</p>
-<nav class="prevnext" aria-label="이전 다음 글">
-${older ? `<a href="${older.url}"><span class="muted small">이전 글</span>${esc(older.title)}</a>` : '<span></span>'}
-${newer ? `<a href="${newer.url}" class="next"><span class="muted small">다음 글</span>${esc(newer.title)}</a>` : '<span></span>'}
+<section class="author-box" aria-label="${T('필자 소개', 'About the author')}">${author.photo ? `<img class="author-photo" src="${esc(author.photo)}" alt="${esc(author.name)}">` : ''}<div><strong>${esc(author.name)}</strong><span class="accent-text">${esc(author.title)}</span><p>${esc(author.bio)}</p></div></section>
+${p.source ? `<p class="muted small">${T(`이 글은 ${inline(String(p.source))}에 처음 게재되었다.`, `First published in ${inline(String(p.source))}.`)}</p>` : ''}
+${LANG === 'en' ? `<p class="muted small">This is an English version of <a href="@ko${p.url}" lang="ko" hreflang="ko">the original Korean article</a>. If the two differ, the Korean original prevails.</p>` : ''}<p class="muted small">© ${esc(cfg.name)}. ${T('이 글의 무단 전재 및 재배포를 금지한다.', 'All rights reserved.')}</p>
+<nav class="prevnext" aria-label="${T('이전 다음 글', 'Previous and next')}">
+${older ? `<a href="${older.url}"><span class="muted small">${T('이전 글', 'Previous')}</span>${esc(older.title)}</a>` : '<span></span>'}
+${newer ? `<a href="${newer.url}" class="next"><span class="muted small">${T('다음 글', 'Next')}</span>${esc(newer.title)}</a>` : '<span></span>'}
 </nav>
 </article>
-<aside class="aside" aria-label="관련 글">
-${related.length ? `<div><div class="sec-head"><h2>같은 분야 글</h2></div>${related.map((x) => `<a class="mini" href="${x.url}">${thumb(x, 'mini', false)}<span>${esc(x.title)}</span></a>`).join('')}</div>` : ''}
-${picks.length ? `<div><div class="sec-head"><h2>최신 글</h2></div><ol class="ranked small">${picks.map((x) => `<li><a href="${x.url}">${esc(x.title)}</a></li>`).join('')}</ol></div>` : ''}
-<a class="contact-card" href="/contact/"><span class="eyebrow">CONTACT</span><strong>기고·연구 협력 문의</strong><span>문의하기 ›</span></a>
+<aside class="aside" aria-label="${T('관련 글', 'Related')}">
+${related.length ? `<div><div class="sec-head"><h2>${T('같은 분야 글', 'In this field')}</h2></div>${related.map((x) => `<a class="mini" href="${x.url}">${thumb(x, 'mini', false)}<span>${esc(x.title)}</span></a>`).join('')}</div>` : ''}
+${picks.length ? `<div><div class="sec-head"><h2>${T('최신 글', 'Latest')}</h2></div><ol class="ranked small">${picks.map((x) => `<li><a href="${x.url}">${esc(x.title)}</a></li>`).join('')}</ol></div>` : ''}
+<a class="contact-card" href="/contact/"><span class="eyebrow">CONTACT</span><strong>${T('기고·연구 협력 문의', 'Contributions & research partnerships')}</strong><span>${T('문의하기 ›', 'Contact us ›')}</span></a>
 </aside>
 </main>
 <script>
 (function(){var t=document.querySelector('.toast');function say(m){t.textContent=m;setTimeout(function(){t.textContent=''},2000)}
-function copy(){navigator.clipboard&&navigator.clipboard.writeText(location.href).then(function(){say('링크를 복사했습니다')},function(){say('복사하지 못했습니다')})}
+function copy(){navigator.clipboard&&navigator.clipboard.writeText(location.href).then(function(){say('${T('링크를 복사했습니다', 'Link copied')}')},function(){say('${T('복사하지 못했습니다', 'Could not copy')}')})}
 document.querySelector('[data-copy]').addEventListener('click',copy);
 document.querySelector('[data-share]').addEventListener('click',function(){if(navigator.share){navigator.share({title:document.title,url:location.href}).catch(function(){})}else{copy()}});})();
 (function(){var box=document.querySelector('.reactions');if(!box||!window.fetch)return;var slug=box.getAttribute('data-slug'),api='/api/stats/'+slug,key='rx:'+slug,mine={};
@@ -465,8 +487,8 @@ send({action:'react',r:r,delta:on?1:-1}).then(function(d){b.disabled=false;show(
       datePublished: `${p.date}T09:00:00+09:00`, dateModified: `${p.updated || p.date}T09:00:00+09:00`,
       author: p.author === 'director' ? { '@type': 'Person', name: author.name, jobTitle: author.title, image: author.photo ? SITE_URL + author.photo : undefined } : { '@type': 'Organization', name: author.name },
       publisher: { '@type': 'Organization', name: cfg.name, logo: { '@type': 'ImageObject', url: SITE_URL + '/favicon.svg' } },
-      mainEntityOfPage: SITE_URL + p.url, image: image ? [image.startsWith('http') ? image : SITE_URL + image] : undefined,
-      inLanguage: 'ko', articleSection: catBySlug[p.category]?.name, keywords: p.tags.join(', ') || undefined,
+      mainEntityOfPage: SITE_URL + L(p.url), image: image ? [image.startsWith('http') ? image : SITE_URL + image] : undefined,
+      inLanguage: LANG, articleSection: catBySlug[p.category]?.name, keywords: p.tags.join(', ') || undefined,
     } });
 }
 
@@ -496,11 +518,11 @@ function columnStrip(posts, mode) {
   };
   const pages = [];
   for (let i = 0; i < list.length; i += 4) pages.push(list.slice(i, i + 4));
-  const nav = pages.length > 1 ? `<span class="cs-nav"><button type="button" class="cs-prev" aria-label="이전 연구자">◀</button><button type="button" class="cs-next" aria-label="다음 연구자">▶</button></span>` : '';
+  const nav = pages.length > 1 ? `<span class="cs-nav"><button type="button" class="cs-prev" aria-label="${T('이전 연구자', 'Previous')}">◀</button><button type="button" class="cs-next" aria-label="${T('다음 연구자', 'Next')}">▶</button></span>` : '';
   const head = mode === 'link'
-    ? `<div class="sec-head"><h2>칼럼</h2><span class="cs-head-r">${nav}<a href="/category/column/">더보기</a></span></div>`
-    : `<div class="cs-bar"><h2 class="cs-label">연구자별 칼럼</h2>${nav}</div>`;
-  return `<section class="col-strip" aria-label="연구자별 칼럼">${head}
+    ? `<div class="sec-head"><h2>${T('칼럼', 'Columns')}</h2><span class="cs-head-r">${nav}<a href="/category/column/">${T('더보기', 'More')}</a></span></div>`
+    : `<div class="cs-bar"><h2 class="cs-label">${T('연구자별 칼럼', 'By author')}</h2>${nav}</div>`;
+  return `<section class="col-strip" aria-label="${T('연구자별 칼럼', 'By author')}">${head}
 <div class="cs-view"><div class="cs-track">${pages.map((pg) => `<div class="cs-page">${pg.map(card).join('')}</div>`).join('')}</div></div>
 <script>(function(){var s=document.currentScript.parentNode,t=s.querySelector('.cs-track'),n=t.children.length,i=0,p=s.querySelector('.cs-prev'),q=s.querySelector('.cs-next');
 function go(k){i=Math.max(0,Math.min(n-1,k));t.style.transform='translateX('+(-100*i)+'%)';if(p){p.disabled=i===0;q.disabled=i===n-1}}
@@ -510,23 +532,23 @@ if(p){p.addEventListener('click',function(){go(i-1)});q.addEventListener('click'
 function pageCategory(c, posts) {
   const list = posts.filter((p) => p.category === c.slug);
   const isCol = c.slug === 'column' && cfg.home?.columnFilter !== false;   // 연구자별 칼럼 필터(필자가 여러 명이 되면 켠다)
-  const filterUi = isCol ? `${columnStrip(posts, 'filter')}<p class="cs-status muted small" role="status" aria-live="polite" hidden><span></span> <button type="button" class="cs-all">전체 칼럼 보기</button></p>` : '';
+  const filterUi = isCol ? `${columnStrip(posts, 'filter')}<p class="cs-status muted small" role="status" aria-live="polite" hidden><span></span> <button type="button" class="cs-all">${T('전체 칼럼 보기', 'All columns')}</button></p>` : '';
   const filterJs = isCol ? `<script>(function(){var rows=[].slice.call(document.querySelectorAll('.row[data-author]')),cards=[].slice.call(document.querySelectorAll('.cs-card[data-author]')),st=document.querySelector('.cs-status'),names=${JSON.stringify(Object.fromEntries(Object.entries(cfg.authors).map(([k, v]) => [k, v.name]))).replace(/</g, '\\u003c')};
 function apply(a){var c=0;rows.forEach(function(r){var on=!a||r.getAttribute('data-author')===a;r.hidden=!on;if(on)c++});cards.forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-author')===a))});
-if(st){st.hidden=!a;if(a)st.querySelector('span').textContent=(names[a]||'')+' 칼럼 '+c+'편'}
+if(st){st.hidden=!a;if(a)st.querySelector('span').textContent=(names[a]||'')+'${T(' 칼럼 ', ': ')}'+c+'${T('편', ' columns')}'}
 var u=new URL(location.href);if(a)u.searchParams.set('author',a);else u.searchParams.delete('author');history.replaceState(null,'',u)}
 cards.forEach(function(b){b.addEventListener('click',function(){var a=b.getAttribute('data-author');apply(b.getAttribute('aria-pressed')==='true'?'':a)})});
 var all=document.querySelector('.cs-all');if(all)all.addEventListener('click',function(){apply('')});
 var q=new URLSearchParams(location.search).get('author');if(q)apply(q)})();</script>` : '';
   const rowTags = (ts) => ts.length ? `<div class="row-tags">${ts.map((t) => `<a data-nonew href="/search/?q=${encodeURIComponent(t)}">#${esc(t)}</a>`).join('')}</div>` : '';
   const subs = (cfg.subFilters || {})[c.slug] || [];
-  const subUi = subs.length ? `<div class="ro-filter sub-filter" role="group" aria-label="세부 분류"><button type="button" class="on" data-v="">전체 <span>${list.length}</span></button>${subs.map((f) => `<button type="button" data-v="${esc(f.tag)}">${esc(f.label)} <span>${list.filter((p) => p.tags.includes(f.tag)).length}</span></button>`).join('')}</div>` : '';
+  const subUi = subs.length ? `<div class="ro-filter sub-filter" role="group" aria-label="${T('세부 분류', 'Subcategory')}"><button type="button" class="on" data-v="">${T('전체', 'All')} <span>${list.length}</span></button>${subs.map((f) => `<button type="button" data-v="${esc(f.tag)}">${esc(f.label)} <span>${list.filter((p) => p.tags.includes(f.tag)).length}</span></button>`).join('')}</div>` : '';
   const subJs = subs.length ? `<script>(function(){var g=document.querySelector('.sub-filter');if(!g)return;var rows=[].slice.call(document.querySelectorAll('.row[data-tags]'));function apply(v){g.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.v===v)});rows.forEach(function(r){r.hidden=!!v&&r.dataset.tags.split('|').indexOf(v)<0});var u=new URL(location.href);if(v)u.searchParams.set('type',v);else u.searchParams.delete('type');history.replaceState(null,'',u)}g.addEventListener('click',function(e){var b=e.target.closest('button');if(b)apply(b.dataset.v)});var q=new URLSearchParams(location.search).get('type');if(q)apply(q)})();</script>` : '';
   const body = `${headerCompact(c.slug)}
 <main id="main" class="wrap list-wrap"><header class="list-head"><h1>${esc(c.name)}</h1><p class="muted">${esc(c.description)}</p></header>
 ${filterUi}
 ${subUi}
-${list.length ? list.map((p) => `<article class="row"${isCol ? ` data-author="${esc(p.author)}"` : ''}${subs.length ? ` data-tags="${esc(p.tags.join('|'))}"` : ''}>${thumb(p, 'photo')}<div class="row-text">${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><p>${esc(p.subtitle || p.excerpt)}</p><span class="meta">${byline(p)}</span>${rowTags(p.tags)}</div></article>`).join('') : '<p class="muted">아직 게시된 글이 없다.</p>'}
+${list.length ? list.map((p) => `<article class="row"${isCol ? ` data-author="${esc(p.author)}"` : ''}${subs.length ? ` data-tags="${esc(p.tags.join('|'))}"` : ''}>${thumb(p, 'photo')}<div class="row-text">${catLabel(p)}<h2><a href="${p.url}">${esc(p.title)}</a></h2><p>${esc(p.subtitle || p.excerpt)}</p><span class="meta">${byline(p)}</span>${rowTags(p.tags)}</div></article>`).join('') : `<p class="muted">${T('아직 게시된 글이 없다.', 'English articles are coming soon.')}</p>`}
 </main>${filterJs}${subJs}`;
   return layout({ title: c.name, description: c.description, pathname: `/category/${c.slug}/`, body });
 }
@@ -536,15 +558,15 @@ function orgBlock() {
   const o = cfg.organization;
   if (!o) return '';
   const en = (r) => r.split(' · ').map((x) => (o.english || {})[x] || '').filter(Boolean).join(' · ');
-  const unit = (n) => `<div class="org-node">${esc(n)}${en(n) ? `<small>${esc(en(n))}</small>` : ''}</div>`;
+  const unit = (n) => LANG === 'en' ? `<div class="org-node">${esc(en(n) || n)}</div>` : `<div class="org-node">${esc(n)}${en(n) ? `<small>${esc(en(n))}</small>` : ''}</div>`;
   const uname = (u) => (typeof u === 'string' ? u : u.name);
   const label = o.units.map((u) => (typeof u === 'string' ? u : `${u.name}(하위: ${u.sub.join(', ')})`)).join(', ');
   const units = `<div class="org-units" style="--n:${o.units.length}">${o.units.map((u) => `<div class="org-unit">${unit(uname(u))}${typeof u !== 'string' && u.sub?.length ? u.sub.map((x) => `<div class="org-subline"></div><div class="org-sub">${unit(x)}</div>`).join('') : ''}</div>`).join('')}</div>`;
-  const head = `<div class="org-node org-head">${esc(o.head)}${en(o.head) ? `<small>${esc(en(o.head))}</small>` : ''}</div>`;
+  const head = LANG === 'en' ? `<div class="org-node org-head">${esc(en(o.head) || o.head)}</div>` : `<div class="org-node org-head">${esc(o.head)}${en(o.head) ? `<small>${esc(en(o.head))}</small>` : ''}</div>`;
   // advisory: 소장과 점선으로만 이어지는 자문 기구(고문·자문위원회를 나란히). 위촉은 소장, 활동은 독립적인 자문
   const chart = o.advisory?.length
     ? `<div class="org-chart has-adv" role="img" aria-label="조직도: ${esc(o.head)} 아래 ${esc(label)}. ${esc(o.head)}와 자문 관계로 ${esc(o.advisory.join(', '))}">
-<div class="org-head-cell">${head}<span class="org-fill" aria-hidden="true"></span></div><div class="org-adv-cell"><span class="org-dash" aria-hidden="true"></span><div class="org-adv"><span class="org-adv-label">${esc(o.advisoryLabel || '자문')}</span><div class="org-adv-row">${o.advisory.map((x) => unit(x)).join('')}</div></div></div>
+<div class="org-head-cell">${head}<span class="org-fill" aria-hidden="true"></span></div><div class="org-adv-cell"><span class="org-dash" aria-hidden="true"></span><div class="org-adv"><span class="org-adv-label">${esc(T(o.advisoryLabel || '자문', o.advisoryLabelEn || 'Advisory'))}</span><div class="org-adv-row">${o.advisory.map((x) => unit(x)).join('')}</div></div></div>
 <div class="org-down-cell"><div class="org-down"></div></div><div class="org-units-cell">${units}</div></div>`
     : `<div class="org-chart" role="img" aria-label="조직도: ${esc(o.head)} 아래 ${esc(label)}${o.board?.length ? `, 별도로 ${esc(o.board.join(', '))}` : ''}">
 <div class="org-main">${head}<div class="org-down"></div>
@@ -552,7 +574,7 @@ ${units}</div>
 ${o.board?.length ? `<div class="org-board">${o.board.map((b) => unit(b).replace('class="org-node"', 'class="org-node org-audit"')).join('')}</div>` : ''}</div>`;
   const members = o.hideMembers ? o.members.filter((m) => m.group === o.head) : o.members; // hideMembers: 소장 외 구성원 숨김(데이터는 유지)
   const groups = [...new Set(members.map((m) => m.group))];
-  const card = (m) => `<div class="org-card${(o.board || []).includes(m.group) ? ' is-audit' : ''}">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<span class="org-ph" aria-hidden="true"><svg viewBox="2 3 20 18" fill="currentColor"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c0-4.1 3.6-7 8-7s8 2.9 8 7v.5H4z"/></svg></span>`}<div><em>${esc(m.role)}</em>${en(m.role) ? `<i>${esc(en(m.role))}</i>` : ''}<b>${esc(m.name)}</b>${m.bio ? `<p class="org-bio">${esc(m.bio)}</p>` : ''}${m.links?.length ? `<span class="org-links">${m.links.map((l) => `<a data-nonew href="${esc(l.url)}">${esc(l.label)} ›</a>`).join('')}</span>` : ''}</div></div>`;
+  const card = (m0) => { const m = LANG === 'en' && m0.en ? { ...m0, ...m0.en } : m0; return `<div class="org-card${(o.board || []).includes(m.group) ? ' is-audit' : ''}">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.name)}">` : `<span class="org-ph" aria-hidden="true"><svg viewBox="2 3 20 18" fill="currentColor"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c0-4.1 3.6-7 8-7s8 2.9 8 7v.5H4z"/></svg></span>`}<div><em>${esc(LANG === 'en' ? (en(m.role) || m.role) : m.role)}</em>${LANG !== 'en' && en(m.role) ? `<i>${esc(en(m.role))}</i>` : ''}<b>${esc(m.name)}</b>${m.bio ? `<p class="org-bio">${esc(m.bio)}</p>` : ''}${m.links?.length ? `<span class="org-links">${m.links.map((l) => `<a data-nonew href="${esc(l.url)}">${esc(l.label)} ›</a>`).join('')}</span>` : ''}</div></div>`; };
   const hasBio = (g) => members.some((m) => m.group === g && m.bio);
   const group = (g) => hasBio(g)
     ? `<div class="org-group has-bio"><div class="org-cards">${members.filter((m) => m.group === g).map(card).join('')}</div></div>`
@@ -613,23 +635,23 @@ ${cfg.books.map(bookDetail).join('')}</main>`;
 }
 
 function pageSearch(posts) {
-  const index = posts.map((p) => ({ t: p.title, s: p.subtitle || p.excerpt, u: p.url, c: catBySlug[p.category]?.name, d: fmtDate(p.date), k: p.tags.join(' ') }));
-  const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">글 검색</h1>
-<label for="q" class="sr">검색어</label><input id="q" type="search" class="search-input" placeholder="제목, 요약, 태그로 검색" autocomplete="off">
+  const index = posts.map((p) => ({ t: p.title, s: p.subtitle || p.excerpt, u: L(p.url), c: catBySlug[p.category]?.name, d: fmtDate(p.date), k: p.tags.join(' ') }));
+  const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">${T('글 검색', 'Search')}</h1>
+<label for="q" class="sr">${T('검색어', 'Search term')}</label><input id="q" type="search" class="search-input" placeholder="${T('제목, 요약, 태그로 검색', 'Search titles, summaries and tags')}" autocomplete="off">
 <p id="count" class="muted small" role="status" aria-live="polite"></p><div id="results"></div></main>
 <script>
 var IDX=${JSON.stringify(index).replace(/</g, '\\u003c')};
 (function(){var q=document.getElementById('q'),r=document.getElementById('results'),c=document.getElementById('count');
 function e(s){return String(s).replace(/[&<>"]/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]})}
 function run(){var v=q.value.trim().toLowerCase();var hits=v?IDX.filter(function(x){return (x.t+' '+x.s+' '+x.k).toLowerCase().indexOf(v)>-1}):[];
-c.textContent=v?hits.length+'건':'';r.innerHTML=hits.map(function(x){return '<article class="row-plain"><span class="cat-static">'+e(x.c)+'</span><h2><a href="'+e(x.u)+'">'+e(x.t)+'</a></h2><p>'+e(x.s)+'</p><span class="meta">'+e(x.d)+'</span>'+(x.k?'<div class="row-tags">'+x.k.split(' ').map(function(t){return '<a href="/search/?q='+encodeURIComponent(t)+'">#'+e(t)+'</a>'}).join('')+'</div>':'')+'</article>'}).join('')}
+c.textContent=v?hits.length+'${T('건', ' results')}':'';r.innerHTML=hits.map(function(x){return '<article class="row-plain"><span class="cat-static">'+e(x.c)+'</span><h2><a href="'+e(x.u)+'">'+e(x.t)+'</a></h2><p>'+e(x.s)+'</p><span class="meta">'+e(x.d)+'</span>'+(x.k?'<div class="row-tags">'+x.k.split(' ').map(function(t){return '<a href="/search/?q='+encodeURIComponent(t)+'">#'+e(t)+'</a>'}).join('')+'</div>':'')+'</article>'}).join('')}
 q.addEventListener('input',run);var p=new URLSearchParams(location.search).get('q');if(p){q.value=p;run()}})();
 </script>`;
-  return layout({ title: '글 검색', pathname: '/search/', body, noindex: true });
+  return layout({ title: T('글 검색', 'Search'), pathname: '/search/', body, noindex: true });
 }
 
 function page404() {
-  const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">페이지를 찾을 수 없습니다</h1><p>주소가 바뀌었거나 삭제된 글입니다. <a href="/">홈으로 이동</a>하거나 <a href="/search/">글을 검색</a>해 보세요.</p></main>`;
+  const body = `${headerCompact()}<main id="main" class="wrap narrow"><h1 class="page-title">${T('페이지를 찾을 수 없습니다', 'Page not found')}</h1><p>${T('주소가 바뀌었거나 삭제된 글입니다. <a href="/">홈으로 이동</a>하거나 <a href="/search/">글을 검색</a>해 보세요.', 'The page may have moved or been removed. Go to the <a href="/">home page</a> or <a href="/search/">search</a>.')}</p></main>`;
   return layout({ title: '페이지를 찾을 수 없음', pathname: '/404.html', body, noindex: true });
 }
 
@@ -648,7 +670,21 @@ function sitemap(posts, pages) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `<url><loc>${SITE_URL}${u.loc}</loc>${u.mod ? `<lastmod>${u.mod}</lastmod>` : ''}</url>`).join('\n')}
+${[...EN_PATHS].filter((u) => u !== '/search/').map((u) => `<url><loc>${SITE_URL}/en${u}</loc></url>`).join('\n')}
 </urlset>`;
+}
+
+// ---------- 영어판 설정 ----------
+// site.config.json의 i18n.en 값으로 이름·분류·필자·세부 필터 등을 덮어쓴 설정을 만든다
+function localize(base, o = {}) {
+  const c = JSON.parse(JSON.stringify(base));
+  for (const k of ['name', 'nameEn', 'description', 'subFilters', 'homeExcludeTags']) if (o[k] !== undefined) c[k] = o[k];
+  c.categories = c.categories.map((x) => ({ ...x, ...((o.categories || {})[x.slug] || {}) }));
+  for (const [k, v] of Object.entries(o.authors || {})) c.authors[k] = { ...c.authors[k], ...v };
+  c.business = { ...c.business, ...(o.business || {}) };
+  c.issueFocus = { ...c.issueFocus, ...(o.issueFocus || {}) };
+  c.home = { ...c.home, ...(o.home || {}) };
+  return c;
 }
 
 // ---------- 실행 ----------
@@ -656,6 +692,16 @@ fs.rmSync(DIST, { recursive: true, force: true });
 const posts = loadPosts();
 posts.forEach((p) => { DATE_BY_SLUG[p.slug || p.url.split('/')[2]] = p.date; CAT_USED.add(p.category); });
 const pages = loadPages();
+// 영어판: content/posts/en, content/pages/en (같은 슬러그의 한국어 원문이 있어야 한다)
+const postsEn = loadPosts(path.join(ROOT, 'content', 'posts', 'en'));
+const pagesEn = loadPages(path.join(ROOT, 'content', 'pages', 'en'));
+for (const p of postsEn) if (!posts.some((k) => k.slug === p.slug)) errors.push(`posts/en/${p.slug}.md: 같은 슬러그의 한국어 원문이 없다`);
+for (const pg of pagesEn) if (!pages.some((k) => k.slug === pg.slug)) errors.push(`pages/en/${pg.slug}.md: 같은 이름의 한국어 페이지가 없다`);
+if (postsEn.length) {
+  EN_PATHS.add('/'); EN_PATHS.add('/search/');
+  for (const p of postsEn) { EN_PATHS.add(p.url); EN_PATHS.add(`/category/${p.category}/`); }
+  for (const pg of pagesEn) EN_PATHS.add(`/${pg.slug}/`);
+}
 if (errors.length) {
   console.error('빌드 중단 — 콘텐츠 오류:\n' + errors.map((e) => ' - ' + e).join('\n'));
   process.exit(1);
@@ -689,5 +735,18 @@ write('manifest.webmanifest', JSON.stringify({
     { src: '/icons/maskable-1024.png', sizes: '1024x1024', type: 'image/png', purpose: 'maskable' }
   ]
 }, null, 2));
+// 영어판 쓰기
+if (postsEn.length) {
+  LANG = 'en';
+  cfg = localize(CFG_KO, CFG_KO.i18n?.en);
+  catBySlug = Object.fromEntries(cfg.categories.map((c) => [c.slug, c]));
+  CAT_USED = new Set(postsEn.map((p) => p.category));
+  write('en/index.html', pageHome(postsEn));
+  for (const p of postsEn) write(`en/posts/${p.slug}/index.html`, pagePost(p, postsEn));
+  for (const c of cfg.categories.filter((x) => CAT_USED.has(x.slug))) write(`en/category/${c.slug}/index.html`, pageCategory(c, postsEn));
+  for (const pg of pagesEn) write(`en/${pg.slug}/index.html`, pageStatic(pg));
+  write('en/search/index.html', pageSearch(postsEn));
+  LANG = 'ko'; cfg = CFG_KO; catBySlug = Object.fromEntries(cfg.categories.map((c) => [c.slug, c]));
+}
 write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`);
-console.log(`빌드 완료: 글 ${posts.length}편, 고정 페이지 ${pages.length}개 → dist/`);
+console.log(`빌드 완료: 글 ${posts.length}편, 고정 페이지 ${pages.length}개${postsEn.length ? `, 영어판 글 ${postsEn.length}편·페이지 ${pagesEn.length}개` : ''} → dist/`);
