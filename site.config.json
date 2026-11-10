@@ -108,7 +108,7 @@
           }
         ],
         "en": {
-          "name": "Geonhee Park",
+          "name": "Winston Park",
           "bio": "Ph.D. in Tourism (Kyonggi University). After working as a front office manager (FOM) at an international brand hotel, he now leads service planning, customer feedback (VOC) analysis and quality assurance (QA) at a hotel IT solutions company. His research and writing connect frontline hotel service experience with hotel IT practice.",
           "links": [
             {
@@ -337,7 +337,7 @@
   },
   "i18n": {
     "en": {
-      "_note": "영어판(/en/) 설정. 영어 글은 content/posts/en/<같은 슬러그>.md, 영어 페이지는 content/pages/en/. 소장 영문 이름(Geonhee Park)은 확인 필요",
+      "_note": "영어판(/en/) 설정. 영어 글은 content/posts/en/<같은 슬러그>.md, 영어 페이지는 content/pages/en/",
       "name": "Tourism Service Quality Lab",
       "nameEn": "관광서비스품질연구소",
       "description": "Tourism Service Quality Lab studies tourism policy, hotel and resort industry trends, service quality and hotel IT, and shares what they mean for academia and industry.",
@@ -369,7 +369,7 @@
       },
       "authors": {
         "director": {
-          "name": "Geonhee Park",
+          "name": "Winston Park",
           "title": "Director, Tourism Service Quality Lab · Ph.D. in Tourism",
           "affiliation": "Tourism Service Quality Lab",
           "position": "Director",
@@ -382,7 +382,7 @@
         }
       },
       "business": {
-        "director": "Geonhee Park"
+        "director": "Winston Park"
       },
       "subFilters": {
         "hotel-it-qa": [
