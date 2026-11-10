@@ -1,0 +1,104 @@
+{
+ "flow-at-the-kiosk": {
+  "script": "make4.py",
+  "map": {
+   "→ 고객의 기술 수준을 보완해 균형으로": "→ raise guests' skill to restore balance",
+   "기술 (디지털 리터러시)": "Skill (digital literacy)",
+   "도전 (과제의 난이도)": "Challenge (task difficulty)",
+   "도전 수준이 높은 과제": "a high-challenge task",
+   "무관심": "Apathy",
+   "불안": "Anxiety",
+   "예약 조회 · 본인 확인 · 결제 · 객실 키": "Booking · ID · payment · room key",
+   "지루함": "Boredom",
+   "직관적 화면 · 안내 영상 · 전담 직원": "Clear screens · videos · dedicated staff",
+   "플로우": "Flow",
+   "호텔 체크인은": "Hotel check-in is"
+  }
+ },
+ "sstqual-seven-dimensions": {
+  "script": "make4.py",
+  "map": {
+   "SSTQUAL 7가지 구성요인": "The 7 dimensions of SSTQUAL",
+   "고객화": "@18|Customisation",
+   "기기 ↔ 사람": "Device ↔ person",
+   "기능성": "@18|Functionality",
+   "디자인성": "@18|Design",
+   "보안성/개인정보": "@18|Security",
+   "사람 ↔ 사람": "Person ↔ person",
+   "성과 중심": "Performance only",
+   "웹 ↔ 사람": "Web ↔ person",
+   "즐거움": "@18|Enjoyment",
+   "편리성": "@18|Convenience",
+   "확신성": "@18|Assurance"
+  }
+ },
+ "kiosk-failure-service-recovery": {
+  "script": "make5.py",
+  "map": {
+   "분배 공정성": "Distributive justice",
+   "사람에게 넘김": "To staff",
+   "상호작용 공정성": "Interactional justice",
+   "서비스 회복": "Service recovery",
+   "설명·사과·공감": "Explanation · apology · empathy",
+   "셀프서비스 실패": "Self-service failure",
+   "속도와 노력": "Speed and effort",
+   "예약을 찾을 수 없습니다": "Reservation not found",
+   "절차 공정성": "Procedural justice",
+   "해결과 보상": "Resolution and compensation"
+  }
+ },
+ "service-blueprint-hotel-checkin": {
+  "script": "make_20261102.py",
+  "map": {
+   "PMS · 채널 예약": "PMS · bookings",
+   "가시선": "Line of visibility",
+   "객실 배정 조정": "Adjust room",
+   "객실 안내": "Directions",
+   "결제": "Pay",
+   "결제 승인": "Payment auth.",
+   "결제 처리": "Take payment",
+   "고객 행동": "Customer",
+   "내부 상호작용선": "Internal interaction",
+   "도착": "Arrive",
+   "상호작용선": "Line of interaction",
+   "실패 지점(Fail Point)": "Fail point",
+   "예약 조회": "Look up booking",
+   "예약 확인 요청": "Confirm booking",
+   "인사": "Greet",
+   "지원 시스템": "Systems",
+   "키 발급 · 객실 상태": "Keys · room status",
+   "키 수령": "Get key",
+   "하우스키핑 확인": "Check housekeeping",
+   "현장 직원": "Onstage",
+   "호텔 체크인 서비스 청사진": "Hotel check-in service blueprint",
+   "후방 직원": "Backstage"
+  }
+ },
+ "servqual-and-system-quality": {
+  "script": "make.py",
+  "map": {
+   "공감성": "Empathy",
+   "기능 적합성": "Functional suitability",
+   "사용성": "Usability",
+   "서비스": "Service",
+   "성능 효율성": "Performance efficiency",
+   "시스템": "System",
+   "신뢰성": "Reliability",
+   "유형성": "Tangibles",
+   "응답성": "Responsiveness",
+   "품질": "Quality",
+   "확신성": "Assurance"
+  }
+ },
+ "voc-to-test-priority": {
+  "script": "make.py",
+  "map": {
+   "VOC 50건 기능별 분포": "50 VOC cases by function",
+   "기타": "Other",
+   "변경·취소": "Changes",
+   "예약": "Bookings",
+   "정산": "Settlement",
+   "체크인": "Check-in"
+  }
+ }
+}
