@@ -1,0 +1,85 @@
+{
+ "column-housekeeping-seven-principles": {
+  "script": "make2.py",
+  "map": {
+   "객실 점검과 소프트웨어 테스트": "Room inspection and software testing"
+  }
+ },
+ "column-kiosk-and-front-manager": {
+  "script": "make2.py",
+  "map": {
+   "대체될 것인가, 품질을 지킬 것인가": "Be replaced, or protect quality?",
+   "체크인": "Check-in"
+  }
+ },
+ "column-testing-is-asking": {
+  "script": "make2.py",
+  "map": {
+   "딱 경계에서는?": "At the boundary?",
+   "무엇이 가장 아플까?": "What would hurt most?",
+   "이 값들은 같은 대접을 받을까?": "Are these values treated alike?",
+   "이 조건들이 겹치면?": "If conditions overlap?",
+   "정말?": "Really?",
+   "지금 이 상태에서 이걸 하면?": "What if I do this in this state?"
+  }
+ },
+ "report-ai-agent-qa-workflow": {
+  "script": "make2.py",
+  "map": {
+   "AI가 만든 것은 초안, 판단은 사람이": "AI writes the draft; people judge",
+   "계획": "Plan",
+   "사람": "People",
+   "선택·판단·책임": "Choose · judge · own",
+   "설계": "Design",
+   "실행·결함": "Run · defects",
+   "완료": "Close",
+   "요구사항": "@21|Requirements",
+   "작성·정리": "Write · organise"
+  }
+ },
+ "report-cancellation-qa-case": {
+  "script": "make2.py",
+  "map": {
+   "D = 체크인 날짜 − 취소일 (일)": "D = check-in date − cancellation date (days)",
+   "D=6 취소 → 위약금 0원": "Cancel at D=6 → penalty ₩0",
+   "경곗값 7 · 6 · 3 · 2 · 0 · −1": "Boundary values 7 · 6 · 3 · 2 · 0 · −1",
+   "기대 결과: 50,000원 (50%)": "Expected: ₩50,000 (50%)",
+   "노쇼": "@19|No-show",
+   "무료": "Free"
+  }
+ },
+ "report-risk-based-testing-hotel": {
+  "script": "make2.py",
+  "map": {
+   "2  영수증 레이아웃": "2  Receipt layout",
+   "4  마감 합계": "4  Day-end totals",
+   "6  부분 환불 · 중복 결제": "6  Partial refund · double charge",
+   "9  금액 오계산": "9  Wrong amounts",
+   "= 가능성 × 영향": "= likelihood × impact",
+   "가능성 →": "Likelihood →",
+   "리스크 수준": "Risk level",
+   "무엇부터,": "What first,",
+   "얼마나 깊게?": "and how deep?",
+   "영향 →": "Impact →"
+  }
+ },
+ "report-hotel-kiosk-sstqual-flow": {
+  "script": "make3.py",
+  "map": {
+   "SSTQUAL 7요인": "7 SSTQUAL factors",
+   "n = 461 · 호텔 셀프 체크인/아웃 키오스크 이용객": "n = 461 · hotel self check-in/out kiosk users",
+   "고객화": "Customisation",
+   "기능성": "Functionality",
+   "디자인성": "Design",
+   "디지털 리터러시": "Digital literacy",
+   "몰입 경험": "Absorption",
+   "보안성/개인정보": "Security/privacy",
+   "조절": "Moderates",
+   "즐거움": "Enjoyment",
+   "지속이용의도": "Continuance",
+   "편리성": "Convenience",
+   "플로우": "Flow",
+   "확신성": "Assurance"
+  }
+ }
+}

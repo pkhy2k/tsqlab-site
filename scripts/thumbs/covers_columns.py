@@ -1,5 +1,6 @@
 """칼럼 표지(600x800) 생성 — 홈 칼럼 목록에 쓰는 세로형 표지
-사용법: python3 scripts/thumbs/covers_columns.py
+사용법: python3 scripts/thumbs/covers_columns.py        # 한국어 표지
+       python3 scripts/thumbs/covers_columns.py --en   # 영어판 표지(COVERS_EN → static/images/posts/en/)
 새 칼럼을 쓰면 COVERS에 (슬러그: (제목 줄 목록, 필자명))을 추가하고 다시 실행한 뒤,
 글 프론트매터에 cover: /images/posts/<슬러그>-cover.jpg 를 넣는다.
 제목은 한 줄 12자 안팎, 2~3줄로 나눈다.
@@ -25,16 +26,30 @@ COVERS = {
     'report-hotel-kiosk-sstqual-flow': (['호텔 키오스크는', '무엇으로 고객을', '몰입하게 하는가'], '박건희'),
 }
 
+COVERS_EN = {
+    'column-testing-is-asking': (['Testing Is', 'Asking', 'Questions'], 'Winston Park'),
+    'column-kiosk-and-front-manager': (['The Front Office', 'Manager Who', 'Feared Kiosks'], 'Winston Park'),
+    'column-housekeeping-seven-principles': (['Seven Testing', 'Principles in a', 'Housekeeping List'], 'Winston Park'),
+    'report-ai-agent-qa-workflow': (['QA Work with', 'AI Agents:', 'A Guide'], 'Winston Park'),
+    'report-cancellation-qa-case': (['Booking Changes', 'and Cancellations:', 'A QA Case Study'], 'Winston Park'),
+    'report-risk-based-testing-hotel': (['Risk-Based', 'Testing for', 'Hotel Systems'], 'Winston Park'),
+    'report-hotel-kiosk-sstqual-flow': (['What Makes', 'Guests Absorbed', 'at a Kiosk?'], 'Winston Park'),
+}
+EN = False
+
 def svg(lines, author):
-    t = ''.join(f'<text x="56" y="{300 + i*70}" style="font-family:{SERIF}" font-size="50" font-weight="700" fill="{WHITE}" letter-spacing="-1">{l}</text>' for i, l in enumerate(lines))
+    t = ''.join(f'<text x="56" y="{300 + i*70}" style="font-family:{SERIF}" font-size="{44 if EN else 50}" font-weight="700" fill="{WHITE}" letter-spacing="-1">{l}</text>' for i, l in enumerate(lines))
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800" font-family="{FONT}"><rect width="600" height="800" fill="{NAVY}"/>
 <rect x="56" y="110" width="60" height="8" fill="{ORANGE}"/>
 <text x="56" y="172" font-size="28" font-weight="700" fill="#C9D1DC" letter-spacing="7">COLUMN</text>{t}
 <text x="56" y="{300 + len(lines)*70 + 30}" font-size="26" font-weight="500" fill="#E0954A">{author}</text>
 <line x1="56" y1="620" x2="544" y2="620" stroke="#3A4A62" stroke-width="2"/>{LOGO(56, 650, 0.2)}
-<text x="140" y="702" style="font-family:{SERIF}" font-size="26" font-weight="700" fill="{WHITE}">관광서비스품질연구소</text></svg>'''
+<text x="140" y="702" style="font-family:{SERIF}" font-size="26" font-weight="700" fill="{WHITE}">{'Tourism Service Quality Lab' if EN else '관광서비스품질연구소'}</text></svg>'''
 
 if __name__ == '__main__':
+    import sys
+    if '--en' in sys.argv:
+        EN = True; COVERS = COVERS_EN; OUT = os.path.join(OUT, 'en'); SERIF = "'Noto Serif','Noto Serif CJK KR',serif"
     with sync_playwright() as p:
         b = p.chromium.launch(executable_path='/usr/bin/google-chrome')
         pg = b.new_page(viewport={'width': 600, 'height': 800})
