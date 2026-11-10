@@ -1,0 +1,227 @@
+{
+ "hotel-grading-reform-2026": {
+  "script": "make5.py",
+  "map": {
+   "40% 이상": "40%+",
+   "50% 이상": "50%+",
+   "65% 이상": "65%+",
+   "80% 이상": "80%+",
+   "90% 이상": "90%+",
+   "가점 최대 10 · 감점 10": "Up to +10 · −10 points",
+   "개인정보 보호": "Data protection",
+   "암행·불시평가 300점": "Mystery visit 300",
+   "현장평가 700점": "On-site evaluation 700",
+   "호텔 등급평가 1,000점": "Hotel grading: 1,000 points"
+  }
+ },
+ "regional-tourism-zones-2027-budget": {
+  "script": "make_20261105.py",
+  "map": {
+   "1,523억": "₩152.3bn",
+   "16억": "₩1.6bn",
+   "40억": "₩4bn",
+   "관광객을 지방으로 데려오는 정책, 머물게 하는 것은 숙박의 품질": "Policy brings visitors to the regions; lodging quality makes them stay",
+   "국비 659억": "₩65.9bn",
+   "지방비 276억": "+ ₩27.6bn local",
+   "김해공항권": "Gimhae",
+   "대구공항권": "Daegu",
+   "무안공항권": "Muan",
+   "양양공항권": "Yangyang",
+   "청주공항권": "Cheongju",
+   "대구·경주·안동": "@15|Daegu·Gyeongju·Andong",
+   "무안·목포·광주·여수": "@15|Muan·Mokpo·Gwangju·Yeosu",
+   "부산·울산·거제·통영": "@15|Busan·Ulsan·Geoje·Tongyeong",
+   "양양·강릉·속초": "@15|Yangyang·Gangneung·Sokcho",
+   "청주·공주·부여·전주": "@15|Cheongju·Gongju·Buyeo·Jeonju",
+   "문화체육관광부 발표(2026년 9월) · 2027년 예산안 기준": "Ministry of Culture, Sports and Tourism (Sept 2026) · 2027 budget proposal",
+   "숙박 분야 예산안": "Lodging budget proposal",
+   "숙박업 품질 평가·컨설팅": "Quality assessment",
+   "숙박정보 통합플랫폼": "Lodging data platform",
+   "지역 대형 호텔 건립 융자": "Regional hotel loans",
+   "지방공항 5대 관광권과 2027년 숙박 사업": "Five regional airport zones and 2027 lodging programmes"
+  }
+ },
+ "inbound-tourists-stay-quality-2026": {
+  "script": "make_20261102.py",
+  "map": {
+   "1,103만 명": "11.03 million",
+   "1,894만 명": "18.94 million",
+   "6.5일": "6.5 days",
+   "7.8일": "7.8 days",
+   "−1.3일": "−1.3 days",
+   "국정감사 제출 자료(한국관광공사) 보도 기준": "Reported KTO data (parliamentary audit)",
+   "방한 외래객": "Foreign visitors",
+   "방한객은 늘고, 머무는 날은 줄었다": "More visitors, shorter stays",
+   "평균 체류일수": "Average length of stay"
+  }
+ },
+ "kiosk-service-gap-barrier-free": {
+  "script": "make4.py",
+  "map": {
+   "2026.1.28 접근성 의무 적용": "Required from 28 Jan 2026",
+   "보조 인력·호출벨": "Support staff · call bell",
+   "안내 영상 모니터": "Tutorial video",
+   "음성 안내": "Voice guidance",
+   "화면 높이·휠체어 접근": "Screen height · wheelchair access"
+  }
+ },
+ "hotelier-to-domain-qa": {
+  "script": "make.py",
+  "map": {
+   "도메인 QA": "Domain QA",
+   "프런트 데스크": "Front desk"
+  }
+ },
+ "hotel-brand-portfolio-2026": {
+  "script": "make_20261104.py",
+  "map": {
+   "1979년 개관 · 1,015실": "Opened 1979 · 1,015 rooms",
+   "2026년 8월 · 868실": "Aug 2026 · 868 rooms",
+   "2030년 국내 14곳 목표": "Target: 14 hotels by 2030",
+   "232실 · 2027년 상반기": "232 rooms · H1 2027",
+   "427실 · 첫 호남권": "427 rooms · Honam",
+   "기존 호텔": "Existing hotels",
+   "더그랜드롯데 서울": "The Grand Lotte Seoul",
+   "롯데호텔 서울": "Lotte Hotel Seoul",
+   "여수": "Yeosu",
+   "옆으로: 인수·전환으로 지방 확장": "Out: regional growth via conversions",
+   "위로: 객실은 줄이고 가치는 높인다": "Up: fewer rooms, more value per room",
+   "조선 브랜드": "Josun brands",
+   "종로": "Jongno",
+   "하이엔드로": "To high-end",
+   "호텔 브랜드 재편의 두 방향": "Two directions in hotel brand restructuring"
+  }
+ },
+ "us-hotel-outlook-2026": {
+  "script": "make_20261104.py",
+  "map": {
+   "2026년 미국 호텔시장 전망": "US hotel market outlook for 2026",
+   "6월까지 누적": "Through June",
+   "8~10월 예약": "Aug–Oct bookings",
+   "8월 상향": "Raised in Aug",
+   "RevPAR 증가율 전망 (CoStar·Tourism Economics)": "RevPAR growth forecast (CoStar · Tourism Economics)",
+   "단체 숙박": "Group stays",
+   "수요 구성 (Marcus &amp; Millichap)": "Demand mix (Marcus &amp; Millichap)",
+   "이전 전망": "Previous",
+   "출장 예약": "Business bookings",
+   "해외 방문객": "International visitors",
+   "해외 수요의 빈자리를 국내 단체·출장 수요가 채웠다": "Domestic group and business demand filled the gap left by international visitors"
+  }
+ },
+ "seoul-hotel-investment-conversion-2026": {
+  "script": "make_20261107.py",
+  "map": {
+   "2026년 상반기 서울 호텔 거래액": "Seoul hotel transactions, H1 2026",
+   "3분기: 노후 오피스 → 호텔 전환": "Q3: ageing offices → hotels",
+   "객실 공급 부족 지역": "Areas short of rooms",
+   "두 기관의 집계가 다르다": "The two firms' totals differ",
+   "두산타워 약 8,971억 원": "Doosan Tower ≈ ₩897.1bn",
+   "부동산 자문사 보고서와 보도 기준": "Based on real estate advisers' reports and media coverage",
+   "약 1.1조 원": "≈ ₩1.1tn",
+   "약 1.5조 원": "≈ ₩1.5tn",
+   "오피스 매입": "Office purchase",
+   "오피스가 호텔이 된다, 2026년 서울 호텔 투자": "When offices become hotels: Seoul hotel investment in 2026",
+   "용도 전환": "Conversion",
+   "일부 · 전체 호텔로": "Partly or fully hotel",
+   "젠스타메이트": "Genstar Mate",
+   "쿠시먼: 전년 대비 +71%": "Cushman: +71% YoY",
+   "쿠시먼앤드웨이크필드": "Cushman &amp; Wakefield",
+   "투자 수치는 기대 수익, 실현 여부는 개관 후 고객이 느끼는 품질에 달려 있다": "Investment figures are expected returns; realising them depends on quality after opening",
+   "호텔 운영": "Hotel operation"
+  }
+ },
+ "japan-hotels-china-demand-shift-2026": {
+  "script": "make_20261107.py",
+  "map": {
+   "2026년 9월, 전년 같은 달 대비 (JNTO · STR 자료 보도 기준)": "September 2026, year on year (as reported from JNTO and STR data)",
+   "대만": "Taiwan",
+   "도쿄": "Tokyo",
+   "방문객 구성이 바뀌자, 같은 나라 안에서도 객실 단가가 엇갈렸다": "As the visitor mix changed, room rates diverged within the same country",
+   "방일 외국인 수": "Visitors to Japan",
+   "오사카": "Osaka",
+   "전국": "Japan",
+   "중국": "China",
+   "중국인 관광객이 줄어든 일본 호텔": "Japan's hotels after the drop in Chinese visitors",
+   "평균 객실 단가(ADR)": "Average daily rate (ADR)",
+   "한국": "Korea"
+  }
+ },
+ "kiosk-to-unmanned-front-2026": {
+  "script": "make_20261104b.py",
+  "map": {
+   "2026년 10월 국내 신제품 발표 기준": "Based on new products launched in Korea, October 2026",
+   "24시간 편의용품 판매": "24-hour amenity sales",
+   "가격 변동 고지": "Price change notices",
+   "간이 PMS · 채널 연동": "Light PMS · channel link",
+   "개인정보 처리 범위": "Scope of data processing",
+   "객실키 · AI 응대": "Room keys · AI replies",
+   "기능이 늘수록 멈췄을 때의 준비가 품질이 된다": "The more it does, the more its fallback defines quality",
+   "무인 프런트": "Unmanned front desk",
+   "서비스품질 점검": "Service quality checks",
+   "숙박 키오스크, 체크인 기계에서 무인 프런트로": "Lodging kiosks: from check-in machine to unmanned front desk",
+   "자동 발주 · AI 가격 조정": "Auto-reorder · AI pricing",
+   "장애 시 대체 경로": "Fallback when it fails",
+   "접근성 실사용 점검": "Real accessibility tests",
+   "체크인 · 체크아웃": "Check-in · check-out",
+   "키오스크": "Kiosk",
+   "판매 · 재고": "Sales · inventory"
+  }
+ },
+ "pms-mcp-ai-assistant-governance-2026": {
+  "script": "make_20261104b.py",
+  "map": {
+   "2026년 7~9월": "Jul–Sep 2026",
+   "MCP 사용량": "MCP usage",
+   "PMS와 AI 비서를 잇는 MCP, 그 사이에 필요한 것": "MCP links the PMS to AI assistants: what goes in between",
+   "관리 장치": "Safeguards",
+   "권한": "Access",
+   "기록": "Logs",
+   "누가 무엇을": "Who did what",
+   "사람 계정 범위": "Own scope",
+   "아팔레오 발표": "Apaleo figure",
+   "업무별 지정": "Per task",
+   "예약 · 요금 · 고객": "Bookings · rates · guests",
+   "조회부터 시작하고, 쓰기 권한과 대량 변경은 단계적으로": "Start with read-only; open write access and bulk changes step by step",
+   "책임자": "Owners"
+  }
+ },
+ "ai-concierge-pulse-ai-2026": {
+  "script": "make_20261104c.py",
+  "map": {
+   "AI 컨시어지, 업무별 에이전트와 사람에게 넘기는 길": "AI concierge: task agents and the handover to people",
+   "AI가 답 못한 요청": "Requests AI can't answer",
+   "PMS와 직접 연결 · 실시간 예약·객실 상태": "Direct PMS link · live bookings and room status",
+   "결제": "@16|Payment",
+   "고객 응대": "@16|Guest service",
+   "넘김": "Handover",
+   "룸서비스": "@16|Room service",
+   "메신저 · 웹 포털": "Messenger · web portal",
+   "불만 · 환불": "Complaints · refunds",
+   "안전 · 건강": "Safety · health",
+   "야놀자클라우드솔루션 Pulse AI 발표 기준 · 에이전트 8개": "Based on Yanolja Cloud Solution's Pulse AI announcement · 8 agents",
+   "업셀링": "@16|Upselling",
+   "예약": "@16|Bookings",
+   "응대 자동화의 품질은 정답률보다 넘김의 설계로 결정된다": "Automated service quality is decided by handover design, not accuracy",
+   "직원": "Staff",
+   "체크인·아웃": "@16|Check-in/out",
+   "투숙객 메시지": "Guest messages",
+   "하우스키핑": "@16|Housekeeping"
+  }
+ },
+ "ai-rms-guardrails-2026": {
+  "script": "make_20261104c.py",
+  "map": {
+   "AI 수익관리시스템의 역할 분담 (개념도)": "Division of roles in an AI revenue management system (concept)",
+   "AI: 매일의 요금 결정": "AI: daily pricing decisions",
+   "AI가 요금을 정하고, 사람은 경계를 정한다": "AI sets the rates, people set the limits",
+   "사람이 맡는 예외": "People handle",
+   "상한 (수익관리자)": "Ceiling (revenue manager)",
+   "시장의 급격한 변화": "Market shocks",
+   "신규 호텔 초기 운영": "New openings",
+   "자동화가 깊어질수록 가드레일을 정하는 판단이 중요해진다": "The deeper the automation, the more the guardrails matter",
+   "추천 거부와 그 이유": "Rejected advice",
+   "하한 (수익관리자)": "Floor (revenue manager)",
+   "협상 요금(기업·단체)": "Negotiated rates"
+  }
+ }
+}
