@@ -566,3 +566,15 @@ button.cs-card[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--accent); p
 .lang-sw a:not([aria-current="true"]):hover { color: var(--ink); }
 .compact .navlinks { margin-left: auto; }
 .compact .lang-sw { margin-left: 4px; }
+
+/* 상단 띠: 모바일에서도 날짜·메뉴·언어 전환을 한 줄로 */
+.tb-short { display: none; }
+@media (max-width: 560px) {
+  .topbar-in { flex-wrap: nowrap; gap: 10px; }
+  .tb-date { white-space: nowrap; flex: 0 0 auto; }
+  .tb-full { display: none; }
+  .tb-short { display: inline; }
+  .topbar-r { gap: 10px; min-width: 0; }
+  .topbar nav { flex-wrap: nowrap; gap: 10px; white-space: nowrap; }
+  .topbar .lang-sw a { padding: 4px 7px; }
+}
