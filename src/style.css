@@ -556,3 +556,13 @@ button.cs-card[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--accent); p
   .if-kw { height: 58px; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; }
   .if-kw b { font-size: 21px; }
 }
+
+/* 언어 전환(KO | EN): 홈 상단 띠 오른쪽, 다른 페이지는 메뉴 오른쪽 끝 */
+.topbar-r { display: flex; align-items: center; gap: 18px; }
+.lang-sw { display: inline-flex; align-items: center; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; flex: 0 0 auto; font-size: 12px; font-weight: 700; letter-spacing: .04em; line-height: 1; }
+.lang-sw a { padding: 5px 9px; color: var(--muted); text-decoration: none; }
+.lang-sw a + a { border-left: 1px solid var(--rule); }
+.lang-sw a[aria-current="true"] { background: var(--ink); color: #fff; }
+.lang-sw a:not([aria-current="true"]):hover { color: var(--ink); }
+.compact .navlinks { margin-left: auto; }
+.compact .lang-sw { margin-left: 4px; }

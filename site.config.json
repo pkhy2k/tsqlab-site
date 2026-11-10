@@ -106,7 +106,25 @@
             "label": "칼럼",
             "url": "/category/column/"
           }
-        ]
+        ],
+        "en": {
+          "name": "Geonhee Park",
+          "bio": "Ph.D. in Tourism (Kyonggi University). After working as a front office manager (FOM) at an international brand hotel, he now leads service planning, customer feedback (VOC) analysis and quality assurance (QA) at a hotel IT solutions company. His research and writing connect frontline hotel service experience with hotel IT practice.",
+          "links": [
+            {
+              "label": "Book (Korean)",
+              "url": "/books/"
+            },
+            {
+              "label": "Dissertation review (Korean)",
+              "url": "/posts/report-hotel-kiosk-sstqual-flow/"
+            },
+            {
+              "label": "Columns (Korean)",
+              "url": "/category/column/"
+            }
+          ]
+        }
       },
       {
         "name": "김광수",
@@ -167,7 +185,8 @@
         "자문위원회"
       ]
     ],
-    "hideMembers": true
+    "hideMembers": true,
+    "advisoryLabelEn": "Advisory"
   },
   "books": [
     {
@@ -315,5 +334,102 @@
       "소장칼럼",
       "신간"
     ]
+  },
+  "i18n": {
+    "en": {
+      "_note": "영어판(/en/) 설정. 영어 글은 content/posts/en/<같은 슬러그>.md, 영어 페이지는 content/pages/en/. 소장 영문 이름(Geonhee Park)은 확인 필요",
+      "name": "Tourism Service Quality Lab",
+      "nameEn": "관광서비스품질연구소",
+      "description": "Tourism Service Quality Lab studies tourism policy, hotel and resort industry trends, service quality and hotel IT, and shares what they mean for academia and industry.",
+      "categories": {
+        "tourism-policy": {
+          "name": "Policy & Trends",
+          "description": "Tourism policy and industry trends, read through the lens of service quality."
+        },
+        "hotel-resort": {
+          "name": "Hotels & Resorts",
+          "description": "The latest developments and trends in hotel and resort markets in Korea and abroad."
+        },
+        "service-quality": {
+          "name": "Service Quality",
+          "description": "Theory, measurement and improvement of service quality in tourism and hospitality."
+        },
+        "hotel-it-qa": {
+          "name": "Hotel IT",
+          "description": "How hotel IT solutions are adopted and run, and how they shape guest experience and service quality."
+        },
+        "column": {
+          "name": "Columns",
+          "description": "Columns and contributed articles by our researchers. Opinions are the authors' own and may not reflect the Lab's official position."
+        },
+        "report": {
+          "name": "Reports",
+          "description": "In-depth analyses and research reports."
+        }
+      },
+      "authors": {
+        "director": {
+          "name": "Geonhee Park",
+          "title": "Director, Tourism Service Quality Lab · Ph.D. in Tourism",
+          "affiliation": "Tourism Service Quality Lab",
+          "position": "Director",
+          "bio": "Trained in hotel management, he worked as a front office manager at an international brand hotel and earned a Ph.D. in Tourism from Kyonggi University. He now leads service planning, customer feedback (VOC) analysis and quality assurance at a hotel IT solutions company."
+        },
+        "research": {
+          "name": "Editorial Team",
+          "title": "Tourism Service Quality Lab",
+          "bio": "Written by the Lab's editorial team. AI tools are used in drafting and translation; facts and citations are checked before publication, and the Director reviews each article after publication."
+        }
+      },
+      "business": {
+        "director": "Geonhee Park"
+      },
+      "subFilters": {
+        "hotel-it-qa": [
+          {
+            "label": "IT solutions",
+            "tag": "Hotel IT Solutions"
+          },
+          {
+            "label": "Quality assurance",
+            "tag": "Software QA"
+          }
+        ],
+        "tourism-policy": [
+          {
+            "label": "Policy",
+            "tag": "Policy"
+          },
+          {
+            "label": "Industry trends",
+            "tag": "Industry Trends"
+          }
+        ],
+        "hotel-resort": [
+          {
+            "label": "Korea",
+            "tag": "Korea"
+          },
+          {
+            "label": "Global",
+            "tag": "Global"
+          }
+        ]
+      },
+      "homeExcludeTags": {
+        "hotel-it-qa": [
+          "Software QA"
+        ]
+      },
+      "issueFocus": {
+        "excludeTags": [
+          "Tourism Policy",
+          "Service Quality",
+          "Hotel Management",
+          "Hotels & Resorts",
+          "Columns"
+        ]
+      }
+    }
   }
 }

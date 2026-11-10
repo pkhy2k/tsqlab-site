@@ -5,6 +5,7 @@
 사용:
   python3 scripts/thumbs/watermark.py              # 원본 폴더의 모든 이미지
   python3 scripts/thumbs/watermark.py <슬러그> ...  # 지정한 글만
+  python3 scripts/thumbs/watermark.py --en <슬러그> ...  # 영어판: originals/en → static/images/posts/en, 영문 연구소명
 새 이미지: make 스크립트의 결과 JPEG를 originals에 저장한 뒤 이 스크립트를 실행한다.
 """
 import os, sys, io, glob
@@ -12,8 +13,9 @@ from PIL import Image
 from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-SRC = os.path.join(ROOT, 'scripts', 'thumbs', 'originals')
-OUT = os.path.join(ROOT, 'static', 'images', 'posts')
+EN = '--en' in sys.argv
+SRC = os.path.join(ROOT, 'scripts', 'thumbs', 'originals', *(['en'] if EN else []))
+OUT = os.path.join(ROOT, 'static', 'images', 'posts', *(['en'] if EN else []))
 NAVY, ORANGE = '#1E2A3A', '#C8792D'
 RIGHT, BOTTOM = 1462, 878   # 홈 카드(좌우 125px 잘림)에서도 보이도록 오른쪽 끝을 1475px 안에 둔다
 LEFT = 138                  # 오른쪽 아래가 도식과 겹치면 왼쪽 아래에 둔다
@@ -22,7 +24,7 @@ MARK = f'''<html><body style="margin:0;background:transparent">
 <div id="m" style="display:inline-flex;flex-direction:column;align-items:ALIGN;gap:7px;padding:2px">
 <div style="display:inline-flex;align-items:flex-end;gap:9px;color:{NAVY};font-family:'Noto Serif CJK KR',serif;font-weight:700;font-size:23px;letter-spacing:-0.4px;line-height:1">
 <svg width="28" height="27" viewBox="130 50 380 372"><path d="M180 397 V210 A140 140 0 0 1 460 210 V397" fill="none" stroke="{NAVY}" stroke-width="20"/><rect x="137" y="396" width="366" height="20" fill="{NAVY}"/><rect x="233" y="312" width="47" height="86" fill="{NAVY}"/><rect x="297" y="265" width="47" height="133" fill="{NAVY}"/><rect x="360" y="209" width="47" height="189" fill="{ORANGE}"/></svg>
-<span style="padding-bottom:1px">관광서비스품질연구소</span></div>
+<span style="padding-bottom:1px">LABEL</span></div>
 <div style="color:#A9B1BE;font-family:'Noto Sans CJK KR',sans-serif;font-weight:400;font-size:14px;letter-spacing:0.2px;line-height:1">© Tourism Service Quality Lab. All rights reserved.</div>
 </div></body></html>'''
 
@@ -30,7 +32,7 @@ def render_mark(align):
     with sync_playwright() as p:
         b = p.chromium.launch(executable_path='/usr/bin/google-chrome')
         pg = b.new_page(viewport={'width': 800, 'height': 200})
-        pg.set_content(MARK.replace('ALIGN', align)); pg.wait_for_timeout(200)
+        pg.set_content(MARK.replace('ALIGN', align).replace('LABEL', 'Tourism Service Quality Lab' if EN else '관광서비스품질연구소')); pg.wait_for_timeout(200)
         png = pg.locator('#m').screenshot(omit_background=True)
         b.close()
     return Image.open(io.BytesIO(png)).convert('RGBA')
@@ -58,4 +60,4 @@ def main(slugs):
         print('ok', os.path.basename(f))
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main([a for a in sys.argv[1:] if a != '--en'])
