@@ -230,8 +230,13 @@ const navLinks = (active) => cfg.categories.filter((c) => !CAT_USED.size || CAT_
   `<a href="/category/${c.slug}/"${c.slug === active ? ' class="active" aria-current="page"' : ''}>${esc(c.name)}</a>`).join('') + (cfg.home?.navBooks === false || LANG === 'en' ? '' : '<a href="/books/">출판</a>');
 
 function headerHome() {
-  const today = new Intl.DateTimeFormat(T('ko-KR', 'en-US'), { dateStyle: 'full', timeZone: 'Asia/Seoul' }).format(new Date());
-  return `<header class="topbar"><div class="wrap topbar-in"><span>${today}</span>
+  const now = new Date();
+  const today = new Intl.DateTimeFormat(T('ko-KR', 'en-US'), { dateStyle: 'full', timeZone: 'Asia/Seoul' }).format(now);
+  // 모바일에서는 짧은 날짜(예: 11월 10일 (화), Tue, Nov 10)로 상단 띠를 한 줄에 맞춘다
+  const short = LANG === 'en'
+    ? new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'Asia/Seoul' }).format(now)
+    : (() => { const f = Object.fromEntries(new Intl.DateTimeFormat('ko-KR', { month: 'numeric', day: 'numeric', weekday: 'short', timeZone: 'Asia/Seoul' }).formatToParts(now).map((x) => [x.type, x.value])); return `${f.month}월 ${f.day}일 (${f.weekday})`; })();
+  return `<header class="topbar"><div class="wrap topbar-in"><span class="tb-date"><span class="tb-full">${today}</span><span class="tb-short" aria-hidden="true">${short}</span></span>
 <div class="topbar-r"><nav aria-label="${T('보조 메뉴', 'Utility menu')}"><a href="/about/">${T('연구소 소개', 'About')}</a>${T('<a href="/join/">회원가입</a>', '')}<a href="/contact/">${T('문의하기', 'Contact')}</a>${cfg.social.instagram ? `<a href="${esc(cfg.social.instagram)}" target="_blank" rel="noopener">${T('인스타그램', 'Instagram')}</a>` : ''}</nav><!--LANGSW:PATH--></div></div></header>
 <div class="wrap masthead"><a href="/" class="brand-lg" aria-label="${esc(cfg.name)} ${T('홈', 'home')}">${logo(52)}<span>${esc(cfg.name)}</span></a><span class="brand-en">${esc(cfg.nameEn)}</span></div>
 <nav class="mainnav" aria-label="${T('주 메뉴', 'Main menu')}"><div class="wrap mainnav-in"><div class="nav-left"><a href="/" class="nav-brand" aria-label="${esc(cfg.name)} ${T('홈', 'home')}">${logo(24)}<span>${esc(cfg.name)}</span></a><div class="navlinks">${navLinks()}</div></div>${searchBtn()}</div></nav>`;
