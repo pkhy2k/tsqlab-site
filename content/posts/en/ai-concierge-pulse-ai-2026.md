@@ -30,7 +30,7 @@ The inclusion of an upselling agent, on the other hand, shows that automated gue
 
 ## Set the criteria for handing over to people first
 
-From a service quality perspective, an AI concierge succeeds or fails less at the moments it answers than at the moments it cannot. Guests' experience of failure with self-service technology (SST) is often judged by the response after the failure rather than by the technology itself, the same principle discussed in [When the kiosk stops, service recovery is a human job](/posts/kiosk-failure-service-recovery/) (in Korean). The editorial team suggests that hotels decide the following when introducing AI guest messaging.
+From a service quality perspective, an AI concierge succeeds or fails less at the moments it answers than at the moments it cannot. Guests' experience of failure with self-service technology (SST) is often judged by the response after the failure rather than by the technology itself, the same principle discussed in [When the kiosk stops, service recovery is a human job](/posts/kiosk-failure-service-recovery/). The editorial team suggests that hotels decide the following when introducing AI guest messaging.
 
 - **Specify handover conditions**: Requests related to complaints, refunds, safety or health should be passed to staff even if the AI could answer them. Guests who repeat the same question twice should also be handed over.
 - **Manage waiting time after handover**: If the response is slow after "Connecting you to a member of staff", the experience is worse than having no AI at all. Assign people for night-time and peak hours in advance.

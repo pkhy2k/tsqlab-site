@@ -32,7 +32,7 @@ The outlook for Q4 is cautious. In the same report's outlook index (baseline 100
 
 Over the same period, Korea welcomed about 17.11 million foreign visitors in January–September, up 21.5% year on year. According to Hankyung, however, the effect varied greatly by property type and region. Foreign guests stayed at 96% of hotels but only 69.4% of motels, and three in ten motels had no foreign guests at all during the survey period.
 
-The regional gap was also clear. The share of hotels that felt foreign demand had increased was 81.3% in Busan and 63.2% in Seoul, but only 18.2% in the Jeolla and Gangwon regions and 16.7% in the Gyeongbuk–Daegu region. Rising visitor numbers do not automatically translate into a recovery for lodging businesses across all regions. We discussed visitors' length of stay in [More visitors, shorter stays](/posts/inbound-tourists-stay-quality-2026/) (in Korean).
+The regional gap was also clear. The share of hotels that felt foreign demand had increased was 81.3% in Busan and 63.2% in Seoul, but only 18.2% in the Jeolla and Gangwon regions and 16.7% in the Gyeongbuk–Daegu region. Rising visitor numbers do not automatically translate into a recovery for lodging businesses across all regions. We discussed visitors' length of stay in [More visitors, shorter stays](/posts/inbound-tourists-stay-quality-2026/).
 
 ## Price-led growth tests service quality more strictly
 

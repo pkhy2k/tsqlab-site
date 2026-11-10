@@ -35,7 +35,7 @@ A briefing by Hospitality Net on 27 October presented two pieces of evidence for
 
 Agentic booking is still at an early stage, and the integration discussed here was announced for the US market. The direction is clear, however, so the editorial team suggests that hotels check the following in advance.
 
-- **Do rates and inventory match across systems?** Agents compare and filter faster than people, so even small mismatches between the channel manager, booking engine and PMS will be exposed. We covered how to check these integrations in [Channel manager integration testing](/posts/channel-manager-integration-testing/) (in Korean).
+- **Do rates and inventory match across systems?** Agents compare and filter faster than people, so even small mismatches between the channel manager, booking engine and PMS will be exposed. We covered how to check these integrations in [Channel manager integration testing](/posts/channel-manager-integration-testing/).
 - **Are policies organised as data?** If cancellation rules, breakfast inclusion and child rates exist only as long passages of text, agents may misread them. Structured, item-by-item information is needed.
 - **Can you calculate the cost of direct bookings?** Even if bookings through an agent are recorded as "direct", platform fees have not yet been disclosed. To compare them with online travel agency (OTA) commissions, start by checking the contract terms.
 - **Will check-in become the first encounter?** If a guest books without ever visiting the hotel's website, the confirmation message and pre-arrival information become the hotel's first point of contact. Procedures for handling bookings an agent got wrong should also be set in advance.
