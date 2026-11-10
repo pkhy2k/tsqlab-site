@@ -77,7 +77,7 @@ references:
 - 프론트매터는 한국어판과 같은 항목을 쓰되 title, subtitle, thumbnail_alt, summary, tags를 영어로 쓴다. category, author, date는 한국어판과 같게 둔다. references는 원문 표기 그대로 둔다(영어판 참고문헌 위에 "Most sources are in Korean."이 자동 표시).
 - 영어 태그의 세부 분류: 관광정책·트렌드 "Policy" 또는 "Industry Trends", 호텔 & 리조트 "Korea" 또는 "Global"(+ "Hotels & Resorts"), 호텔 IT "Hotel IT Solutions" 또는 "Software QA". 맨 앞에 둔다.
 - 영어판이 없는 글로의 링크는 그대로 한국어판으로 연결되므로 링크 뒤에 "(in Korean)"을 붙인다. 영어판이 있는 글은 자동으로 /en/ 주소로 바뀐다.
-- 영어 대표 이미지: 한국어 도식과 같은 구성으로 글자만 영어로 바꾼 원본을 `scripts/thumbs/originals/en/<슬러그>.jpg`에 만들고 `python3 scripts/thumbs/watermark.py --en <슬러그>`로 `static/images/posts/en/<슬러그>.jpg`를 만든다(예: scripts/thumbs/make_en_20261110.py). thumbnail은 `/images/posts/en/<슬러그>.jpg`.
+- 영어 대표 이미지: 한국어 도식과 같은 구성으로 글자만 영어로 바꾼 원본을 `scripts/thumbs/originals/en/<슬러그>.jpg`에 만들고 `python3 scripts/thumbs/watermark.py --en <슬러그>`로 `static/images/posts/en/<슬러그>.jpg`를 만든다(예: scripts/thumbs/make_en_20261110.py). 기존 make 스크립트가 있으면 `scripts/thumbs/translate_svg.py`로 같은 SVG에서 한국어 글자만 영어로 바꿔 만들 수 있다(`list`로 글자 목록 확인 → 번역 JSON 작성 → `render`, 예: scripts/thumbs/en_batch1.json). thumbnail은 `/images/posts/en/<슬러그>.jpg`.
 - 번역 원칙: 한국어 원문의 사실·수치·출처 표현(단일 출처, 회사 발표 등)을 그대로 옮기고 새 내용을 더하지 않는다. 기관·매체 이름은 공식 영문 명칭을 쓰고, 금액은 KRW로 쓴다. 영어판 끝에 "한국어 원문이 우선한다"는 안내가 자동으로 붙는다.
 - 영어 페이지: `content/pages/en/<한국어와 같은 이름>.md`(현재 about, contact). 회원가입·이용약관·개인정보처리방침은 한국어판만 두고 영어 화면에서는 "(Korean)" 표시로 연결한다.
 - 영어 이름·분류명·필자 정보는 `site.config.json`의 `i18n.en`에서 바꾼다.
