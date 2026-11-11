@@ -1,0 +1,30 @@
+{
+ "ttdi-hospitality-reputation-2026": {"script": "make_20261109.py", "map": {
+  "110위": "110th", "12위": "12th", "1위": "1st", "25위": "25th", "4위": "4th", "50위": "50th", "65위": "65th", "69위": "69th", "75위": "75th", "76위": "76th",
+  "ICT 준비도": "ICT readiness", "계절 편중 완화": "Seasonality of arrivals",
+  "관광발전지수 12위, 지표별 순위는 엇갈렸다": "12th overall, but indicator ranks diverge",
+  "기반 시설은 상위권, 현장에서 체감하는 환대와 숙박은 하위권": "Infrastructure ranks high; hospitality and lodging felt on the ground rank low",
+  "세계경제포럼 관광발전지수 · 110개국 중 순위 (2026년 10월 문화체육관광부 발표 보도 기준)": "WEF Travel & Tourism Development Index · rank among 110 countries (as reported, Oct 2026)",
+  "숙박·음식업 노동생산성": "@22|Lodging & food productivity", "정부 예산 중 관광 비중": "Tourism share of gov't budget",
+  "종합 순위": "Overall rank", "호텔 객실 수(인구 대비)": "Hotel rooms per capita", "환대 평판 지수": "Hospitality reputation"}},
+ "hotel-chain-ai-readiness-2026": {"script": "make_20261109.py", "map": {
+  "AI를 이미 사용": "Already use AI", "h2c AI Opportunity Study 2026 · 호텔 체인 113곳 조사": "h2c AI Opportunity Study 2026 · 113 hotel chains",
+  "사용의 60%는 외부 범용 도구, 핵심 시스템과 연결된 AI는 아직 적다": "60% of use is general-purpose external tools; little AI is connected to core systems",
+  "전사 AI 전략 보유": "Company-wide AI strategy",
+  "주요 장애: 기술·교육 부족 56% · 시스템 연동 38% · 전략 부재 32% · 데이터 거버넌스 28%": "Barriers: skills gaps 56% · integration 38% · no strategy 32% · data governance 28%",
+  "측정 가능한 투자 수익 보고": "Report measurable ROI", "호텔 체인의 AI, 도입과 성과 사이": "Hotel chains and AI: between adoption and results"}},
+ "global-hotel-chains-q3-2026": {"script": "make_20261109.py", "map": {
+  "+9% 이상": "Over +9%", "2026년 3분기 객실당 매출(RevPAR) 전년 대비 증감률 · 회사 발표 기준": "Q3 2026 RevPAR change year on year · company reports",
+  "같은 분기, 다른 아시아": "Same quarter, different Asia", "메리어트": "Marriott",
+  "메리어트 아시아태평양은 중국 제외 · 9% 이상": "Marriott Asia Pacific excludes China · over 9%",
+  "메리어트는 1~9월 개관의 40% 이상이 브랜드 전환": "Conversions were over 40% of Marriott's openings in Jan–Sep",
+  "미국(·캐나다)": "US (& Canada)", "아시아태평양": "Asia Pacific", "전 세계": "Worldwide", "힐튼": "Hilton"}},
+ "kano-model-hotel-attributes": {"script": "make_20261109.py", "map": {
+  "당연적 품질": "Must-be quality", "만족": "Satisfied", "매력적 품질": "Attractive quality", "불만": "Dissatisfied",
+  "시간이 지나면 매력적 품질은 당연적 품질로 옮겨 간다": "Over time, attractive quality becomes must-be quality",
+  "없어도 불만 없음, 있으면 기쁨": "No complaint if absent; delight if present",
+  "예: 욕실 청결": "e.g. a clean bathroom", "예: 이름을 기억한 맞이": "e.g. being greeted by name", "예: 체크인 대기 시간": "e.g. check-in waiting time",
+  "일원적 품질": "One-dimensional quality", "있어도 칭찬 없음, 없으면 불만": "No praise if present; complaints if absent",
+  "충족 안 됨": "Not fulfilled", "충족됨": "Fulfilled", "충족할수록 만족이 비례": "Satisfaction rises with fulfilment",
+  "카노 모형, 속성마다 만족을 만드는 방식이 다르다": "The Kano model: attributes create satisfaction differently"}}
+}
