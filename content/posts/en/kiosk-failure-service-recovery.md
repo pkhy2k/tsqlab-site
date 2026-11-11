@@ -5,7 +5,7 @@ category: service-quality
 author: research
 thumbnail: /images/posts/en/kiosk-failure-service-recovery.jpg
 thumbnail_alt: Service recovery flow from a kiosk error screen to staff assistance, and the three dimensions of justice
-date: 2025-11-27
+date: 2026-11-02
 summary: Self-service is designed to run without staff, but at the moment it fails, people are needed again. We summarise the three dimensions of justice identified by research on service failure and recovery and the debate over the service recovery paradox, and look at how recovery can be designed for hotel kiosk failures.
 tags: [Service Quality, Service Recovery, Service Failure, Kiosks, Self-Service Technology, Justice]
 references:

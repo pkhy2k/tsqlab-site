@@ -6,7 +6,7 @@ author: director
 thumbnail: /images/posts/report-hotel-kiosk-sstqual-flow.jpg
 thumbnail_alt: SSTQUAL 7요인 가운데 즐거움과 고객화만 플로우에 유의한 영향을 미치고, 플로우가 지속이용의도로 이어지는 연구모형 도식
 cover: /images/posts/report-hotel-kiosk-sstqual-flow-cover.jpg
-date: 2025-10-14
+date: 2026-11-02
 summary: 호텔 셀프 체크인/아웃 키오스크 이용객 461명을 분석한 필자의 박사학위논문을 정리한다. 키오스크 품질 7요인 중 고객의 몰입(플로우)을 이끈 것은 즐거움과 고객화뿐이었고, 기능성·보안성·확신성 등은 지속이용의도에만 영향을 미쳤다. 연구 결과와 실무 시사점, 한계를 함께 살펴본다.
 tags: [칼럼, 학위논문, 키오스크, SSTQUAL, 플로우, 디지털리터러시, 셀프서비스기술]
 references:

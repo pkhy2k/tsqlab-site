@@ -5,8 +5,7 @@ category: hotel-it-qa
 author: research
 thumbnail: /images/posts/en/hotel-kiosk-quality-checklist.jpg
 thumbnail_alt: A checklist dividing hotel kiosk quality checks into conditions for reuse and conditions for flow
-date: 2025-12-10
-updated: 2026-11-02
+date: 2026-11-02
 summary: Quality management for hotel kiosks usually focuses on checking that functions work without errors. A study analysing 461 hotel kiosk users shows that functionality contributes to the intention to reuse but does not create flow. We translate the seven SSTQUAL factors into quality check perspectives and set out what to check beyond functional testing.
 tags: [Hotel IT, Software QA, Kiosks, SSTQUAL, Usability Testing, PMS]
 references:
