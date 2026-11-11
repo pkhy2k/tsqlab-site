@@ -215,7 +215,7 @@
     "columnStrip": false,
     "columnFilter": true,
     "showResearchLink": false,
-    "showStats": false,
+    "showStats": true,
     "columnAutoSeconds": 3
   },
   "outputs": [

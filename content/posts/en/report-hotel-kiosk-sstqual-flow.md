@@ -6,7 +6,7 @@ author: director
 thumbnail: /images/posts/en/report-hotel-kiosk-sstqual-flow.jpg
 thumbnail_alt: Diagram of the research model in which, of the seven SSTQUAL factors, only enjoyment and customisation significantly affect flow, and flow leads to continuance intention
 cover: /images/posts/en/report-hotel-kiosk-sstqual-flow-cover.jpg
-date: 2025-10-14
+date: 2026-11-02
 summary: I summarise my doctoral dissertation, which analysed 461 users of hotel self check-in and check-out kiosks. Of the seven kiosk quality factors, only enjoyment and customisation drove guests' absorption (flow), while functionality, security and assurance affected only continuance intention. I also review the practical implications and limitations.
 tags: [Columns, Dissertation, Kiosks, SSTQUAL, Flow, Digital Literacy, Self-Service Technology]
 references:

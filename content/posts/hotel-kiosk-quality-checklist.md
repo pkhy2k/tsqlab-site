@@ -5,8 +5,7 @@ category: hotel-it-qa
 author: research
 thumbnail: /images/posts/hotel-kiosk-quality-checklist.jpg
 thumbnail_alt: 호텔 키오스크 품질 점검 항목을 재이용의 조건과 몰입의 조건으로 나눈 점검표
-date: 2025-12-10
-updated: 2026-11-02
+date: 2026-11-02
 summary: 호텔 키오스크의 품질관리는 대개 기능이 오류 없이 동작하는지를 확인하는 데 집중한다. 호텔 키오스크 이용객 461명을 분석한 연구는 기능성이 재이용 의도에는 기여하지만 몰입은 만들지 못한다는 결과를 보여 준다. SSTQUAL 7요인을 품질 점검 관점으로 옮겨, 기능 테스트 너머에서 무엇을 확인해야 하는지 정리한다.
 tags: [호텔IT, 소프트웨어QA, 키오스크, SSTQUAL, 사용성테스트, PMS]
 references:

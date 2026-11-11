@@ -5,8 +5,7 @@ category: service-quality
 author: research
 thumbnail: /images/posts/en/sstqual-seven-dimensions.jpg
 thumbnail_alt: The evolution of service quality measurement tools from SERVQUAL through SERVPERF and E-S-QUAL to SSTQUAL
-date: 2025-11-12
-updated: 2026-11-02
+date: 2026-11-02
 summary: SERVQUAL was built to measure interactions between customers and staff. What should be measured when customers face machines in self-service settings? We set out the seven dimensions of SSTQUAL, the self-service technology quality scale, and how it performed in an empirical study of 461 hotel kiosk users.
 tags: [Service Quality, SSTQUAL, SERVQUAL, Self-Service Technology, Kiosks]
 references:

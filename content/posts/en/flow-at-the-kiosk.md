@@ -5,7 +5,7 @@ category: service-quality
 author: research
 thumbnail: /images/posts/en/flow-at-the-kiosk.jpg
 thumbnail_alt: Four-channel flow model divided into flow, anxiety, boredom and apathy by levels of challenge and skill
-date: 2025-10-29
+date: 2026-11-02
 summary: Flow was proposed to explain the absorption of athletes and artists, but research has extended it through the web and mobile to self-service devices. We summarise the balance of challenge and skill at the heart of flow theory, what drove flow among hotel kiosk users, and the role of customers' digital skills.
 tags: [Service Quality, Flow, Absorption, Digital Literacy, Kiosks, Customer Experience]
 references:
