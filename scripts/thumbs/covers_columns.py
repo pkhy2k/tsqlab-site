@@ -17,6 +17,7 @@ SERIF = "'Noto Serif CJK KR','Noto Serif KR',serif"
 LOGO = lambda x, y, s: f'<g transform="translate({x} {y}) scale({s})"><path d="M50 347 V160 A140 140 0 0 1 330 160 V347" fill="none" stroke="{WHITE}" stroke-width="16"/><rect x="7" y="348" width="366" height="16" fill="{WHITE}"/><rect x="103" y="262" width="47" height="86" fill="{WHITE}"/><rect x="167" y="215" width="47" height="133" fill="{WHITE}"/><rect x="230" y="159" width="47" height="189" fill="{ORANGE}"/></g>'
 
 COVERS = {
+    'column-surviving-in-the-ai-era': (['AI 시대,', '관광인은 무엇으로', '살아남는가'], '박건희'),
     'column-testing-is-asking': (['테스트는', '질문이다'], '박건희'),
     'column-kiosk-and-front-manager': (['키오스크가 두려웠던', '프런트 매니저가', '품질을 묻게 되기까지'], '박건희'),
     'column-housekeeping-seven-principles': (['하우스키핑 점검표로', '읽는 소프트웨어', '테스트 7원칙'], '박건희'),
@@ -27,6 +28,7 @@ COVERS = {
 }
 
 COVERS_EN = {
+    'column-surviving-in-the-ai-era': (['How Tourism', 'Workers Survive', 'the AI Era'], 'Winston Park'),
     'column-testing-is-asking': (['Testing Is', 'Asking', 'Questions'], 'Winston Park'),
     'column-kiosk-and-front-manager': (['The Front Office', 'Manager Who', 'Feared Kiosks'], 'Winston Park'),
     'column-housekeeping-seven-principles': (['Seven Testing', 'Principles in a', 'Housekeeping List'], 'Winston Park'),
