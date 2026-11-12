@@ -7,7 +7,7 @@ thumbnail: /images/posts/en/column-surviving-in-the-ai-era.jpg
 thumbnail_alt: Diagram showing tourism workers' strengths shifting in the AI era from "Can you do it?" to "Do you know what to make, can you tell if it is right, can you take responsibility?"
 cover: /images/posts/en/column-surviving-in-the-ai-era-cover.jpg
 date: 2026-11-12
-summary: I have never written a line of code, yet I built and now run the Lab's website with AI. As the barrier of knowing how to do things collapses, what should tourism workers hold on to? I reflect on how to survive, centred on front-line knowledge, judgement and responsibility, and hospitality that cannot be delegated.
+summary: I have never written a line of code, yet I built and now run the Lab's website with AI. As the barrier of knowing how to do things collapses, what should tourism workers hold on to? I propose practical steps, from splitting up your work and setting checking rules to documenting front-line knowledge and the role of managers.
 tags: [Columns, Director's Column, AI, Tourism Workforce, Job Skills, Hospitality]
 references:
   - "World Economic Forum (2025.1). The Future of Jobs Report 2025. Chapter 3: Skills outlook. https://www.weforum.org/publications/the-future-of-jobs-report-2025/in-full/3-skills-outlook/"
@@ -38,15 +38,37 @@ Second, **judging whether the result is right**. What AI produced contained part
 
 Third, **taking responsibility**. The moment an article goes up on the website, the name on it is not AI's but the Lab's. If something is wrong, it is a person who apologises and corrects it. The same is true in front of guests. When room information given by AI turns out to be wrong, guests look not for the system but for a person at the hotel.
 
-## How tourism workers can survive
+## What you can start doing tomorrow
 
-Based on this experience, I would like to suggest five things to colleagues in the tourism industry who share the same concern.
+Vague advice to "study AI" changes nothing. Drawing on my experience of building the website and working with AI in QA, here are methods front-line workers can try right away.
 
-- **Do not abandon the language of the front line**: The most valuable asset in the AI era is the sense built on the front line. Questions such as "When is a two-night guest's last night?" or "Where do international guests check the cancellation policy?" can only be asked by people who have been there. Good questions produce good AI results.
-- **Try it yourself**: Fearing AI and knowing its limits from using it are entirely different. Start by making one guest notice for tomorrow, or this week's report, with AI. Only those who have used it know what to hand over and what to keep.
-- **Become the person who verifies**: People who use AI output as it is are easily replaced by AI. People who can look at a result and say "this is wrong" become more necessary. The habit of recalculating numbers, checking against the source and asking for the basis is an advantage.
-- **Deepen hospitality**: The more routine work moves to machines, the more human the work people do must become. A welcome that remembers a guest's name, and the instinct to notice an unexpected inconvenience first, cannot be delegated. That Korea ranked 12th in the Travel & Tourism Development Index but only 65th for hospitality reputation also suggests that much remains for people rather than technology ([The Shadow Behind 12th Place: What a Hospitality Reputation Rank of 65th Asks of Korean Lodging](/posts/ttdi-hospitality-reputation-2026/)).
-- **Cross boundaries**: There is a wide gap between the front line and technology. People who know hotels and understand systems, or know service and can read data, are still rare. I saw that gap when I moved from the front desk to QA. For tourism workers, AI is the lowest bridge across that boundary.
+### 1. Split your work into three columns
+
+Write down everything you do in a week and sort it into three columns: work you can hand to AI as a first draft, work you do with AI but must check yourself, and work only a person can do. At the front desk, booking confirmation emails, foreign-language notices and shift handover summaries belong close to the first column. Answers to rate and cancellation questions go in the second, because they must be checked against the rules. Handling an angry guest and deciding on compensation, or welcoming a regular, go in the third. Redraw this table every quarter and you will see which parts of your work are shrinking and which you need to grow.
+
+### 2. Change just one task for four weeks
+
+There is no need to use AI for everything from the start. Pick the task you do most often from the first column, do it with AI for four weeks, and record how long it took before and after. Good starting points are draft replies to guest inquiries in reservations, draft proposals for corporate clients in sales, tidying the inspection checklist in housekeeping, and classifying guest complaint records by type for duty managers. Experience recorded in numbers is the most persuasive evidence when you propose a change in how your team works.
+
+### 3. Make three checking rules a habit
+
+Before sending anything AI has produced to a guest, check three things. Recalculate amounts and dates yourself. Compare rules and guidance against your hotel's actual policies. Never enter personal data such as guests' names, contact details or booking numbers in the first place. The last rule in particular is a matter of trust with guests, not just personal habit. The principles are set out in [What to Check Before Putting Hotel Guest Data into AI](/posts/hotel-data-ai-agent/).
+
+### 4. Write down your front-line knowledge
+
+Gather in one document the maximum occupancy for each room type, cancellation rules, frequent exceptions and how to handle them, and recurring guest complaints with how they were resolved. This document becomes the context you hand to AI along with a task, greatly improving the accuracy of the results. At the same time, it becomes an asset that proves your experience. The person who has written down what AI does not know is the person who uses AI best. Tips on delegating work to AI are covered in [A Guide to QA Work with AI Agents: What to Delegate and What to Judge](/posts/report-ai-agent-qa-workflow/).
+
+### 5. Decide first where the saved time will go
+
+If the time AI saves is filled with more paperwork, guests feel nothing. If you save 30 minutes a day, decide in advance how to give that time back to guests: reading a guest's history before arrival to prepare the welcome, checking in once during the stay before they ask, or contacting a guest who complained before they check out. Hospitality must deepen as much as technology reduces people's work. That Korea ranked 12th in the Travel & Tourism Development Index but only 65th for hospitality reputation also suggests that much remains for people rather than technology ([The Shadow Behind 12th Place: What a Hospitality Reputation Rank of 65th Asks of Korean Lodging](/posts/ttdi-hospitality-reputation-2026/)).
+
+### 6. Look at the job one step to the side
+
+There are more digital roles where front-line experience carries over than you might think: QA or implementation support at hotel IT companies, property management system (PMS) administration, revenue management and data analysis, and customer relationship management (CRM) and digital marketing. There is no need to change jobs right away. Start by volunteering as the front-line representative when your hotel introduces a new system, or by collecting system errors and passing them to the IT team. I, too, moved from the front desk to QA carrying the sense I had built there, and along the way I studied for the international software testing qualification (ISTQB) and put names to my experience.
+
+### For managers
+
+Individual effort has limits. If you are a manager, I recommend putting three things in place first. First, set rules on which AI tools may be used and with what information. Without rules, staff either use AI in secret or not at all. Second, change evaluation criteria so that staff who save time can spend it on guests. If you count only volume handled, the saved time goes back to paperwork. Third, create a regular short session in each department where staff who tried AI first share examples with colleagues. Change on the front line spreads faster through the colleague at the next desk than through training.
 
 > What AI replaces is part of the work, not the person who knows why that work is needed.
 
